@@ -1,5 +1,7 @@
-var Contract = artifacts.require("DataStorage");
+var dataStorage = artifacts.require("DataStorage");
+// var expense = artifacts.require("Expense");
 
 module.exports = function(deployer) {
-  deployer.deploy(Contract);
+  deployer.deploy(dataStorage);
+  // deployer.deploy(expense);
 };
