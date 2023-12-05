@@ -1,7 +1,5 @@
-var dataStorage = artifacts.require("DataStorage");
-// var expense = artifacts.require("Expense");
+var et = artifacts.require("ExpenseTracker");
 
 module.exports = function(deployer) {
-  deployer.deploy(dataStorage);
-  // deployer.deploy(expense);
+  deployer.deploy(et);
 };
