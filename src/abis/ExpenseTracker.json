@@ -111,7 +111,13 @@
         }
       ],
       "name": "approveExpense",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
@@ -159,21 +165,21 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"expenseId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"approved\",\"type\":\"bool\"}],\"name\":\"ExpenseApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"expenseId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ExpenseCreated\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"approveExpense\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"createExpense\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"expenseCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"expenses\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"approved\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"getExpenseAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"isExpenseApproved\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ExpenseTracker.sol\":\"ExpenseTracker\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/ExpenseTracker.sol\":{\"keccak256\":\"0x833fc0b8b228758f0a5859230186bafd9f2e90160146a5584fc25942e2979c88\",\"urls\":[\"bzz-raw://ecde480dfac1f853000db341c5405d855f66265ddf254adaa1f839c8dd90c2c0\",\"dweb:/ipfs/QmP6UZyYshBT4sVZZbEZUooqPKsfW5v3HJQA6NmAxkc4Dj\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610502806100206000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806352e7df5d14610067578063732d995f146100855780638a99a31b146100c7578063af4afe0a14610109578063b579e7f114610156578063f7db127e14610184575b600080fd5b61006f6101ca565b6040518082815260200191505060405180910390f35b6100b16004803603602081101561009b57600080fd5b81019080803590602001909291905050506101d0565b6040518082815260200191505060405180910390f35b6100f3600480360360208110156100dd57600080fd5b8101908080359060200190929190505050610266565b6040518082815260200191505060405180910390f35b6101356004803603602081101561011f57600080fd5b8101908080359060200190929190505050610314565b60405180838152602001821515151581526020019250505060405180910390f35b6101826004803603602081101561016c57600080fd5b8101908080359060200190929190505050610345565b005b6101b06004803603602081101561019a57600080fd5b810190808035906020019092919050505061042a565b604051808215151515815260200191505060405180910390f35b60015481565b60006001548210610249576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600080838152602001908152602001600020600001549050919050565b600080600160008154809291906001019190505590506040518060400160405280848152602001600015158152506000808381526020019081526020016000206000820151816000015560208201518160010160006101000a81548160ff021916908315150217905550905050807f3858dc705496d9f9a2bdeef8f725b628983c5b59ea563e13bdfe68abe660355f846040518082815260200191505060405180910390a280915050919050565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900460ff16905082565b60015481106103bc576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600160008083815260200190815260200160002060010160006101000a81548160ff021916908315150217905550807f23c19de93ce378d27f3b34f74ae236838987d9179c902bca3cdc3bb93bd731446001604051808215151515815260200191505060405180910390a250565b600060015482106104a3576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b60008083815260200190815260200160002060010160009054906101000a900460ff16905091905056fea265627a7a72315820101ddc857c7b9c14bcdb9fe5ebd184ec4eaa0cfd194ed67e969bc1e3ee33881664736f6c63430005100032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c806352e7df5d14610067578063732d995f146100855780638a99a31b146100c7578063af4afe0a14610109578063b579e7f114610156578063f7db127e14610184575b600080fd5b61006f6101ca565b6040518082815260200191505060405180910390f35b6100b16004803603602081101561009b57600080fd5b81019080803590602001909291905050506101d0565b6040518082815260200191505060405180910390f35b6100f3600480360360208110156100dd57600080fd5b8101908080359060200190929190505050610266565b6040518082815260200191505060405180910390f35b6101356004803603602081101561011f57600080fd5b8101908080359060200190929190505050610314565b60405180838152602001821515151581526020019250505060405180910390f35b6101826004803603602081101561016c57600080fd5b8101908080359060200190929190505050610345565b005b6101b06004803603602081101561019a57600080fd5b810190808035906020019092919050505061042a565b604051808215151515815260200191505060405180910390f35b60015481565b60006001548210610249576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600080838152602001908152602001600020600001549050919050565b600080600160008154809291906001019190505590506040518060400160405280848152602001600015158152506000808381526020019081526020016000206000820151816000015560208201518160010160006101000a81548160ff021916908315150217905550905050807f3858dc705496d9f9a2bdeef8f725b628983c5b59ea563e13bdfe68abe660355f846040518082815260200191505060405180910390a280915050919050565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900460ff16905082565b60015481106103bc576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600160008083815260200190815260200160002060010160006101000a81548160ff021916908315150217905550807f23c19de93ce378d27f3b34f74ae236838987d9179c902bca3cdc3bb93bd731446001604051808215151515815260200191505060405180910390a250565b600060015482106104a3576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b60008083815260200190815260200160002060010160009054906101000a900460ff16905091905056fea265627a7a72315820101ddc857c7b9c14bcdb9fe5ebd184ec4eaa0cfd194ed67e969bc1e3ee33881664736f6c63430005100032",
-  "sourceMap": "57:1216:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:1216:0;;;;;;;",
-  "deployedSourceMap": "57:1216:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:1216:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;210:27;;;:::i;:::-;;;;;;;;;;;;;;;;;;;867:199;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;867:199:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;383:248;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;383:248:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;161:43;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;161:43:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;637:224;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;637:224:0;;;;;;;;;;;;;;;;;:::i;:::-;;1072:199;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1072:199:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;210:27;;;;:::o;867:199::-;936:7;976:12;;963:10;:25;955:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1032:8;:20;1041:10;1032:20;;;;;;;;;;;:27;;;1025:34;;867:199;;;:::o;383:248::-;442:7;460:17;480:12;;:14;;;;;;;;;;;;460:34;;526:23;;;;;;;;534:7;526:23;;;;543:5;526:23;;;;;504:8;:19;513:9;504:19;;;;;;;;;;;:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;579:9;564:34;590:7;564:34;;;;;;;;;;;;;;;;;;615:9;608:16;;;383:248;;;:::o;161:43::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;637:224::-;721:12;;708:10;:25;700:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;802:4;770:8;:20;779:10;770:20;;;;;;;;;;;:29;;;:36;;;;;;;;;;;;;;;;;;837:10;821:33;849:4;821:33;;;;;;;;;;;;;;;;;;;;;;637:224;:::o;1072:199::-;1142:4;1179:12;;1166:10;:25;1158:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1235:8;:20;1244:10;1235:20;;;;;;;;;;;:29;;;;;;;;;;;;1228:36;;1072:199;;;:::o",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.5.0;\n\ncontract ExpenseTracker {\n    struct Expense {\n        uint256 amount;\n        bool approved;\n    }\n    mapping(uint256 => Expense) public expenses;\n    uint256 public expenseCount;\n\n    event ExpenseCreated(uint256 indexed expenseId, uint256 amount);\n    event ExpenseApproved(uint256 indexed expenseId, bool approved);\n\n    function createExpense(uint256 _amount ) external returns (uint256){\n        uint256 expenseId = expenseCount++;\n        expenses[expenseId] = Expense(_amount, false);\n        emit ExpenseCreated(expenseId, _amount);\n        return expenseId;\n    }\n\n    function approveExpense(uint256 _expenseId) external {\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        expenses[_expenseId].approved = true;\n        emit ExpenseApproved(_expenseId, true);\n    }\n\n    function getExpenseAmount(uint256 _expenseId) external view returns (uint256) {\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        return expenses[_expenseId].amount;\n    }\n\n    function isExpenseApproved(uint256 _expenseId) external view returns (bool) {\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        return expenses[_expenseId].approved;\n    }\n}\n",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"expenseId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"approved\",\"type\":\"bool\"}],\"name\":\"ExpenseApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"expenseId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ExpenseCreated\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"approveExpense\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"createExpense\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"expenseCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"expenses\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"approved\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"getExpenseAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_expenseId\",\"type\":\"uint256\"}],\"name\":\"isExpenseApproved\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ExpenseTracker.sol\":\"ExpenseTracker\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/ExpenseTracker.sol\":{\"keccak256\":\"0x322327330dd73f0771aefe60d0026342f99f29f420ad4be174951a273b568bb9\",\"urls\":[\"bzz-raw://60c5746edccd3476f6e2710a8be476faeb7d50f8787485101d54df527be4cd0d\",\"dweb:/ipfs/QmQTi35RASWWqy7XUf5YKyHopn58MrP9cE4SvNjSNY8SEc\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610522806100206000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806352e7df5d14610067578063732d995f146100855780638a99a31b146100c7578063af4afe0a14610109578063b579e7f114610156578063f7db127e1461019c575b600080fd5b61006f6101e2565b6040518082815260200191505060405180910390f35b6100b16004803603602081101561009b57600080fd5b81019080803590602001909291905050506101e8565b6040518082815260200191505060405180910390f35b6100f3600480360360208110156100dd57600080fd5b810190808035906020019092919050505061027e565b6040518082815260200191505060405180910390f35b6101356004803603602081101561011f57600080fd5b810190808035906020019092919050505061032c565b60405180838152602001821515151581526020019250505060405180910390f35b6101826004803603602081101561016c57600080fd5b810190808035906020019092919050505061035d565b604051808215151515815260200191505060405180910390f35b6101c8600480360360208110156101b257600080fd5b810190808035906020019092919050505061044a565b604051808215151515815260200191505060405180910390f35b60015481565b60006001548210610261576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600080838152602001908152602001600020600001549050919050565b600080600160008154809291906001019190505590506040518060400160405280848152602001600015158152506000808381526020019081526020016000206000820151816000015560208201518160010160006101000a81548160ff021916908315150217905550905050807f3858dc705496d9f9a2bdeef8f725b628983c5b59ea563e13bdfe68abe660355f846040518082815260200191505060405180910390a280915050919050565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900460ff16905082565b600060015482106103d6576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600160008084815260200190815260200160002060010160006101000a81548160ff021916908315150217905550817f23c19de93ce378d27f3b34f74ae236838987d9179c902bca3cdc3bb93bd731446001604051808215151515815260200191505060405180910390a260019050919050565b600060015482106104c3576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b60008083815260200190815260200160002060010160009054906101000a900460ff16905091905056fea265627a7a7231582032e5e83cc1c4e53d318ce41540c1d8b061fc1681e7572fb05ca384911e28abfa64736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c806352e7df5d14610067578063732d995f146100855780638a99a31b146100c7578063af4afe0a14610109578063b579e7f114610156578063f7db127e1461019c575b600080fd5b61006f6101e2565b6040518082815260200191505060405180910390f35b6100b16004803603602081101561009b57600080fd5b81019080803590602001909291905050506101e8565b6040518082815260200191505060405180910390f35b6100f3600480360360208110156100dd57600080fd5b810190808035906020019092919050505061027e565b6040518082815260200191505060405180910390f35b6101356004803603602081101561011f57600080fd5b810190808035906020019092919050505061032c565b60405180838152602001821515151581526020019250505060405180910390f35b6101826004803603602081101561016c57600080fd5b810190808035906020019092919050505061035d565b604051808215151515815260200191505060405180910390f35b6101c8600480360360208110156101b257600080fd5b810190808035906020019092919050505061044a565b604051808215151515815260200191505060405180910390f35b60015481565b60006001548210610261576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600080838152602001908152602001600020600001549050919050565b600080600160008154809291906001019190505590506040518060400160405280848152602001600015158152506000808381526020019081526020016000206000820151816000015560208201518160010160006101000a81548160ff021916908315150217905550905050807f3858dc705496d9f9a2bdeef8f725b628983c5b59ea563e13bdfe68abe660355f846040518082815260200191505060405180910390a280915050919050565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900460ff16905082565b600060015482106103d6576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b600160008084815260200190815260200160002060010160006101000a81548160ff021916908315150217905550817f23c19de93ce378d27f3b34f74ae236838987d9179c902bca3cdc3bb93bd731446001604051808215151515815260200191505060405180910390a260019050919050565b600060015482106104c3576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260168152602001807f457870656e736520646f6573206e6f742065786973740000000000000000000081525060200191505060405180910390fd5b60008083815260200190815260200160002060010160009054906101000a900460ff16905091905056fea265627a7a7231582032e5e83cc1c4e53d318ce41540c1d8b061fc1681e7572fb05ca384911e28abfa64736f6c63430005100032",
+  "sourceMap": "57:1253:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:1253:0;;;;;;;",
+  "deployedSourceMap": "57:1253:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:1253:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;212:27;;;:::i;:::-;;;;;;;;;;;;;;;;;;;904:199;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;904:199:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;385:248;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;385:248:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;163:43;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;163:43:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;639:259;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;639:259:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1109:199;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1109:199:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;212:27;;;;:::o;904:199::-;973:7;1013:12;;1000:10;:25;992:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1069:8;:20;1078:10;1069:20;;;;;;;;;;;:27;;;1062:34;;904:199;;;:::o;385:248::-;444:7;462:17;482:12;;:14;;;;;;;;;;;;462:34;;528:23;;;;;;;;536:7;528:23;;;;545:5;528:23;;;;;506:8;:19;515:9;506:19;;;;;;;;;;;:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;581:9;566:34;592:7;566:34;;;;;;;;;;;;;;;;;;617:9;610:16;;;385:248;;;:::o;163:43::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;639:259::-;701:4;737:12;;724:10;:25;716:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;818:4;786:8;:20;795:10;786:20;;;;;;;;;;;:29;;;:36;;;;;;;;;;;;;;;;;;853:10;837:33;865:4;837:33;;;;;;;;;;;;;;;;;;;;;;887:4;880:11;;639:259;;;:::o;1109:199::-;1179:4;1216:12;;1203:10;:25;1195:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1272:8;:20;1281:10;1272:20;;;;;;;;;;;:29;;;;;;;;;;;;1265:36;;1109:199;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.5.0;\n\ncontract ExpenseTracker {\n    struct Expense {\n        uint256 amount;\n        bool approved;\n    }\n\n\n    mapping(uint256 => Expense) public expenses;\n    uint256 public expenseCount;\n\n    event ExpenseCreated(uint256 indexed expenseId, uint256 amount);\n    event ExpenseApproved(uint256 indexed expenseId, bool approved);\n\n    function createExpense(uint256 _amount ) external returns (uint256){\n        uint256 expenseId = expenseCount++;\n        expenses[expenseId] = Expense(_amount, false);\n        emit ExpenseCreated(expenseId, _amount);\n        return expenseId;\n    }\n\n    function approveExpense(uint256 _expenseId) external returns (bool){\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        expenses[_expenseId].approved = true;\n        emit ExpenseApproved(_expenseId, true);\n        return true;\n    }\n\n    function getExpenseAmount(uint256 _expenseId) external view returns (uint256) {\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        return expenses[_expenseId].amount;\n    }\n\n    function isExpenseApproved(uint256 _expenseId) external view returns (bool) {\n        require(_expenseId < expenseCount, \"Expense does not exist\");\n        return expenses[_expenseId].approved;\n    }\n}\n",
   "sourcePath": "/Users/jakenoar/repos/truffle-lightweight/contracts/ExpenseTracker.sol",
   "ast": {
     "absolutePath": "project:/contracts/ExpenseTracker.sol",
     "exportedSymbols": {
       "ExpenseTracker": [
-        119
+        123
       ]
     },
-    "id": 120,
+    "id": 124,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -193,9 +199,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 119,
+        "id": 123,
         "linearizedBaseContracts": [
-          119
+          123
         ],
         "name": "ExpenseTracker",
         "nodeType": "ContractDefinition",
@@ -259,7 +265,7 @@
             ],
             "name": "Expense",
             "nodeType": "StructDefinition",
-            "scope": 119,
+            "scope": 123,
             "src": "87:69:0",
             "visibility": "public"
           },
@@ -268,8 +274,8 @@
             "id": 10,
             "name": "expenses",
             "nodeType": "VariableDeclaration",
-            "scope": 119,
-            "src": "161:43:0",
+            "scope": 123,
+            "src": "163:43:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -282,14 +288,14 @@
                 "id": 7,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "169:7:0",
+                "src": "171:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 }
               },
               "nodeType": "Mapping",
-              "src": "161:27:0",
+              "src": "163:27:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
                 "typeString": "mapping(uint256 => struct ExpenseTracker.Expense)"
@@ -300,7 +306,7 @@
                 "name": "Expense",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 6,
-                "src": "180:7:0",
+                "src": "182:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_Expense_$6_storage_ptr",
                   "typeString": "struct ExpenseTracker.Expense"
@@ -315,8 +321,8 @@
             "id": 12,
             "name": "expenseCount",
             "nodeType": "VariableDeclaration",
-            "scope": 119,
-            "src": "210:27:0",
+            "scope": 123,
+            "src": "212:27:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -327,7 +333,7 @@
               "id": 11,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "210:7:0",
+              "src": "212:7:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -353,7 +359,7 @@
                   "name": "expenseId",
                   "nodeType": "VariableDeclaration",
                   "scope": 18,
-                  "src": "265:25:0",
+                  "src": "267:25:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -364,7 +370,7 @@
                     "id": 13,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "265:7:0",
+                    "src": "267:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -380,7 +386,7 @@
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
                   "scope": 18,
-                  "src": "292:14:0",
+                  "src": "294:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -391,7 +397,7 @@
                     "id": 15,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "292:7:0",
+                    "src": "294:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -401,9 +407,9 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "264:43:0"
+              "src": "266:43:0"
             },
-            "src": "244:64:0"
+            "src": "246:64:0"
           },
           {
             "anonymous": false,
@@ -422,7 +428,7 @@
                   "name": "expenseId",
                   "nodeType": "VariableDeclaration",
                   "scope": 24,
-                  "src": "335:25:0",
+                  "src": "337:25:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -433,7 +439,7 @@
                     "id": 19,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "335:7:0",
+                    "src": "337:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -449,7 +455,7 @@
                   "name": "approved",
                   "nodeType": "VariableDeclaration",
                   "scope": 24,
-                  "src": "362:13:0",
+                  "src": "364:13:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -460,7 +466,7 @@
                     "id": 21,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "362:4:0",
+                    "src": "364:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -470,15 +476,15 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "334:42:0"
+              "src": "336:42:0"
             },
-            "src": "313:64:0"
+            "src": "315:64:0"
           },
           {
             "body": {
               "id": 52,
               "nodeType": "Block",
-              "src": "450:181:0",
+              "src": "452:181:0",
               "statements": [
                 {
                   "assignments": [
@@ -491,7 +497,7 @@
                       "name": "expenseId",
                       "nodeType": "VariableDeclaration",
                       "scope": 52,
-                      "src": "460:17:0",
+                      "src": "462:17:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -502,7 +508,7 @@
                         "id": 31,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
-                        "src": "460:7:0",
+                        "src": "462:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -523,7 +529,7 @@
                     "nodeType": "UnaryOperation",
                     "operator": "++",
                     "prefix": false,
-                    "src": "480:14:0",
+                    "src": "482:14:0",
                     "subExpression": {
                       "argumentTypes": null,
                       "id": 33,
@@ -531,7 +537,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 12,
-                      "src": "480:12:0",
+                      "src": "482:12:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -543,7 +549,7 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "460:34:0"
+                  "src": "462:34:0"
                 },
                 {
                   "expression": {
@@ -562,7 +568,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 10,
-                        "src": "504:8:0",
+                        "src": "506:8:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
                           "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
@@ -576,7 +582,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 32,
-                        "src": "513:9:0",
+                        "src": "515:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -587,7 +593,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "504:19:0",
+                      "src": "506:19:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Expense_$6_storage",
                         "typeString": "struct ExpenseTracker.Expense storage ref"
@@ -605,7 +611,7 @@
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 26,
-                          "src": "534:7:0",
+                          "src": "536:7:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -621,7 +627,7 @@
                           "kind": "bool",
                           "lValueRequested": false,
                           "nodeType": "Literal",
-                          "src": "543:5:0",
+                          "src": "545:5:0",
                           "subdenomination": null,
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -646,7 +652,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 6,
-                        "src": "526:7:0",
+                        "src": "528:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_type$_t_struct$_Expense_$6_storage_ptr_$",
                           "typeString": "type(struct ExpenseTracker.Expense storage pointer)"
@@ -660,13 +666,13 @@
                       "lValueRequested": false,
                       "names": [],
                       "nodeType": "FunctionCall",
-                      "src": "526:23:0",
+                      "src": "528:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Expense_$6_memory",
                         "typeString": "struct ExpenseTracker.Expense memory"
                       }
                     },
-                    "src": "504:45:0",
+                    "src": "506:45:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Expense_$6_storage",
                       "typeString": "struct ExpenseTracker.Expense storage ref"
@@ -674,7 +680,7 @@
                   },
                   "id": 44,
                   "nodeType": "ExpressionStatement",
-                  "src": "504:45:0"
+                  "src": "506:45:0"
                 },
                 {
                   "eventCall": {
@@ -687,7 +693,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 32,
-                        "src": "579:9:0",
+                        "src": "581:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -700,7 +706,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 26,
-                        "src": "590:7:0",
+                        "src": "592:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -723,7 +729,7 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 18,
-                      "src": "564:14:0",
+                      "src": "566:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_uint256_$returns$__$",
                         "typeString": "function (uint256,uint256)"
@@ -737,7 +743,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "564:34:0",
+                    "src": "566:34:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
@@ -745,7 +751,7 @@
                   },
                   "id": 49,
                   "nodeType": "EmitStatement",
-                  "src": "559:39:0"
+                  "src": "561:39:0"
                 },
                 {
                   "expression": {
@@ -755,7 +761,7 @@
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
                     "referencedDeclaration": 32,
-                    "src": "615:9:0",
+                    "src": "617:9:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -764,7 +770,7 @@
                   "functionReturnParameters": 30,
                   "id": 51,
                   "nodeType": "Return",
-                  "src": "608:16:0"
+                  "src": "610:16:0"
                 }
               ]
             },
@@ -785,7 +791,7 @@
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
                   "scope": 53,
-                  "src": "406:15:0",
+                  "src": "408:15:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -796,7 +802,7 @@
                     "id": 25,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "406:7:0",
+                    "src": "408:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -806,7 +812,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "405:18:0"
+              "src": "407:18:0"
             },
             "returnParameters": {
               "id": 30,
@@ -818,7 +824,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 53,
-                  "src": "442:7:0",
+                  "src": "444:7:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -829,7 +835,7 @@
                     "id": 28,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "442:7:0",
+                    "src": "444:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -839,19 +845,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "441:9:0"
+              "src": "443:9:0"
             },
-            "scope": 119,
-            "src": "383:248:0",
+            "scope": 123,
+            "src": "385:248:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 77,
+              "id": 81,
               "nodeType": "Block",
-              "src": "690:171:0",
+              "src": "706:192:0",
               "statements": [
                 {
                   "expression": {
@@ -863,19 +869,19 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 61,
+                        "id": 63,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-                          "id": 59,
+                          "id": 61,
                           "name": "_expenseId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 55,
-                          "src": "708:10:0",
+                          "src": "724:10:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -885,18 +891,18 @@
                         "operator": "<",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 60,
+                          "id": 62,
                           "name": "expenseCount",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 12,
-                          "src": "721:12:0",
+                          "src": "737:12:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "src": "708:25:0",
+                        "src": "724:25:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -905,14 +911,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "457870656e736520646f6573206e6f74206578697374",
-                        "id": 62,
+                        "id": 64,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "735:24:0",
+                        "src": "751:24:0",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
@@ -932,21 +938,21 @@
                           "typeString": "literal_string \"Expense does not exist\""
                         }
                       ],
-                      "id": 58,
+                      "id": 60,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        137,
-                        138
+                        141,
+                        142
                       ],
-                      "referencedDeclaration": 138,
-                      "src": "700:7:0",
+                      "referencedDeclaration": 142,
+                      "src": "716:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 63,
+                    "id": 65,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -954,20 +960,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "700:60:0",
+                    "src": "716:60:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 64,
+                  "id": 66,
                   "nodeType": "ExpressionStatement",
-                  "src": "700:60:0"
+                  "src": "716:60:0"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 70,
+                    "id": 72,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -978,26 +984,26 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 65,
+                          "id": 67,
                           "name": "expenses",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 10,
-                          "src": "770:8:0",
+                          "src": "786:8:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
                             "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
                           }
                         },
-                        "id": 67,
+                        "id": 69,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 66,
+                          "id": 68,
                           "name": "_expenseId",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 55,
-                          "src": "779:10:0",
+                          "src": "795:10:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
@@ -1008,13 +1014,13 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "770:20:0",
+                        "src": "786:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_Expense_$6_storage",
                           "typeString": "struct ExpenseTracker.Expense storage ref"
                         }
                       },
-                      "id": 68,
+                      "id": 70,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -1022,7 +1028,7 @@
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 5,
-                      "src": "770:29:0",
+                      "src": "786:29:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
                         "typeString": "bool"
@@ -1033,14 +1039,14 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 69,
+                      "id": 71,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "bool",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "802:4:0",
+                      "src": "818:4:0",
                       "subdenomination": null,
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -1048,15 +1054,15 @@
                       },
                       "value": "true"
                     },
-                    "src": "770:36:0",
+                    "src": "786:36:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "id": 71,
+                  "id": 73,
                   "nodeType": "ExpressionStatement",
-                  "src": "770:36:0"
+                  "src": "786:36:0"
                 },
                 {
                   "eventCall": {
@@ -1064,12 +1070,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 73,
+                        "id": 75,
                         "name": "_expenseId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 55,
-                        "src": "837:10:0",
+                        "src": "853:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1078,14 +1084,14 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "74727565",
-                        "id": 74,
+                        "id": 76,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "bool",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "849:4:0",
+                        "src": "865:4:0",
                         "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -1105,18 +1111,18 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 72,
+                      "id": 74,
                       "name": "ExpenseApproved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 24,
-                      "src": "821:15:0",
+                      "src": "837:15:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_bool_$returns$__$",
                         "typeString": "function (uint256,bool)"
                       }
                     },
-                    "id": 75,
+                    "id": 77,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1124,20 +1130,44 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "821:33:0",
+                    "src": "837:33:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 76,
+                  "id": 78,
                   "nodeType": "EmitStatement",
-                  "src": "816:38:0"
+                  "src": "832:38:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 79,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "887:4:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 59,
+                  "id": 80,
+                  "nodeType": "Return",
+                  "src": "880:11:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 78,
+            "id": 82,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -1152,8 +1182,8 @@
                   "id": 55,
                   "name": "_expenseId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 78,
-                  "src": "661:18:0",
+                  "scope": 82,
+                  "src": "663:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1164,7 +1194,7 @@
                     "id": 54,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "661:7:0",
+                    "src": "663:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1174,512 +1204,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "660:20:0"
+              "src": "662:20:0"
             },
             "returnParameters": {
-              "id": 57,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "690:0:0"
-            },
-            "scope": 119,
-            "src": "637:224:0",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "external"
-          },
-          {
-            "body": {
-              "id": 97,
-              "nodeType": "Block",
-              "src": "945:121:0",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "commonType": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        },
-                        "id": 88,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "leftExpression": {
-                          "argumentTypes": null,
-                          "id": 86,
-                          "name": "_expenseId",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 80,
-                          "src": "963:10:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
-                          }
-                        },
-                        "nodeType": "BinaryOperation",
-                        "operator": "<",
-                        "rightExpression": {
-                          "argumentTypes": null,
-                          "id": 87,
-                          "name": "expenseCount",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 12,
-                          "src": "976:12:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
-                          }
-                        },
-                        "src": "963:25:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        }
-                      },
-                      {
-                        "argumentTypes": null,
-                        "hexValue": "457870656e736520646f6573206e6f74206578697374",
-                        "id": 89,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": true,
-                        "kind": "string",
-                        "lValueRequested": false,
-                        "nodeType": "Literal",
-                        "src": "990:24:0",
-                        "subdenomination": null,
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
-                          "typeString": "literal_string \"Expense does not exist\""
-                        },
-                        "value": "Expense does not exist"
-                      }
-                    ],
-                    "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        },
-                        {
-                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
-                          "typeString": "literal_string \"Expense does not exist\""
-                        }
-                      ],
-                      "id": 85,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        137,
-                        138
-                      ],
-                      "referencedDeclaration": 138,
-                      "src": "955:7:0",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
-                        "typeString": "function (bool,string memory) pure"
-                      }
-                    },
-                    "id": 90,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "kind": "functionCall",
-                    "lValueRequested": false,
-                    "names": [],
-                    "nodeType": "FunctionCall",
-                    "src": "955:60:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_tuple$__$",
-                      "typeString": "tuple()"
-                    }
-                  },
-                  "id": 91,
-                  "nodeType": "ExpressionStatement",
-                  "src": "955:60:0"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "expression": {
-                      "argumentTypes": null,
-                      "baseExpression": {
-                        "argumentTypes": null,
-                        "id": 92,
-                        "name": "expenses",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 10,
-                        "src": "1032:8:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
-                          "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
-                        }
-                      },
-                      "id": 94,
-                      "indexExpression": {
-                        "argumentTypes": null,
-                        "id": 93,
-                        "name": "_expenseId",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 80,
-                        "src": "1041:10:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "nodeType": "IndexAccess",
-                      "src": "1032:20:0",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Expense_$6_storage",
-                        "typeString": "struct ExpenseTracker.Expense storage ref"
-                      }
-                    },
-                    "id": 95,
-                    "isConstant": false,
-                    "isLValue": true,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "memberName": "amount",
-                    "nodeType": "MemberAccess",
-                    "referencedDeclaration": 3,
-                    "src": "1032:27:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "functionReturnParameters": 84,
-                  "id": 96,
-                  "nodeType": "Return",
-                  "src": "1025:34:0"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 98,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "getExpenseAmount",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 81,
+              "id": 59,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 80,
-                  "name": "_expenseId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 98,
-                  "src": "893:18:0",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 79,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "893:7:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "892:20:0"
-            },
-            "returnParameters": {
-              "id": 84,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 83,
+                  "id": 58,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 98,
-                  "src": "936:7:0",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 82,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "936:7:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "935:9:0"
-            },
-            "scope": 119,
-            "src": "867:199:0",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "external"
-          },
-          {
-            "body": {
-              "id": 117,
-              "nodeType": "Block",
-              "src": "1148:123:0",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "commonType": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        },
-                        "id": 108,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "leftExpression": {
-                          "argumentTypes": null,
-                          "id": 106,
-                          "name": "_expenseId",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 100,
-                          "src": "1166:10:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
-                          }
-                        },
-                        "nodeType": "BinaryOperation",
-                        "operator": "<",
-                        "rightExpression": {
-                          "argumentTypes": null,
-                          "id": 107,
-                          "name": "expenseCount",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 12,
-                          "src": "1179:12:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_uint256",
-                            "typeString": "uint256"
-                          }
-                        },
-                        "src": "1166:25:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        }
-                      },
-                      {
-                        "argumentTypes": null,
-                        "hexValue": "457870656e736520646f6573206e6f74206578697374",
-                        "id": 109,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": true,
-                        "kind": "string",
-                        "lValueRequested": false,
-                        "nodeType": "Literal",
-                        "src": "1193:24:0",
-                        "subdenomination": null,
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
-                          "typeString": "literal_string \"Expense does not exist\""
-                        },
-                        "value": "Expense does not exist"
-                      }
-                    ],
-                    "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        },
-                        {
-                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
-                          "typeString": "literal_string \"Expense does not exist\""
-                        }
-                      ],
-                      "id": 105,
-                      "name": "require",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        137,
-                        138
-                      ],
-                      "referencedDeclaration": 138,
-                      "src": "1158:7:0",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
-                        "typeString": "function (bool,string memory) pure"
-                      }
-                    },
-                    "id": 110,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "kind": "functionCall",
-                    "lValueRequested": false,
-                    "names": [],
-                    "nodeType": "FunctionCall",
-                    "src": "1158:60:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_tuple$__$",
-                      "typeString": "tuple()"
-                    }
-                  },
-                  "id": 111,
-                  "nodeType": "ExpressionStatement",
-                  "src": "1158:60:0"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "expression": {
-                      "argumentTypes": null,
-                      "baseExpression": {
-                        "argumentTypes": null,
-                        "id": 112,
-                        "name": "expenses",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 10,
-                        "src": "1235:8:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
-                          "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
-                        }
-                      },
-                      "id": 114,
-                      "indexExpression": {
-                        "argumentTypes": null,
-                        "id": 113,
-                        "name": "_expenseId",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 100,
-                        "src": "1244:10:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "nodeType": "IndexAccess",
-                      "src": "1235:20:0",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Expense_$6_storage",
-                        "typeString": "struct ExpenseTracker.Expense storage ref"
-                      }
-                    },
-                    "id": 115,
-                    "isConstant": false,
-                    "isLValue": true,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "memberName": "approved",
-                    "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5,
-                    "src": "1235:29:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "functionReturnParameters": 104,
-                  "id": 116,
-                  "nodeType": "Return",
-                  "src": "1228:36:0"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 118,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "isExpenseApproved",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 101,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 100,
-                  "name": "_expenseId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 118,
-                  "src": "1099:18:0",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 99,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1099:7:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "1098:20:0"
-            },
-            "returnParameters": {
-              "id": 104,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 103,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 118,
-                  "src": "1142:4:0",
+                  "scope": 82,
+                  "src": "701:4:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1687,10 +1224,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 102,
+                    "id": 57,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1142:4:0",
+                    "src": "701:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1700,27 +1237,547 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1141:6:0"
+              "src": "700:6:0"
             },
-            "scope": 119,
-            "src": "1072:199:0",
+            "scope": 123,
+            "src": "639:259:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 101,
+              "nodeType": "Block",
+              "src": "982:121:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 92,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 90,
+                          "name": "_expenseId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 84,
+                          "src": "1000:10:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "<",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 91,
+                          "name": "expenseCount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12,
+                          "src": "1013:12:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1000:25:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "457870656e736520646f6573206e6f74206578697374",
+                        "id": 93,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1027:24:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
+                          "typeString": "literal_string \"Expense does not exist\""
+                        },
+                        "value": "Expense does not exist"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
+                          "typeString": "literal_string \"Expense does not exist\""
+                        }
+                      ],
+                      "id": 89,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        141,
+                        142
+                      ],
+                      "referencedDeclaration": 142,
+                      "src": "992:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 94,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "992:60:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 95,
+                  "nodeType": "ExpressionStatement",
+                  "src": "992:60:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 96,
+                        "name": "expenses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 10,
+                        "src": "1069:8:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
+                          "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
+                        }
+                      },
+                      "id": 98,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 97,
+                        "name": "_expenseId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 84,
+                        "src": "1078:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "1069:20:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Expense_$6_storage",
+                        "typeString": "struct ExpenseTracker.Expense storage ref"
+                      }
+                    },
+                    "id": 99,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "amount",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 3,
+                    "src": "1069:27:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 88,
+                  "id": 100,
+                  "nodeType": "Return",
+                  "src": "1062:34:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 102,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getExpenseAmount",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 85,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 84,
+                  "name": "_expenseId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 102,
+                  "src": "930:18:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 83,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "930:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "929:20:0"
+            },
+            "returnParameters": {
+              "id": 88,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 87,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 102,
+                  "src": "973:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 86,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "973:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "972:9:0"
+            },
+            "scope": 123,
+            "src": "904:199:0",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 121,
+              "nodeType": "Block",
+              "src": "1185:123:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 112,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 110,
+                          "name": "_expenseId",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 104,
+                          "src": "1203:10:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "<",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 111,
+                          "name": "expenseCount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12,
+                          "src": "1216:12:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1203:25:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "457870656e736520646f6573206e6f74206578697374",
+                        "id": 113,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1230:24:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
+                          "typeString": "literal_string \"Expense does not exist\""
+                        },
+                        "value": "Expense does not exist"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_7f75972454a26ff5894cffa576cd2f69486f64fcb2439dfb39c9e01b7289795f",
+                          "typeString": "literal_string \"Expense does not exist\""
+                        }
+                      ],
+                      "id": 109,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        141,
+                        142
+                      ],
+                      "referencedDeclaration": 142,
+                      "src": "1195:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 114,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1195:60:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 115,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1195:60:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 116,
+                        "name": "expenses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 10,
+                        "src": "1272:8:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Expense_$6_storage_$",
+                          "typeString": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)"
+                        }
+                      },
+                      "id": 118,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 117,
+                        "name": "_expenseId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 104,
+                        "src": "1281:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "1272:20:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Expense_$6_storage",
+                        "typeString": "struct ExpenseTracker.Expense storage ref"
+                      }
+                    },
+                    "id": 119,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "approved",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 5,
+                    "src": "1272:29:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 108,
+                  "id": 120,
+                  "nodeType": "Return",
+                  "src": "1265:36:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 122,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isExpenseApproved",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 105,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 104,
+                  "name": "_expenseId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 122,
+                  "src": "1136:18:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 103,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1136:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1135:20:0"
+            },
+            "returnParameters": {
+              "id": 108,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 107,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 122,
+                  "src": "1179:4:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 106,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1179:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1178:6:0"
+            },
+            "scope": 123,
+            "src": "1109:199:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 120,
-        "src": "57:1216:0"
+        "scope": 124,
+        "src": "57:1253:0"
       }
     ],
-    "src": "32:1242:0"
+    "src": "32:1279:0"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "project:/contracts/ExpenseTracker.sol",
       "exportedSymbols": {
         "ExpenseTracker": [
-          119
+          123
         ]
       }
     },
@@ -1750,17 +1807,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            119
+            123
           ],
           "name": "ExpenseTracker",
-          "scope": 120
+          "scope": 124
         },
         "children": [
           {
             "attributes": {
               "canonicalName": "ExpenseTracker.Expense",
               "name": "Expense",
-              "scope": 119,
+              "scope": 123,
               "visibility": "public"
             },
             "children": [
@@ -1825,7 +1882,7 @@
             "attributes": {
               "constant": false,
               "name": "expenses",
-              "scope": 119,
+              "scope": 123,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(uint256 => struct ExpenseTracker.Expense)",
@@ -1845,7 +1902,7 @@
                     },
                     "id": 7,
                     "name": "ElementaryTypeName",
-                    "src": "169:7:0"
+                    "src": "171:7:0"
                   },
                   {
                     "attributes": {
@@ -1856,23 +1913,23 @@
                     },
                     "id": 8,
                     "name": "UserDefinedTypeName",
-                    "src": "180:7:0"
+                    "src": "182:7:0"
                   }
                 ],
                 "id": 9,
                 "name": "Mapping",
-                "src": "161:27:0"
+                "src": "163:27:0"
               }
             ],
             "id": 10,
             "name": "VariableDeclaration",
-            "src": "161:43:0"
+            "src": "163:43:0"
           },
           {
             "attributes": {
               "constant": false,
               "name": "expenseCount",
-              "scope": 119,
+              "scope": 123,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "uint256",
@@ -1887,12 +1944,12 @@
                 },
                 "id": 11,
                 "name": "ElementaryTypeName",
-                "src": "210:7:0"
+                "src": "212:7:0"
               }
             ],
             "id": 12,
             "name": "VariableDeclaration",
-            "src": "210:27:0"
+            "src": "212:27:0"
           },
           {
             "attributes": {
@@ -1923,12 +1980,12 @@
                         },
                         "id": 13,
                         "name": "ElementaryTypeName",
-                        "src": "265:7:0"
+                        "src": "267:7:0"
                       }
                     ],
                     "id": 14,
                     "name": "VariableDeclaration",
-                    "src": "265:25:0"
+                    "src": "267:25:0"
                   },
                   {
                     "attributes": {
@@ -1950,22 +2007,22 @@
                         },
                         "id": 15,
                         "name": "ElementaryTypeName",
-                        "src": "292:7:0"
+                        "src": "294:7:0"
                       }
                     ],
                     "id": 16,
                     "name": "VariableDeclaration",
-                    "src": "292:14:0"
+                    "src": "294:14:0"
                   }
                 ],
                 "id": 17,
                 "name": "ParameterList",
-                "src": "264:43:0"
+                "src": "266:43:0"
               }
             ],
             "id": 18,
             "name": "EventDefinition",
-            "src": "244:64:0"
+            "src": "246:64:0"
           },
           {
             "attributes": {
@@ -1996,12 +2053,12 @@
                         },
                         "id": 19,
                         "name": "ElementaryTypeName",
-                        "src": "335:7:0"
+                        "src": "337:7:0"
                       }
                     ],
                     "id": 20,
                     "name": "VariableDeclaration",
-                    "src": "335:25:0"
+                    "src": "337:25:0"
                   },
                   {
                     "attributes": {
@@ -2023,22 +2080,22 @@
                         },
                         "id": 21,
                         "name": "ElementaryTypeName",
-                        "src": "362:4:0"
+                        "src": "364:4:0"
                       }
                     ],
                     "id": 22,
                     "name": "VariableDeclaration",
-                    "src": "362:13:0"
+                    "src": "364:13:0"
                   }
                 ],
                 "id": 23,
                 "name": "ParameterList",
-                "src": "334:42:0"
+                "src": "336:42:0"
               }
             ],
             "id": 24,
             "name": "EventDefinition",
-            "src": "313:64:0"
+            "src": "315:64:0"
           },
           {
             "attributes": {
@@ -2050,7 +2107,7 @@
                 null
               ],
               "name": "createExpense",
-              "scope": 119,
+              "scope": 123,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "external"
@@ -2077,17 +2134,17 @@
                         },
                         "id": 25,
                         "name": "ElementaryTypeName",
-                        "src": "406:7:0"
+                        "src": "408:7:0"
                       }
                     ],
                     "id": 26,
                     "name": "VariableDeclaration",
-                    "src": "406:15:0"
+                    "src": "408:15:0"
                   }
                 ],
                 "id": 27,
                 "name": "ParameterList",
-                "src": "405:18:0"
+                "src": "407:18:0"
               },
               {
                 "children": [
@@ -2110,17 +2167,17 @@
                         },
                         "id": 28,
                         "name": "ElementaryTypeName",
-                        "src": "442:7:0"
+                        "src": "444:7:0"
                       }
                     ],
                     "id": 29,
                     "name": "VariableDeclaration",
-                    "src": "442:7:0"
+                    "src": "444:7:0"
                   }
                 ],
                 "id": 30,
                 "name": "ParameterList",
-                "src": "441:9:0"
+                "src": "443:9:0"
               },
               {
                 "children": [
@@ -2150,12 +2207,12 @@
                             },
                             "id": 31,
                             "name": "ElementaryTypeName",
-                            "src": "460:7:0"
+                            "src": "462:7:0"
                           }
                         ],
                         "id": 32,
                         "name": "VariableDeclaration",
-                        "src": "460:17:0"
+                        "src": "462:17:0"
                       },
                       {
                         "attributes": {
@@ -2181,17 +2238,17 @@
                             },
                             "id": 33,
                             "name": "Identifier",
-                            "src": "480:12:0"
+                            "src": "482:12:0"
                           }
                         ],
                         "id": 34,
                         "name": "UnaryOperation",
-                        "src": "480:14:0"
+                        "src": "482:14:0"
                       }
                     ],
                     "id": 35,
                     "name": "VariableDeclarationStatement",
-                    "src": "460:34:0"
+                    "src": "462:34:0"
                   },
                   {
                     "children": [
@@ -2228,7 +2285,7 @@
                                 },
                                 "id": 36,
                                 "name": "Identifier",
-                                "src": "504:8:0"
+                                "src": "506:8:0"
                               },
                               {
                                 "attributes": {
@@ -2242,12 +2299,12 @@
                                 },
                                 "id": 37,
                                 "name": "Identifier",
-                                "src": "513:9:0"
+                                "src": "515:9:0"
                               }
                             ],
                             "id": 38,
                             "name": "IndexAccess",
-                            "src": "504:19:0"
+                            "src": "506:19:0"
                           },
                           {
                             "attributes": {
@@ -2285,7 +2342,7 @@
                                 },
                                 "id": 39,
                                 "name": "Identifier",
-                                "src": "526:7:0"
+                                "src": "528:7:0"
                               },
                               {
                                 "attributes": {
@@ -2299,7 +2356,7 @@
                                 },
                                 "id": 40,
                                 "name": "Identifier",
-                                "src": "534:7:0"
+                                "src": "536:7:0"
                               },
                               {
                                 "attributes": {
@@ -2316,22 +2373,22 @@
                                 },
                                 "id": 41,
                                 "name": "Literal",
-                                "src": "543:5:0"
+                                "src": "545:5:0"
                               }
                             ],
                             "id": 42,
                             "name": "FunctionCall",
-                            "src": "526:23:0"
+                            "src": "528:23:0"
                           }
                         ],
                         "id": 43,
                         "name": "Assignment",
-                        "src": "504:45:0"
+                        "src": "506:45:0"
                       }
                     ],
                     "id": 44,
                     "name": "ExpressionStatement",
-                    "src": "504:45:0"
+                    "src": "506:45:0"
                   },
                   {
                     "children": [
@@ -2371,7 +2428,7 @@
                             },
                             "id": 45,
                             "name": "Identifier",
-                            "src": "564:14:0"
+                            "src": "566:14:0"
                           },
                           {
                             "attributes": {
@@ -2385,7 +2442,7 @@
                             },
                             "id": 46,
                             "name": "Identifier",
-                            "src": "579:9:0"
+                            "src": "581:9:0"
                           },
                           {
                             "attributes": {
@@ -2399,17 +2456,17 @@
                             },
                             "id": 47,
                             "name": "Identifier",
-                            "src": "590:7:0"
+                            "src": "592:7:0"
                           }
                         ],
                         "id": 48,
                         "name": "FunctionCall",
-                        "src": "564:34:0"
+                        "src": "566:34:0"
                       }
                     ],
                     "id": 49,
                     "name": "EmitStatement",
-                    "src": "559:39:0"
+                    "src": "561:39:0"
                   },
                   {
                     "attributes": {
@@ -2428,22 +2485,22 @@
                         },
                         "id": 50,
                         "name": "Identifier",
-                        "src": "615:9:0"
+                        "src": "617:9:0"
                       }
                     ],
                     "id": 51,
                     "name": "Return",
-                    "src": "608:16:0"
+                    "src": "610:16:0"
                   }
                 ],
                 "id": 52,
                 "name": "Block",
-                "src": "450:181:0"
+                "src": "452:181:0"
               }
             ],
             "id": 53,
             "name": "FunctionDefinition",
-            "src": "383:248:0"
+            "src": "385:248:0"
           },
           {
             "attributes": {
@@ -2455,7 +2512,7 @@
                 null
               ],
               "name": "approveExpense",
-              "scope": 119,
+              "scope": 123,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "external"
@@ -2467,7 +2524,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_expenseId",
-                      "scope": 78,
+                      "scope": 82,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -2482,28 +2539,50 @@
                         },
                         "id": 54,
                         "name": "ElementaryTypeName",
-                        "src": "661:7:0"
+                        "src": "663:7:0"
                       }
                     ],
                     "id": 55,
                     "name": "VariableDeclaration",
-                    "src": "661:18:0"
+                    "src": "663:18:0"
                   }
                 ],
                 "id": 56,
                 "name": "ParameterList",
-                "src": "660:20:0"
+                "src": "662:20:0"
               },
               {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 57,
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 82,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 57,
+                        "name": "ElementaryTypeName",
+                        "src": "701:4:0"
+                      }
+                    ],
+                    "id": 58,
+                    "name": "VariableDeclaration",
+                    "src": "701:4:0"
+                  }
+                ],
+                "id": 59,
                 "name": "ParameterList",
-                "src": "690:0:0"
+                "src": "700:6:0"
               },
               {
                 "children": [
@@ -2537,16 +2616,16 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                137,
-                                138
+                                141,
+                                142
                               ],
-                              "referencedDeclaration": 138,
+                              "referencedDeclaration": 142,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 58,
+                            "id": 60,
                             "name": "Identifier",
-                            "src": "700:7:0"
+                            "src": "716:7:0"
                           },
                           {
                             "attributes": {
@@ -2573,9 +2652,9 @@
                                   "type": "uint256",
                                   "value": "_expenseId"
                                 },
-                                "id": 59,
+                                "id": 61,
                                 "name": "Identifier",
-                                "src": "708:10:0"
+                                "src": "724:10:0"
                               },
                               {
                                 "attributes": {
@@ -2587,14 +2666,14 @@
                                   "type": "uint256",
                                   "value": "expenseCount"
                                 },
-                                "id": 60,
+                                "id": 62,
                                 "name": "Identifier",
-                                "src": "721:12:0"
+                                "src": "737:12:0"
                               }
                             ],
-                            "id": 61,
+                            "id": 63,
                             "name": "BinaryOperation",
-                            "src": "708:25:0"
+                            "src": "724:25:0"
                           },
                           {
                             "attributes": {
@@ -2609,19 +2688,19 @@
                               "type": "literal_string \"Expense does not exist\"",
                               "value": "Expense does not exist"
                             },
-                            "id": 62,
+                            "id": 64,
                             "name": "Literal",
-                            "src": "735:24:0"
+                            "src": "751:24:0"
                           }
                         ],
-                        "id": 63,
+                        "id": 65,
                         "name": "FunctionCall",
-                        "src": "700:60:0"
+                        "src": "716:60:0"
                       }
                     ],
-                    "id": 64,
+                    "id": 66,
                     "name": "ExpressionStatement",
-                    "src": "700:60:0"
+                    "src": "716:60:0"
                   },
                   {
                     "children": [
@@ -2668,9 +2747,9 @@
                                       "type": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)",
                                       "value": "expenses"
                                     },
-                                    "id": 65,
+                                    "id": 67,
                                     "name": "Identifier",
-                                    "src": "770:8:0"
+                                    "src": "786:8:0"
                                   },
                                   {
                                     "attributes": {
@@ -2682,19 +2761,19 @@
                                       "type": "uint256",
                                       "value": "_expenseId"
                                     },
-                                    "id": 66,
+                                    "id": 68,
                                     "name": "Identifier",
-                                    "src": "779:10:0"
+                                    "src": "795:10:0"
                                   }
                                 ],
-                                "id": 67,
+                                "id": 69,
                                 "name": "IndexAccess",
-                                "src": "770:20:0"
+                                "src": "786:20:0"
                               }
                             ],
-                            "id": 68,
+                            "id": 70,
                             "name": "MemberAccess",
-                            "src": "770:29:0"
+                            "src": "786:29:0"
                           },
                           {
                             "attributes": {
@@ -2709,19 +2788,19 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 69,
+                            "id": 71,
                             "name": "Literal",
-                            "src": "802:4:0"
+                            "src": "818:4:0"
                           }
                         ],
-                        "id": 70,
+                        "id": 72,
                         "name": "Assignment",
-                        "src": "770:36:0"
+                        "src": "786:36:0"
                       }
                     ],
-                    "id": 71,
+                    "id": 73,
                     "name": "ExpressionStatement",
-                    "src": "770:36:0"
+                    "src": "786:36:0"
                   },
                   {
                     "children": [
@@ -2759,9 +2838,9 @@
                               "type": "function (uint256,bool)",
                               "value": "ExpenseApproved"
                             },
-                            "id": 72,
+                            "id": 74,
                             "name": "Identifier",
-                            "src": "821:15:0"
+                            "src": "837:15:0"
                           },
                           {
                             "attributes": {
@@ -2773,9 +2852,9 @@
                               "type": "uint256",
                               "value": "_expenseId"
                             },
-                            "id": 73,
+                            "id": 75,
                             "name": "Identifier",
-                            "src": "837:10:0"
+                            "src": "853:10:0"
                           },
                           {
                             "attributes": {
@@ -2790,29 +2869,56 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 74,
+                            "id": 76,
                             "name": "Literal",
-                            "src": "849:4:0"
+                            "src": "865:4:0"
                           }
                         ],
-                        "id": 75,
+                        "id": 77,
                         "name": "FunctionCall",
-                        "src": "821:33:0"
+                        "src": "837:33:0"
                       }
                     ],
-                    "id": 76,
+                    "id": 78,
                     "name": "EmitStatement",
-                    "src": "816:38:0"
+                    "src": "832:38:0"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 59
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "hexvalue": "74727565",
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "subdenomination": null,
+                          "token": "bool",
+                          "type": "bool",
+                          "value": "true"
+                        },
+                        "id": 79,
+                        "name": "Literal",
+                        "src": "887:4:0"
+                      }
+                    ],
+                    "id": 80,
+                    "name": "Return",
+                    "src": "880:11:0"
                   }
                 ],
-                "id": 77,
+                "id": 81,
                 "name": "Block",
-                "src": "690:171:0"
+                "src": "706:192:0"
               }
             ],
-            "id": 78,
+            "id": 82,
             "name": "FunctionDefinition",
-            "src": "637:224:0"
+            "src": "639:259:0"
           },
           {
             "attributes": {
@@ -2824,7 +2930,7 @@
                 null
               ],
               "name": "getExpenseAmount",
-              "scope": 119,
+              "scope": 123,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "external"
@@ -2836,7 +2942,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_expenseId",
-                      "scope": 98,
+                      "scope": 102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -2849,19 +2955,19 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 79,
+                        "id": 83,
                         "name": "ElementaryTypeName",
-                        "src": "893:7:0"
+                        "src": "930:7:0"
                       }
                     ],
-                    "id": 80,
+                    "id": 84,
                     "name": "VariableDeclaration",
-                    "src": "893:18:0"
+                    "src": "930:18:0"
                   }
                 ],
-                "id": 81,
+                "id": 85,
                 "name": "ParameterList",
-                "src": "892:20:0"
+                "src": "929:20:0"
               },
               {
                 "children": [
@@ -2869,7 +2975,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 98,
+                      "scope": 102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -2882,19 +2988,19 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 82,
+                        "id": 86,
                         "name": "ElementaryTypeName",
-                        "src": "936:7:0"
+                        "src": "973:7:0"
                       }
                     ],
-                    "id": 83,
+                    "id": 87,
                     "name": "VariableDeclaration",
-                    "src": "936:7:0"
+                    "src": "973:7:0"
                   }
                 ],
-                "id": 84,
+                "id": 88,
                 "name": "ParameterList",
-                "src": "935:9:0"
+                "src": "972:9:0"
               },
               {
                 "children": [
@@ -2928,16 +3034,16 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                137,
-                                138
+                                141,
+                                142
                               ],
-                              "referencedDeclaration": 138,
+                              "referencedDeclaration": 142,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 85,
+                            "id": 89,
                             "name": "Identifier",
-                            "src": "955:7:0"
+                            "src": "992:7:0"
                           },
                           {
                             "attributes": {
@@ -2960,13 +3066,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 80,
+                                  "referencedDeclaration": 84,
                                   "type": "uint256",
                                   "value": "_expenseId"
                                 },
-                                "id": 86,
+                                "id": 90,
                                 "name": "Identifier",
-                                "src": "963:10:0"
+                                "src": "1000:10:0"
                               },
                               {
                                 "attributes": {
@@ -2978,14 +3084,14 @@
                                   "type": "uint256",
                                   "value": "expenseCount"
                                 },
-                                "id": 87,
+                                "id": 91,
                                 "name": "Identifier",
-                                "src": "976:12:0"
+                                "src": "1013:12:0"
                               }
                             ],
-                            "id": 88,
+                            "id": 92,
                             "name": "BinaryOperation",
-                            "src": "963:25:0"
+                            "src": "1000:25:0"
                           },
                           {
                             "attributes": {
@@ -3000,23 +3106,23 @@
                               "type": "literal_string \"Expense does not exist\"",
                               "value": "Expense does not exist"
                             },
-                            "id": 89,
+                            "id": 93,
                             "name": "Literal",
-                            "src": "990:24:0"
+                            "src": "1027:24:0"
                           }
                         ],
-                        "id": 90,
+                        "id": 94,
                         "name": "FunctionCall",
-                        "src": "955:60:0"
+                        "src": "992:60:0"
                       }
                     ],
-                    "id": 91,
+                    "id": 95,
                     "name": "ExpressionStatement",
-                    "src": "955:60:0"
+                    "src": "992:60:0"
                   },
                   {
                     "attributes": {
-                      "functionReturnParameters": 84
+                      "functionReturnParameters": 88
                     },
                     "children": [
                       {
@@ -3051,9 +3157,9 @@
                                   "type": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)",
                                   "value": "expenses"
                                 },
-                                "id": 92,
+                                "id": 96,
                                 "name": "Identifier",
-                                "src": "1032:8:0"
+                                "src": "1069:8:0"
                               },
                               {
                                 "attributes": {
@@ -3061,38 +3167,38 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 80,
+                                  "referencedDeclaration": 84,
                                   "type": "uint256",
                                   "value": "_expenseId"
                                 },
-                                "id": 93,
+                                "id": 97,
                                 "name": "Identifier",
-                                "src": "1041:10:0"
+                                "src": "1078:10:0"
                               }
                             ],
-                            "id": 94,
+                            "id": 98,
                             "name": "IndexAccess",
-                            "src": "1032:20:0"
+                            "src": "1069:20:0"
                           }
                         ],
-                        "id": 95,
+                        "id": 99,
                         "name": "MemberAccess",
-                        "src": "1032:27:0"
+                        "src": "1069:27:0"
                       }
                     ],
-                    "id": 96,
+                    "id": 100,
                     "name": "Return",
-                    "src": "1025:34:0"
+                    "src": "1062:34:0"
                   }
                 ],
-                "id": 97,
+                "id": 101,
                 "name": "Block",
-                "src": "945:121:0"
+                "src": "982:121:0"
               }
             ],
-            "id": 98,
+            "id": 102,
             "name": "FunctionDefinition",
-            "src": "867:199:0"
+            "src": "904:199:0"
           },
           {
             "attributes": {
@@ -3104,7 +3210,7 @@
                 null
               ],
               "name": "isExpenseApproved",
-              "scope": 119,
+              "scope": 123,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "external"
@@ -3116,7 +3222,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_expenseId",
-                      "scope": 118,
+                      "scope": 122,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -3129,19 +3235,19 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 99,
+                        "id": 103,
                         "name": "ElementaryTypeName",
-                        "src": "1099:7:0"
+                        "src": "1136:7:0"
                       }
                     ],
-                    "id": 100,
+                    "id": 104,
                     "name": "VariableDeclaration",
-                    "src": "1099:18:0"
+                    "src": "1136:18:0"
                   }
                 ],
-                "id": 101,
+                "id": 105,
                 "name": "ParameterList",
-                "src": "1098:20:0"
+                "src": "1135:20:0"
               },
               {
                 "children": [
@@ -3149,7 +3255,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 118,
+                      "scope": 122,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -3162,19 +3268,19 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 102,
+                        "id": 106,
                         "name": "ElementaryTypeName",
-                        "src": "1142:4:0"
+                        "src": "1179:4:0"
                       }
                     ],
-                    "id": 103,
+                    "id": 107,
                     "name": "VariableDeclaration",
-                    "src": "1142:4:0"
+                    "src": "1179:4:0"
                   }
                 ],
-                "id": 104,
+                "id": 108,
                 "name": "ParameterList",
-                "src": "1141:6:0"
+                "src": "1178:6:0"
               },
               {
                 "children": [
@@ -3208,16 +3314,16 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                137,
-                                138
+                                141,
+                                142
                               ],
-                              "referencedDeclaration": 138,
+                              "referencedDeclaration": 142,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 105,
+                            "id": 109,
                             "name": "Identifier",
-                            "src": "1158:7:0"
+                            "src": "1195:7:0"
                           },
                           {
                             "attributes": {
@@ -3240,13 +3346,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 100,
+                                  "referencedDeclaration": 104,
                                   "type": "uint256",
                                   "value": "_expenseId"
                                 },
-                                "id": 106,
+                                "id": 110,
                                 "name": "Identifier",
-                                "src": "1166:10:0"
+                                "src": "1203:10:0"
                               },
                               {
                                 "attributes": {
@@ -3258,14 +3364,14 @@
                                   "type": "uint256",
                                   "value": "expenseCount"
                                 },
-                                "id": 107,
+                                "id": 111,
                                 "name": "Identifier",
-                                "src": "1179:12:0"
+                                "src": "1216:12:0"
                               }
                             ],
-                            "id": 108,
+                            "id": 112,
                             "name": "BinaryOperation",
-                            "src": "1166:25:0"
+                            "src": "1203:25:0"
                           },
                           {
                             "attributes": {
@@ -3280,23 +3386,23 @@
                               "type": "literal_string \"Expense does not exist\"",
                               "value": "Expense does not exist"
                             },
-                            "id": 109,
+                            "id": 113,
                             "name": "Literal",
-                            "src": "1193:24:0"
+                            "src": "1230:24:0"
                           }
                         ],
-                        "id": 110,
+                        "id": 114,
                         "name": "FunctionCall",
-                        "src": "1158:60:0"
+                        "src": "1195:60:0"
                       }
                     ],
-                    "id": 111,
+                    "id": 115,
                     "name": "ExpressionStatement",
-                    "src": "1158:60:0"
+                    "src": "1195:60:0"
                   },
                   {
                     "attributes": {
-                      "functionReturnParameters": 104
+                      "functionReturnParameters": 108
                     },
                     "children": [
                       {
@@ -3331,9 +3437,9 @@
                                   "type": "mapping(uint256 => struct ExpenseTracker.Expense storage ref)",
                                   "value": "expenses"
                                 },
-                                "id": 112,
+                                "id": 116,
                                 "name": "Identifier",
-                                "src": "1235:8:0"
+                                "src": "1272:8:0"
                               },
                               {
                                 "attributes": {
@@ -3341,48 +3447,48 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 100,
+                                  "referencedDeclaration": 104,
                                   "type": "uint256",
                                   "value": "_expenseId"
                                 },
-                                "id": 113,
+                                "id": 117,
                                 "name": "Identifier",
-                                "src": "1244:10:0"
+                                "src": "1281:10:0"
                               }
                             ],
-                            "id": 114,
+                            "id": 118,
                             "name": "IndexAccess",
-                            "src": "1235:20:0"
+                            "src": "1272:20:0"
                           }
                         ],
-                        "id": 115,
+                        "id": 119,
                         "name": "MemberAccess",
-                        "src": "1235:29:0"
+                        "src": "1272:29:0"
                       }
                     ],
-                    "id": 116,
+                    "id": 120,
                     "name": "Return",
-                    "src": "1228:36:0"
+                    "src": "1265:36:0"
                   }
                 ],
-                "id": 117,
+                "id": 121,
                 "name": "Block",
-                "src": "1148:123:0"
+                "src": "1185:123:0"
               }
             ],
-            "id": 118,
+            "id": 122,
             "name": "FunctionDefinition",
-            "src": "1072:199:0"
+            "src": "1109:199:0"
           }
         ],
-        "id": 119,
+        "id": 123,
         "name": "ContractDefinition",
-        "src": "57:1216:0"
+        "src": "57:1253:0"
       }
     ],
-    "id": 120,
+    "id": 124,
     "name": "SourceUnit",
-    "src": "32:1242:0"
+    "src": "32:1279:0"
   },
   "compiler": {
     "name": "solc",
@@ -3392,12 +3498,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x8c76AaE24C184cA4830673Dca7e429BA9eDF13f0",
-      "transactionHash": "0x44400040ca1cb88af9deb144637d5bd984b94bbf015909f82902cb9f62ffa03f"
+      "address": "0x065d2202c7E4A0Fa024507EB91EDE8070996f6b3",
+      "transactionHash": "0xd529d35c6d60101cd47a23c75f23c669f452f5610466817990d42a1dbc6c66b8"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-06T15:34:08.705Z",
+  "updatedAt": "2024-02-06T16:10:11.449Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },

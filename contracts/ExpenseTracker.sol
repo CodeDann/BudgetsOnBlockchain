@@ -21,10 +21,11 @@ contract ExpenseTracker {
         return expenseId;
     }
 
-    function approveExpense(uint256 _expenseId) external {
+    function approveExpense(uint256 _expenseId) external returns (bool){
         require(_expenseId < expenseCount, "Expense does not exist");
         expenses[_expenseId].approved = true;
         emit ExpenseApproved(_expenseId, true);
+        return true;
     }
 
     function getExpenseAmount(uint256 _expenseId) external view returns (uint256) {

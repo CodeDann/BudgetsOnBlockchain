@@ -7,43 +7,51 @@ const { get } = require('ss/lib/AggreProto');
 const chainURL = 'http://127.0.0.1:7545';
 
 // define contract path and addresses
-// note: need to update address when new contract is deployed
+// note: need to update address when new contract is deployed or chain re-started
 const expenseTracker = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x8214b34124Edc13896890273A4BA09FE7C5C8274';
+const expenseTrackerAddress = '0x065d2202c7E4A0Fa024507EB91EDE8070996f6b3';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
 
-try {
-    // Connect to the Ethereum node
-    const web3 = new Web3(chainURL);
+// define approver address
+const approverAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
 
-
-    // get a contract instance and set default account
-    // contract = getContract(expensePath, expenseAddress, web3);
-    contract = getContract(expenseTracker, expenseTrackerAddress, web3);
-    contract.defaultAccount = myAddress;
-
-
-    // call function on contract
-    showAllExpenses(contract);
-
-    // getNumbExpenses(contract);
-
-    // expenseDetails = {
-    //     amount: 1234,
-    //     description: "test expense",
-    //     payee: "test payee"
-    // }
-    // createExpense(contract, expenseDetails);
-
-
-
-    // getExpenseAmount(contract, "0");
-
-} catch (error) {
-    console.error('Error running function:', error);
+async function main(){
+    try {
+        // Connect to the Ethereum node
+        const web3 = new Web3(chainURL);
+    
+    
+        // get a contract instance and set default account
+        // contract = getContract(expensePath, expenseAddress, web3);
+        contract = getContract(expenseTracker, expenseTrackerAddress, web3);
+        contract.defaultAccount = myAddress;
+    
+    
+        // call function on contract
+        await showAllExpenses(contract);
+        // await approveExpenseWithId(contract, 0);
+        await showExpenseStatus(contract, 0);
+    
+        // getNumbExpenses(contract);
+    
+        expenseDetails = {
+            amount: 1234,
+            description: "test expense",
+            payee: "test payee"
+        }
+        // createExpense(contract, expenseDetails);
+    
+    
+    
+        // getExpenseAmount(contract, "0");
+    
+    } catch (error) {
+        console.error('Error running function:', error);
+    }    
 }
+
 
 async function createExpense(contract, expenseDetails) {
     try {
@@ -108,3 +116,27 @@ async function showAllExpenses(contract){
         console.error('Error:', error);
     }
 }
+
+async function showExpenseStatus(contract, id) {
+    try {
+        // Call contract method
+        const status = await contract.methods.isExpenseApproved(id).call({from: myAddress});
+        console.log(`expense #${id} has approval status:`, status);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function approveExpenseWithId(contract, id) {
+    try {
+        // approve the expense
+        const message = await contract.methods.approveExpense(id).send({from: myAddress, gas: 3000000}); // Create a message
+        console.log('expense with id ', id, ' has been approved');
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+main();
