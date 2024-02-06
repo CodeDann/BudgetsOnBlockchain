@@ -7,13 +7,14 @@ contract ExpenseTracker {
         bool approved;
     }
 
+
     mapping(uint256 => Expense) public expenses;
     uint256 public expenseCount;
 
     event ExpenseCreated(uint256 indexed expenseId, uint256 amount);
     event ExpenseApproved(uint256 indexed expenseId, bool approved);
 
-    function createExpense(uint256 _amount) external returns (uint256){
+    function createExpense(uint256 _amount ) external returns (uint256){
         uint256 expenseId = expenseCount++;
         expenses[expenseId] = Expense(_amount, false);
         emit ExpenseCreated(expenseId, _amount);

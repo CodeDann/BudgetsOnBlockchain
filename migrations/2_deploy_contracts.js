@@ -1,5 +1,6 @@
-var et = artifacts.require("ExpenseTracker");
+var tracker = artifacts.require("ExpenseTracker");
 
 module.exports = function(deployer) {
-  deployer.deploy(et);
+  deployer.deploy(tracker);
+
 };

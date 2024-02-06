@@ -1,3 +1,8 @@
+
+/// old code
+// look in expenseStore.js for the full code
+
+
 const { Web3 } = require('web3');
 const fs = require('fs');
 
@@ -144,6 +149,19 @@ async function getExpenseAmount(contract, id) {
 // getContractVal(web3, expenseAddress);
 // web3.eth.getStorageAt(address, 0) simply needs contract address to read data from it
 async function getContractVal(web3, address){
+    try{
+        // const val = await web3.eth.getStorageAt(address, 0);
+        web3.eth.getStorageAt(address, 0).then(result => {
+            console.log(web3.utils.hexToAscii(result));
+          });
+        // console.log('Value:', val);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function getNumbExpenses
+(web3, address){
     try{
         // const val = await web3.eth.getStorageAt(address, 0);
         web3.eth.getStorageAt(address, 0).then(result => {
