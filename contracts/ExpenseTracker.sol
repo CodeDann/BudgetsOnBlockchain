@@ -20,7 +20,7 @@ contract ExpenseTracker {
     address private approverAddress = 0x4c57009d9bD53A00F58b8C5568081c9065E43E0A;
 
     event ExpenseCreated(uint256 indexed expenseId, uint256 amount);
-    event ExpenseApproved(uint256 indexed expenseId, bool approved);
+    event ExpenseApproved(uint256 indexed expenseId, bool approved, uint256 amount, string description, string payee);
 
     function createExpense(uint256 _amount, string calldata _description, string calldata _payee) external returns (uint256){
         uint256 expenseId = expenseCount++;
@@ -37,7 +37,7 @@ contract ExpenseTracker {
     function approveExpense(uint256 _expenseId) external onlyApprover returns (bool){
         require(_expenseId < expenseCount, "Expense does not exist");
         expenses[_expenseId].approved = true;
-        emit ExpenseApproved(_expenseId, true);
+        emit ExpenseApproved(_expenseId, true, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].payee);
         return true;
     }
 

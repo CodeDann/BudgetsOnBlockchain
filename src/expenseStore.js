@@ -1,7 +1,5 @@
 const { Web3 } = require('web3');
 const fs = require('fs');
-const { create } = require('domain');
-const { get } = require('ss/lib/AggreProto');
 
 // local chain url
 const chainURL = 'http://127.0.0.1:9545';
@@ -9,7 +7,7 @@ const chainURL = 'http://127.0.0.1:9545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTracker = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x49C8771092d5e18C1451c6941EeaD53B4383cfaC';
+const expenseTrackerAddress = '0x09D7537585702f46a636Bcc14368396C628eDA52';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
@@ -29,17 +27,17 @@ async function main(){
         contract.defaultAccount = myAddress;
     
     
-        // call function on contract
+        // call function on contract        
+    
+        expenseDetails = {
+            amount: 9912,
+            description: "road building",
+            payee: "0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31",
+        }
+        await createExpense(contract, expenseDetails);
 
         await approveExpenseWithId(contract, 0);
-        
-    
-        // expenseDetails = {
-        //     amount: 9912,
-        //     description: "road building",
-        //     payee: "0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31",
-        // }
-        // await createExpense(contract, expenseDetails);
+
     
         await showAllExpenses(contract);
     
