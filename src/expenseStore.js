@@ -9,7 +9,7 @@ const chainURL = 'http://127.0.0.1:7545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTracker = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x065d2202c7E4A0Fa024507EB91EDE8070996f6b3';
+const expenseTrackerAddress = '0x710ae80C39cc325e06B14bD8D60F9D66E9C921ed';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
@@ -31,16 +31,15 @@ async function main(){
     
         // call function on contract
         await showAllExpenses(contract);
-        // await approveExpenseWithId(contract, 0);
-        await showExpenseStatus(contract, 0);
+        await approveExpenseWithId1(contract, 0);
+        // await getExpenseDescriptionWithId(contract, 0);
+        
     
-        // getNumbExpenses(contract);
-    
-        expenseDetails = {
-            amount: 1234,
-            description: "test expense",
-            payee: "test payee"
-        }
+        // expenseDetails = {
+        //     amount: 1234,
+        //     description: "test expense",
+        //     payee: "test payee",
+        // }
         // createExpense(contract, expenseDetails);
     
     
@@ -109,8 +108,9 @@ async function showAllExpenses(contract){
         // Call contract method
         const numbExpenses = await contract.methods.expenseCount().call({from: myAddress});
         console.log(`there are ${numbExpenses} expenses in the system`);
-        for (let i = 0; i < numbExpenses; i++) {
-            const expense = getExpenseAmount(contract, i);
+        for (let i = 0; i < numbExpenses -1; i++) {
+            const expense = await contract.methods.printExpense(i).call({from: myAddress});
+            console.log(expense);
         }
     } catch (error) {
         console.error('Error:', error);
@@ -138,5 +138,24 @@ async function approveExpenseWithId(contract, id) {
     }
 }
 
+async function getExpenseDescriptionWithId(contract, id) {
+    try {
+        // Call contract method
+        const description = await contract.methods.getExpenseDescription(id).call({from: myAddress});
+        console.log(`expense #${id} has description:`, description);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function getExpensePayeeWithId(contract, id) {
+    try {
+        // Call contract method
+        const address = await contract.methods.getExpensePayee(id).call({from: myAddress});
+        console.log(`expense #${id} has payee address:`, address);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 main();
