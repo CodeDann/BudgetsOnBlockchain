@@ -4,8 +4,10 @@ module.exports = {
   networks: {
     develop: {
       host: "127.0.0.1",
-      port: 7545,
-      network_id: "*", // Match any network id
+      port: 9545,
+      network_id: "*", // Match any network id,
+      networkCheckTimeout: 10000, 
+      gas: 6721975,
     },
   },
   contracts_build_directory: "./src/abis/",

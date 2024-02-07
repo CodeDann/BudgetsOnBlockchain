@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+// note: need to change boolean approved into unint256 status ( approved = 1, rejected = 2, pending = 0)
 
-// import "@openzeppelin/contracts/utils/Strings.sol";
+
+pragma solidity 0.8.0;
 
 contract ExpenseTracker {
+
     struct Expense {
         uint256 amount;
         string description;
@@ -15,6 +17,8 @@ contract ExpenseTracker {
     mapping(uint256 => Expense) public expenses;
     uint256 public expenseCount;
 
+    address private approverAddress = 0x4c57009d9bD53A00F58b8C5568081c9065E43E0A;
+
     event ExpenseCreated(uint256 indexed expenseId, uint256 amount);
     event ExpenseApproved(uint256 indexed expenseId, bool approved);
 
@@ -25,7 +29,12 @@ contract ExpenseTracker {
         return expenseId;
     }
 
-    function approveExpense(uint256 _expenseId) external returns (bool){
+    modifier onlyApprover() {
+        require(msg.sender == approverAddress);
+        _;
+    }
+
+    function approveExpense(uint256 _expenseId) external onlyApprover returns (bool){
         require(_expenseId < expenseCount, "Expense does not exist");
         expenses[_expenseId].approved = true;
         emit ExpenseApproved(_expenseId, true);
@@ -37,7 +46,7 @@ contract ExpenseTracker {
         return expenses[_expenseId].amount;
     }
 
-    function isExpenseApproved(uint256 _expenseId) external view returns (bool) {
+    function getExpenseStatus(uint256 _expenseId) external view returns (bool) {
         require(_expenseId < expenseCount, "Expense does not exist");
         return expenses[_expenseId].approved;
     }
@@ -51,9 +60,5 @@ contract ExpenseTracker {
         require(_expenseId < expenseCount, "Expense does not exist");
         return expenses[_expenseId].payee;
     }
-
-    // function printExpense(uint256 _expenseId) external view returns (string memory) {
-    //     require(_expenseId < expenseCount, "Expense does not exist");
-    //     return string(abi.encodePacked("Expense ID: ", Strings.toString(_expenseId), ", Amount: ", Strings.toString(expenses[_expenseId].amount), ", Description: ", expenses[_expenseId].description, ", Payee: ", expenses[_expenseId].payee, ", Approved: ", expenses[_expenseId].approved ? "true" : "false"));
-    // }
+    
 }
