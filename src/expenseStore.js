@@ -29,17 +29,17 @@ async function main(){
     
         // call function on contract        
     
-        expenseDetails = {
-            amount: 9912,
-            description: "road building",
-            payee: "0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31",
-        }
-        await createExpense(contract, expenseDetails);
+        // expenseDetails = {
+        //     amount: 10100,
+        //     description: "road building",
+        //     payee: "0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31",
+        // }
+        // await createExpense(contract, expenseDetails);
 
-        await approveExpenseWithId(contract, 0);
+        await approveExpenseWithId(contract, 14);
 
     
-        await showAllExpenses(contract);
+        // await showAllExpenses(contract);
     
     } catch (error) {
         console.error('Error running function:', error);
