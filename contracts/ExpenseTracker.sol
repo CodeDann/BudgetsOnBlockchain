@@ -35,29 +35,29 @@ contract ExpenseTracker {
     }
 
     function approveExpense(uint256 _expenseId) external onlyApprover returns (bool){
-        require(_expenseId < expenseCount, "Expense does not exist");
+        require(_expenseId < expenseCount, "Expense does not exist in the system!");
         expenses[_expenseId].approved = true;
         emit ExpenseApproved(_expenseId, true, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].payee);
         return true;
     }
 
     function getExpenseAmount(uint256 _expenseId) external view returns (uint256) {
-        require(_expenseId < expenseCount, "Expense does not exist");
+        require(_expenseId < expenseCount, "Expense does not exist in the system!");
         return expenses[_expenseId].amount;
     }
 
     function getExpenseStatus(uint256 _expenseId) external view returns (bool) {
-        require(_expenseId < expenseCount, "Expense does not exist");
+        require(_expenseId < expenseCount, "Expense does not exist in the system!");
         return expenses[_expenseId].approved;
     }
 
     function getExpenseDescription(uint256 _expenseId) external view returns (string memory) {
-        require(_expenseId < expenseCount, "Expense does not exist");
+        require(_expenseId < expenseCount, "Expense does not exist in the system!");
         return expenses[_expenseId].description;
     }
 
     function getExpensePayee(uint256 _expenseId) external view returns (string memory) {
-        require(_expenseId < expenseCount, "Expense does not exist");
+        require(_expenseId < expenseCount, "Expense does not exist in the system!");
         return expenses[_expenseId].payee;
     }
     

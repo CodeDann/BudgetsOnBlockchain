@@ -7,7 +7,7 @@ const chainURL = 'HTTP://127.0.0.1:9545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const abiPath = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x09D7537585702f46a636Bcc14368396C628eDA52';
+const expenseTrackerAddress = '0x963b32715f4fbF3f47D3E6f0F9c0838E9235c4f1';
 
 
 function getABI(contractPath){
@@ -25,20 +25,21 @@ async function listenForEvents(){
     
 
     // listen to any ExpenseCreated events
-    // contract.on("ExpenseCreated", (expenseId, amount) => {
-    //     console.log(`Expense Created with ID: ${expenseId.toString()} and Amount: ${amount.toString()}`);
-    // });
+    contract.on("ExpenseCreated", (expenseId, amount) => {
+        console.log(`Expense Created with ID: ${expenseId.toString()} and Amount: ${amount.toString()}`);
+    });
 
-    //listen to any ExpenseApproved events
+    //listen to any ExpenseApproved events and flag if they are over an amount
     contract.on("ExpenseApproved", (expenseId, approver, amount, description, payee) => {
         if (approver === payee){
             console.log("RED FLAG! Approver and Payee are the same!");
         }
-        if (amount > 10000){
-            console.log("RED FLAG! Amount over 10000!");
+        if (amount > 1000){
+            console.log("RED FLAG! Expense approved with amount over 1000!");
         }
     });
 
+    console.log(`Client is listening to ${chainURL}`);
     // Keep the script running to listen for events every 500ms
     while(true){
         await new Promise(resolve => setTimeout(resolve, 500)); // Wait for 1 second in each iteration

@@ -7,7 +7,7 @@ const chainURL = 'http://127.0.0.1:9545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTracker = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x09D7537585702f46a636Bcc14368396C628eDA52';
+const expenseTrackerAddress = '0x963b32715f4fbF3f47D3E6f0F9c0838E9235c4f1';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
@@ -28,18 +28,37 @@ async function main(){
     
     
         // call function on contract        
-    
-        // expenseDetails = {
-        //     amount: 10100,
-        //     description: "road building",
-        //     payee: "0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31",
+        
+        // ----------- EXAMPLES ------------
+        // EXAMPLE 1: Create an expense
+        // Expense details gathered from: https://datamillnorth.org/dataset/2gpp0/council-spending
+        // December 2023
+
+        // expenseDetail1 = {
+        //     amount: 5400,
+        //     description: "Sheltered Accommodation",
+        //     payee: "A & V TRANSITIONAL HOMES",
         // }
-        // await createExpense(contract, expenseDetails);
 
-        await approveExpenseWithId(contract, 14);
+        // expenseDetail2 = {
+        //     amount: 198,
+        //     description: "Operational Materials",
+        //     payee: "A C Entertainment Technologies Ltd",
+        // }
 
-    
+        // await createExpense(contract, expenseDetail1);
+        // await createExpense(contract, expenseDetail2);
+
+
+        // EXAMPLE 2: Show details of all expenses
         // await showAllExpenses(contract);
+
+
+        // EXAMPLE 3: Approve an expense ( with correct approver address)
+        await approveExpenseWithId(contract, 0);    
+
+        await showAllExpenses(contract);
+
     
     } catch (error) {
         console.error('Error running function:', error);
