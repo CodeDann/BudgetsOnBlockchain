@@ -2,7 +2,7 @@
 // note: need to change boolean approved into unint256 status ( approved = 1, rejected = 2, pending = 0)
 
 
-pragma solidity 0.8.0;
+pragma solidity ^0.8.0;
 
 contract ExpenseTracker {
 

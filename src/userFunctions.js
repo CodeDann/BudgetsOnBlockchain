@@ -9,7 +9,7 @@ const chainURL = 'http://127.0.0.1:9545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTracker = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x963b32715f4fbF3f47D3E6f0F9c0838E9235c4f1';
+const expenseTrackerAddress = '0x970952aad18f988Cc1722C849863F8bcFbe9f1AC';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
