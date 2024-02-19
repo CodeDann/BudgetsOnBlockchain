@@ -1,6 +1,8 @@
 // external libraries
 const { Web3 } = require('web3');
 var express = require('express');
+var bodyParser = require('body-parser')
+var cors = require('cors');
 const fs = require('fs');
 
 // local chain url
@@ -19,6 +21,10 @@ const approverAddress = '0x4c57009d9bD53A00F58b8C5568081c9065E43E0A';
 
 
 var app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.get('/listExpenses', async function (req, res) {
     expenseList = await showAllExpenses(contract);
@@ -27,11 +33,15 @@ app.get('/listExpenses', async function (req, res) {
 
 app.post('/createExpense', async function (req, res) {
 
+
     let dummyExpense = {
-        amount: req.query.amount,
-        description: req.query.description,
-        payee: req.query.payee,
+        amount: req.body.amount,
+        description: req.body.description,
+        payee: req.body.payee,
     }
+
+    console.log(req.body)
+
 
     //check if any query parameters are undefined and send error code if so
     if( dummyExpense.amount == undefined || dummyExpense.description == undefined || dummyExpense.payee == undefined ){
