@@ -92,7 +92,7 @@ app.get('/listenForEvents', async function (req, res) {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    res.write('data: Connection open and listening to event type: ' + type + '\n\n');
+    // res.write('data: {Connection open and listening to event type: ' + type + '}');
 
     try {
         // Assuming ethersContract is defined and accessible here
