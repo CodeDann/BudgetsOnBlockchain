@@ -10,12 +10,12 @@ var cors = require('cors');
 
 
 // local chain url
-const chainURL = 'http://127.0.0.1:9545';
+const chainURL = 'http://127.0.0.1:7545';
 
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTrackerAbi = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x970952aad18f988Cc1722C849863F8bcFbe9f1AC';
+const expenseTrackerAddress = '0x37ade47744D678168e8582AC421054588654Aea6';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
@@ -73,7 +73,8 @@ app.post('/approveExpense', async function (req, res) {
 
 
 app.get('/listenForEvents', async function (req, res) {
-    // get the event type from the query parameters
+
+    // get the event type from the req
     type = req.query.type;
 
     if (type == undefined){
@@ -314,8 +315,8 @@ async function* listenForEventCreated(ethersContract) {
     while (true) {
         // Create a promise that resolves when the event occurs
         const eventPromise = new Promise((resolve) => {
-            ethersContract.once("ExpenseCreated", (expenseId, amount, payee) => {
-                customEvent = { type: "ExpenseCreated", expenseId: expenseId.toString(), amount: amount.toString(), payee: payee.toString()};
+            ethersContract.once("ExpenseCreated", (expenseId, amount, description, payee) => {
+                customEvent = { type: "ExpenseCreated", expenseId: expenseId.toString(), amount: amount.toString(), description: description.toString(), payee: payee.toString()};
                 resolve(customEvent);
             });
         });

@@ -19,13 +19,13 @@ contract ExpenseTracker {
 
     address private approverAddress = 0x4c57009d9bD53A00F58b8C5568081c9065E43E0A;
 
-    event ExpenseCreated(uint256 indexed expenseId, uint256 amount);
+    event ExpenseCreated(uint256 indexed expenseId, uint256 amount, string description, string payee);
     event ExpenseApproved(uint256 indexed expenseId, bool approved, uint256 amount, string description, string payee);
 
     function createExpense(uint256 _amount, string calldata _description, string calldata _payee) external returns (uint256){
         uint256 expenseId = expenseCount++;
         expenses[expenseId] = Expense(_amount, _description, _payee, false);
-        emit ExpenseCreated(expenseId, _amount);
+        emit ExpenseCreated(expenseId, _amount, _description, _payee);
         return expenseId;
     }
 
