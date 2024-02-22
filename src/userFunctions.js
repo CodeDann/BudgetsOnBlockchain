@@ -2,6 +2,7 @@
 const { Web3 } = require('web3');
 var express = require('express');
 const fs = require('fs');
+const ethers = require("ethers");
 
 // middleware
 var bodyParser = require('body-parser')
@@ -13,7 +14,7 @@ const chainURL = 'http://127.0.0.1:9545';
 
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
-const expenseTracker = 'src/abis/ExpenseTracker.json';
+const expenseTrackerAbi = 'src/abis/ExpenseTracker.json';
 const expenseTrackerAddress = '0x970952aad18f988Cc1722C849863F8bcFbe9f1AC';
 
 // define sender address
@@ -70,6 +71,67 @@ app.post('/approveExpense', async function (req, res) {
     return;
 });
 
+
+app.get('/listenForEvents', async function (req, res) {
+    // get the event type from the query parameters
+    type = req.query.type;
+
+    if (type == undefined){
+        res.status(400).send('No event type provided');
+        return;
+    }
+
+    if (type != "ExpenseCreated" && type != "ExpenseApproved"){
+        res.status(400).send('Invalid event type provided');
+        return;
+    }
+
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    res.write('data: Connection open and listening to event type: ' + type + '\n\n');
+
+    try {
+        // Assuming ethersContract is defined and accessible here
+        // Assuming listenForEvents is an async generator function that yields events
+
+        switch( type ){
+
+            case "ExpenseCreated":
+                for await (let event of listenForEventCreated(ethersContract)) {
+                    // Send event to client
+                    res.write(`data: ${JSON.stringify(event)}\n\n`);
+        
+                    // If the event is "connection-close", close the connection
+                    if (event.type === 'connection-close') {
+                        res.end();
+                        break;
+                    }
+                }
+                break;
+            case "ExpenseApproved":
+                for await (let event of listenForEventApproved(ethersContract)) {
+                    // Send event to client
+                    res.write(`data: ${JSON.stringify(event)}\n\n`);
+        
+                    // If the event is "connection-close", close the connection
+                    if (event.type === 'connection-close') {
+                        res.end();
+                        break;
+                    }
+                }
+                break;
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error listening for events');
+    }
+});
+
+
 var server = app.listen(1234, function () {
     try{
         console.log("Express App running at http://127.0.0.1:1234/");
@@ -80,9 +142,16 @@ var server = app.listen(1234, function () {
         const web3 = new Web3(chainURL);
         
         // get a contract instance and set default account
-        // contract = getContract(expensePath, expenseAddress, web3);
-        contract = getContract(expenseTracker, expenseTrackerAddress, web3);
+        contract = getContract(expenseTrackerAbi, expenseTrackerAddress, web3);
         contract.defaultAccount = myAddress;
+
+        // Get the ethers provider and contract ( for listening to events )
+        try {
+            const provider = new ethers.JsonRpcProvider(chainURL);
+            ethersContract = new ethers.Contract(expenseTrackerAddress, getABI(expenseTrackerAbi), provider);     
+        } catch (error) {
+            console.error('Error:', error);
+        }
 
         // check if ganache server is responding
         web3.eth.net.isListening().catch( FetchError => {
@@ -97,59 +166,15 @@ var server = app.listen(1234, function () {
 
     }
     catch ( Error ){
-        console.error("Error starting express server");
+        console.error("Error starting express server: ", Error);
     }
 })
 
-async function main(){
-    try {
-        // Connect to the Ethereum node
-        const web3 = new Web3(chainURL);
-    
-    
-        // get a contract instance and set default account
-        // contract = getContract(expensePath, expenseAddress, web3);
-        contract = getContract(expenseTracker, expenseTrackerAddress, web3);
-        contract.defaultAccount = myAddress;
-    
-    
-        // call function on contract        
-        
-        // ----------- EXAMPLES ------------
-        // EXAMPLE 1: Create an expense
-        // Expense details gathered from: https://datamillnorth.org/dataset/2gpp0/council-spending
-        // December 2023
-
-        // expenseDetail1 = {
-        //     amount: 5400,
-        //     description: "Sheltered Accommodation",
-        //     payee: "A & V TRANSITIONAL HOMES",
-        // }
-
-        // expenseDetail2 = {
-        //     amount: 198,
-        //     description: "Operational Materials",
-        //     payee: "A C Entertainment Technologies Ltd",
-        // }
-
-        // await createExpense(contract, expenseDetail1);
-        // await createExpense(contract, expenseDetail2);
 
 
-        // EXAMPLE 2: Show details of all expenses
-        // await showAllExpenses(contract);
 
 
-        // EXAMPLE 3: Approve an expense ( with correct approver address)
-        await approveExpenseWithId(contract, 0);    
 
-        await showAllExpenses(contract);
-
-    
-    } catch (error) {
-        console.error('Error running function:', error);
-    }    
-}
 
 async function createExpense(contract, expenseDetails) {
     try {
@@ -190,6 +215,15 @@ function getContract(contractPath, contractAddress, web3) {
     }
 
 }
+
+
+function getABI(contractPath){
+    const contractAbiFile = fs.readFileSync(contractPath, 'utf-8');
+    const contractAbi = JSON.parse(contractAbiFile).abi;
+
+    return contractAbi;
+}
+
 
 async function getNumbExpenses(contract) { 
     try {
@@ -274,4 +308,70 @@ async function getExpensePayeeWithId(contract, id) {
     }
 }
 
-// main();
+async function* listenForEventCreated(ethersContract) {
+
+    // listen to any ExpenseCreated events
+    while (true) {
+        // Create a promise that resolves when the event occurs
+        const eventPromise = new Promise((resolve) => {
+            ethersContract.once("ExpenseCreated", (expenseId, amount, payee) => {
+                customEvent = { type: "ExpenseCreated", expenseId: expenseId.toString(), amount: amount.toString(), payee: payee.toString()};
+                resolve(customEvent);
+            });
+        });
+
+        // Yield the promise
+        yield eventPromise;
+    }
+}
+
+async function* listenForEventApproved(ethersContract) {
+
+    // listen to any ExpenseApproved events
+    while (true) {
+        // Create a promise that resolves when the event occurs
+        const eventPromise = new Promise((resolve) => {
+            ethersContract.once("ExpenseApproved", (expenseId, approver, amount, description, payee) => {
+                customEvent = { type: "ExpenseApproved", expenseId: expenseId.toString(), approver: approver.toString(), amount: amount.toString(), description: description.toString(), payee: payee.toString()};
+                resolve(customEvent);
+            });
+        });
+
+        // Yield the promise
+        yield eventPromise;
+    }
+}
+
+// async function* listenForEvents(ethersContract){
+
+//     // listen to any ExpenseCreated events
+//     // ethersContract.on("ExpenseCreated", (expenseId, amount) => {
+//     //     customEvent = { type: "ExpenseCreated", expenseId: expenseId, amount: amount };
+//     //     yield customEvent;
+
+
+//     //     // return (`Expense Created with ID: ${expenseId.toString()} and Amount: ${amount.toString()}`);
+//     // });
+
+//     //listen to any events and return them
+//     ethersContract.on("event", (event) => {
+//         yield event
+//     }
+
+//     // //listen to any ExpenseApproved events and flag if they are over an amount
+//     // ethersContract.on("ExpenseApproved", (expenseId, approver, amount, description, payee) => {
+//     //     if (approver === payee){
+//     //         console.log("RED FLAG! Approver and Payee are the same!");
+//     //     }
+//     //     if (amount > 1000){
+//     //         console.log("RED FLAG! Expense approved with amount over 1000!");
+//     //     }
+//     // });
+
+//     // console.log(`Client is listening to ${chainURL}`);
+//     // Keep the script running to listen for events every 500ms
+//     // while(true){
+//     //     await new Promise(resolve => setTimeout(resolve, 500)); // Wait for 1 second in each iteration
+//     // }
+
+// }
