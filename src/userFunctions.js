@@ -1,9 +1,12 @@
 // external libraries
 const { Web3 } = require('web3');
 var express = require('express');
+const fs = require('fs');
+
+// middleware
 var bodyParser = require('body-parser')
 var cors = require('cors');
-const fs = require('fs');
+
 
 // local chain url
 const chainURL = 'http://127.0.0.1:9545';
@@ -19,7 +22,7 @@ const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
 // define approver address
 const approverAddress = '0x4c57009d9bD53A00F58b8C5568081c9065E43E0A';
 
-
+// create express app and add middleware
 var app = express();
 app.use(cors());
 app.use(bodyParser.json()); // add this line
@@ -28,6 +31,8 @@ app.use(bodyParser.json()); // add this line
 app.get('/listExpenses', async function (req, res) {
     expenseList = await showAllExpenses(contract);
     res.send(expenseList);
+    console.log("Expense List sent");
+    return
 })
 
 app.post('/createExpense', async function (req, res) {
@@ -46,12 +51,14 @@ app.post('/createExpense', async function (req, res) {
 
     id = await createExpense(contract, dummyExpense);
     res.send(`Expense created successfully, Expense ID: ${id}`); 
+    console.log(`Expense created successfully, Expense ID: ${id}`);
     return;
 });
 
 app.post('/approveExpense', async function (req, res) {
 
-    let id = req.query.id;
+    let id = req.body.id;
+
     if( id == undefined ){
         res.status(400).send('No id provided');
         return;
@@ -77,7 +84,17 @@ var server = app.listen(1234, function () {
         contract = getContract(expenseTracker, expenseTrackerAddress, web3);
         contract.defaultAccount = myAddress;
 
-        console.log(`Connected Successfully!`);
+        // check if ganache server is responding
+        web3.eth.net.isListening().catch( FetchError => {
+            console.error("Error connecting to ganache server! Please check that it is running");
+            console.log("Exiting....");
+            process.exit(1);
+        }).finally( () => {
+            console.log("Connected!");
+        });
+        
+
+
     }
     catch ( Error ){
         console.error("Error starting express server");
@@ -227,8 +244,7 @@ async function getExpenseStatus(contract, id) {
 }
 
 async function approveExpenseWithId(contract, id) {
-    try {
-        // approve the expense
+    try {        
         const message = await contract.methods.approveExpense(id).send({from: approverAddress, gas: 3000000}); // Create a message
         return message.events.ExpenseApproved.returnValues.expenseId;
     } catch (error) {
