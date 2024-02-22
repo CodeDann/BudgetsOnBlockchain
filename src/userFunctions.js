@@ -15,7 +15,7 @@ const chainURL = 'http://127.0.0.1:7545';
 // define contract path and addresses
 // note: need to update address when new contract is deployed or chain re-started
 const expenseTrackerAbi = 'src/abis/ExpenseTracker.json';
-const expenseTrackerAddress = '0x37ade47744D678168e8582AC421054588654Aea6';
+const expenseTrackerAddress = '0x3c9CD25CcED22a8C124f9D016b690455929D4982';
 
 // define sender address
 const myAddress = '0x05867a49E08E81564bc3Fd29Bb34531Dba2C9c31';
@@ -332,8 +332,8 @@ async function* listenForEventApproved(ethersContract) {
     while (true) {
         // Create a promise that resolves when the event occurs
         const eventPromise = new Promise((resolve) => {
-            ethersContract.once("ExpenseApproved", (expenseId, approver, amount, description, payee) => {
-                customEvent = { type: "ExpenseApproved", expenseId: expenseId.toString(), approver: approver.toString(), amount: amount.toString(), description: description.toString(), payee: payee.toString()};
+            ethersContract.once("ExpenseApproved", (expenseId, approved, amount, description, payee) => {
+                customEvent = { type: "ExpenseApproved", expenseId: expenseId.toString(), approved: approved.toString(), amount: amount.toString(), description: description.toString(), payee: payee.toString()};
                 resolve(customEvent);
             });
         });
