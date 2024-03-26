@@ -1,64 +1,114 @@
 // SPDX-License-Identifier: MIT
-// note: need to change boolean approved into unint256 status ( approved = 1, rejected = 2, pending = 0)
-
-
 pragma solidity ^0.8.0;
 
 contract ExpenseTracker {
 
-    struct Expense {
-        uint256 amount;
-        string description;
-        string payee;
-        bool approved;
-    }
-
-
-    mapping(uint256 => Expense) public expenses;
-    uint256 public expenseCount;
-
-    address private approverAddress = 0x4c57009d9bD53A00F58b8C5568081c9065E43E0A;
-
-    event ExpenseCreated(uint256 indexed expenseId, uint256 amount, string description, string payee);
-    event ExpenseApproved(uint256 indexed expenseId, bool approved, uint256 amount, string description, string payee);
-
-    function createExpense(uint256 _amount, string calldata _description, string calldata _payee) external returns (uint256){
-        uint256 expenseId = expenseCount++;
-        expenses[expenseId] = Expense(_amount, _description, _payee, false);
-        emit ExpenseCreated(expenseId, _amount, _description, _payee);
-        return expenseId;
-    }
-
+    // address of the approver is set to the deployer of the contract
+    address private approverAddress = msg.sender;
+    // modifier to check if the caller is the approver
     modifier onlyApprover() {
-        require(msg.sender == approverAddress);
+        require(msg.sender == approverAddress, "Only the approver can call this function!");
+        _;
+    }
+    // modiefier to check if the expense exits
+    modifier expenseExists(uint256 _expenseId) {
+        require(_expenseId <= expenseCount, "Expense does not exist in the system!");
+        _;
+    }
+    // modifier to check if the caller is a known payee
+    modifier onlyKnownPayee() {
+        require(knownPayees[msg.sender], "Only known payees can create expenses!");
         _;
     }
 
-    function approveExpense(uint256 _expenseId) external onlyApprover returns (bool){
-        require(_expenseId < expenseCount, "Expense does not exist in the system!");
-        expenses[_expenseId].approved = true;
-        emit ExpenseApproved(_expenseId, true, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].payee);
-        return true;
+    enum Status { Pending, Approved, Rejected }
+    // Define an Expense
+    // Amount: the amount of the expense
+    // Description: the description of the work completed
+    // IBAN: the IBAN of the payee to send the funds to
+    // payee_identifier: the address of the payee to identify them
+    // status: the status of the expense (Pending, Approved, Rejected)
+    struct Expense {
+        uint256 id;
+        uint256 amount;
+        string description;
+        string IBAN;
+        address payee_identifier;
+        Status status;
+    }
+    // Mapping of expenses
+    mapping(uint256 => Expense) public expenses;
+    // count of expenses
+    uint256 public expenseCount;
+    // known payees list
+    mapping(address => bool) public knownPayees;
+
+
+    // -------- Events --------
+    // event to log the creation of an expense
+    event ExpenseCreated(uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseApproved(uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseRejected(uint256 amount, string description, string IBAN, address payee_identifier);
+
+    // Create an expense with given parameters
+    function createExpense(uint256 _amount, string calldata _description, string calldata _IBAN) external onlyKnownPayee(){
+        expenses[expenseCount] = Expense(expenseCount, _amount, _description, _IBAN, msg.sender, Status.Pending);
+        // emit expense created event 
+        emit ExpenseCreated(_amount, _description, _IBAN, msg.sender);
+        expenseCount++;
     }
 
-    function getExpenseAmount(uint256 _expenseId) external view returns (uint256) {
-        require(_expenseId < expenseCount, "Expense does not exist in the system!");
+
+    // -------- Approve/Reject --------
+    // approve expense with given id: only the approver can call this function
+    function approveExpense(uint256 _expenseId) external onlyApprover expenseExists(_expenseId) {
+        expenses[_expenseId].status = Status.Approved;
+        emit ExpenseApproved(expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+    }
+    // reject expense with given id: only the approver can call this function
+    function rejectExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId){
+        expenses[_expenseId].status = Status.Rejected;
+        emit ExpenseRejected(expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+    }
+
+    // -------- Add/Remove Payees --------
+     // add a payee to the known payees list
+    function addPayee(address _payee) external onlyApprover {
+        knownPayees[_payee] = true;
+    }
+    // remove a payee from the known payees list
+    function removePayee(address _payee) external onlyApprover {
+        knownPayees[_payee] = false;
+    }
+
+    // -------- Getters --------
+    function getExpenseStatus(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
+        if (expenses[_expenseId].status == Status.Pending) {
+            return "Pending";
+        } else if (expenses[_expenseId].status == Status.Approved) {
+            return "Approved";
+        } else {
+            return "Rejected";
+        }
+    }
+
+    function getExpenseAmount(uint256 _expenseId) external expenseExists(_expenseId) view returns (uint256) {
         return expenses[_expenseId].amount;
     }
 
-    function getExpenseStatus(uint256 _expenseId) external view returns (bool) {
-        require(_expenseId < expenseCount, "Expense does not exist in the system!");
-        return expenses[_expenseId].approved;
-    }
-
-    function getExpenseDescription(uint256 _expenseId) external view returns (string memory) {
-        require(_expenseId < expenseCount, "Expense does not exist in the system!");
+    function getExpenseDescription(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
         return expenses[_expenseId].description;
     }
 
-    function getExpensePayee(uint256 _expenseId) external view returns (string memory) {
-        require(_expenseId < expenseCount, "Expense does not exist in the system!");
-        return expenses[_expenseId].payee;
+    function getExpenseIBAN(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
+        return expenses[_expenseId].IBAN;
     }
-    
+
+    function getExpensePayeeIdentifier(uint256 _expenseId) external expenseExists(_expenseId) view returns (address) {
+        return expenses[_expenseId].payee_identifier;
+    }
+
+    function getExpenseCount() external view returns (uint256) {
+        return expenseCount;
+    }
 }
