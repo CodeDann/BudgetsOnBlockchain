@@ -17,7 +17,7 @@ contract ExpenseTracker {
     }
     // modifier to check if the caller is a known payee
     modifier onlyKnownPayee() {
-        require(knownPayees[msg.sender], "Only known payees can create expenses!");
+        require(knownPayees[msg.sender], "Only known payees can create expenses! Please contact the council to be added to the list.");
         _;
     }
 
