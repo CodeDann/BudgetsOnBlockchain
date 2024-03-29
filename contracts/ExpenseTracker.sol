@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+import "./CouncilProjectRegulation.sol";
 
 contract ExpenseTracker {
 
@@ -10,16 +11,20 @@ contract ExpenseTracker {
     string public ProjectName;
     uint256 public ProjectIdentifier;
     uint256 public ProjectBudget;
+    address public RegulatorContractAddress;
+    CouncilProjectRegulation regulator;
 
     // these details are set upon creation
     // the approver is set as the person who deploys the contract
-    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget) {
+    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget, address _RegulatorContractAddress) {
         approverAddress = msg.sender;
         CouncilName = _CouncilName;
         CouncilIdentifier = _CouncilIdentifier;
         ProjectName = _ProjectName;
         ProjectIdentifier = _ProjectIdentifier;
         ProjectBudget = _ProjectBudget;
+        RegulatorContractAddress = _RegulatorContractAddress;
+        regulator = CouncilProjectRegulation(RegulatorContractAddress);
     }
 
     // modifier to check if the caller is the approver
@@ -81,6 +86,8 @@ contract ExpenseTracker {
     function approveExpense(uint256 _expenseId) external onlyApprover expenseExists(_expenseId) {
         expenses[_expenseId].status = Status.Approved;
         emit ExpenseApproved(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+        // call the regulatory module to check the expense
+        regulator.checkExpenseValue(_expenseId, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].payee_identifier, approverAddress, CouncilIdentifier, ProjectIdentifier, ProjectBudget);
     }
     // reject expense with given id: only the approver can call this function
     function rejectExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId){
