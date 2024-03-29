@@ -8,12 +8,7 @@ async function createExpense(expenseTracker, amount, description, iban){
         const val = await expenseTracker.createExpense(amount, description, iban);
         return val;
     } catch ( error ){
-        if ( error.reason ) {
-            console.log(`Error: ${error.reason}`);
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    
+       throw error;
     }
 }
 
@@ -23,12 +18,8 @@ async function approveExpense(expenseTracker, expenseId){
         const val = await expenseTracker.approveExpense(expenseId);
         return val;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function rejectExpense(expenseTracker, expenseId){
@@ -36,12 +27,8 @@ async function rejectExpense(expenseTracker, expenseId){
         const val = await expenseTracker.rejectExpense(expenseId);
         return val;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 // --- Add / Remove Payees ---
@@ -50,11 +37,7 @@ async function addPayee(expenseTracker, payeeIdentifier){
     try {
         await expenseTracker.addPayee(payeeIdentifier);
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }
+        throw error;
     }
 }
 
@@ -62,11 +45,7 @@ async function removePayee(expenseTracker, payeeIdentifier){
     try {
         await expenseTracker.removePayee(payeeIdentifier);
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }
+        throw error;
     }
 }
 
@@ -78,11 +57,8 @@ async function getExpenseStatus(expenseTracker, expenseId){
         const status = await expenseTracker.getExpenseStatus(expenseId);
         return status;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function getExpenseAmount(expenseTracker, expenseId){
@@ -90,11 +66,8 @@ async function getExpenseAmount(expenseTracker, expenseId){
         const amount = await expenseTracker.getExpenseAmount(expenseId);
         return amount;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function getExpenseDescription(expenseTracker, expenseId){
@@ -102,11 +75,8 @@ async function getExpenseDescription(expenseTracker, expenseId){
         const description = await expenseTracker.getExpenseDescription(expenseId);
         return description;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function getExpenseIBAN(expenseTracker, expenseId){
@@ -114,11 +84,8 @@ async function getExpenseIBAN(expenseTracker, expenseId){
         const iban = await expenseTracker.getExpenseIBAN(expenseId);
         return iban;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function getExpensePayeeIdentifier(expenseTracker, expenseId){
@@ -126,11 +93,8 @@ async function getExpensePayeeIdentifier(expenseTracker, expenseId){
         const payeeIdentifier = await expenseTracker.getExpensePayeeIdentifier(expenseId);
         return payeeIdentifier;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 async function getExpenseCount(expenseTracker){
@@ -138,17 +102,15 @@ async function getExpenseCount(expenseTracker){
         const count = await expenseTracker.getExpenseCount();
         return count;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
 }
 
 // -- get all details of an expense
 async function getExpenseDetails(expenseTracker, expenseId){
     try {
         const details = {
+            id: expenseId,
             status: await getExpenseStatus(expenseTracker, expenseId),
             amount: (await getExpenseAmount(expenseTracker, expenseId)).toString(),
             description: await getExpenseDescription(expenseTracker, expenseId),
@@ -174,11 +136,24 @@ async function getAllExpenses(expenseTracker){
         }
         return expenses;
     } catch ( error ){
-        if ( error.reason ) {
-            return error.reason;
-        } else {
-            console.log( `Error: ${error}` )
-        }    }
+        throw error;
+    }
+}
+
+async function getMyExpenses(expenseTracker, myAddress){
+    try {
+        const count = await getExpenseCount(expenseTracker);
+        const expenses = [];
+        for (let i = 0; i < count; i++){
+            const details = await getExpenseDetails(expenseTracker, i);
+            if (details.payeeIdentifier === myAddress){
+                expenses.push(details);
+            }
+        }
+        return expenses;
+    } catch ( error ){
+        throw error;
+    }
 }
 
 module.exports = {
@@ -194,5 +169,6 @@ module.exports = {
     getExpenseDetails,
     getAllExpenses,
     addPayee,
-    removePayee
+    removePayee,
+    getMyExpenses
 };

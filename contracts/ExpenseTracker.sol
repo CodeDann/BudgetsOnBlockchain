@@ -46,15 +46,15 @@ contract ExpenseTracker {
 
     // -------- Events --------
     // event to log the creation of an expense
-    event ExpenseCreated(uint256 amount, string description, string IBAN, address payee_identifier);
-    event ExpenseApproved(uint256 amount, string description, string IBAN, address payee_identifier);
-    event ExpenseRejected(uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseCreated(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseApproved(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseRejected(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
 
     // Create an expense with given parameters
     function createExpense(uint256 _amount, string calldata _description, string calldata _IBAN) external onlyKnownPayee(){
         expenses[expenseCount] = Expense(expenseCount, _amount, _description, _IBAN, msg.sender, Status.Pending);
         // emit expense created event 
-        emit ExpenseCreated(_amount, _description, _IBAN, msg.sender);
+        emit ExpenseCreated(expenseCount, _amount, _description, _IBAN, msg.sender);
         expenseCount++;
     }
 
@@ -63,12 +63,12 @@ contract ExpenseTracker {
     // approve expense with given id: only the approver can call this function
     function approveExpense(uint256 _expenseId) external onlyApprover expenseExists(_expenseId) {
         expenses[_expenseId].status = Status.Approved;
-        emit ExpenseApproved(expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+        emit ExpenseApproved(expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
     }
     // reject expense with given id: only the approver can call this function
     function rejectExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId){
         expenses[_expenseId].status = Status.Rejected;
-        emit ExpenseRejected(expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+        emit ExpenseRejected(expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
     }
 
     // -------- Add/Remove Payees --------
