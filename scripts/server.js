@@ -82,6 +82,12 @@ app.post('/listExpenses', async function (req, res) {
     }
     ExpenseTracker = users[req.body.sessionID];
 
+    console.log(await ExpenseTracker.CouncilName());
+    console.log(await ExpenseTracker.CouncilIdentifier());
+    console.log(await ExpenseTracker.approverAddress());
+
+
+
     try{
         expenseList = await ETHandler.getAllExpenses(ExpenseTracker);
         res.send(expenseList);
@@ -386,8 +392,8 @@ async function* listenForStandardEvent(ethersContract, event) {
     while (true) {
         // Create a promise that resolves when the event occurs;
         const eventPromise = new Promise((resolve) => {
-            ethersContract.on(event, (expenseId, amount, description, IBAN, payee_identifier) => {
-                customEvent = { type: event, expenseId: expenseId.toString(), amount: amount.toString(), description: description.toString(), IBAN: IBAN.toString(), payee_identifier: payee_identifier.toString()};
+            ethersContract.on(event, (councilID, projectid, expenseId, amount, description, IBAN, payee_identifier) => {
+                customEvent = { type: event, CouncilID: councilID.toString(), ProjectID: projectid.toString(), ExpenseID: expenseId.toString(), Amount: amount.toString(), Description: description.toString(), IBAN: IBAN.toString(), PayeeID: payee_identifier.toString()};
                 resolve(customEvent);
             });
 

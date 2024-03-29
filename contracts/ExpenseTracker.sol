@@ -3,8 +3,25 @@ pragma solidity ^0.8.0;
 
 contract ExpenseTracker {
 
-    // address of the approver is set to the deployer of the contract
-    address public approverAddress = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
+    // Set some public details for this contract
+    address public approverAddress;
+    string public CouncilName;
+    uint256 public CouncilIdentifier;
+    string public ProjectName;
+    uint256 public ProjectIdentifier;
+    uint256 public ProjectBudget;
+
+    // these details are set upon creation
+    // the approver is set as the person who deploys the contract
+    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget) {
+        approverAddress = msg.sender;
+        CouncilName = _CouncilName;
+        CouncilIdentifier = _CouncilIdentifier;
+        ProjectName = _ProjectName;
+        ProjectIdentifier = _ProjectIdentifier;
+        ProjectBudget = _ProjectBudget;
+    }
+
     // modifier to check if the caller is the approver
     modifier onlyApprover() {
         require(msg.sender == approverAddress, "Only the approver can call this function!");
@@ -46,15 +63,15 @@ contract ExpenseTracker {
 
     // -------- Events --------
     // event to log the creation of an expense
-    event ExpenseCreated(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
-    event ExpenseApproved(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
-    event ExpenseRejected(uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseCreated(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseApproved(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    event ExpenseRejected(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
 
     // Create an expense with given parameters
     function createExpense(uint256 _amount, string calldata _description, string calldata _IBAN) external onlyKnownPayee(){
         expenses[expenseCount] = Expense(expenseCount, _amount, _description, _IBAN, msg.sender, Status.Pending);
         // emit expense created event 
-        emit ExpenseCreated(expenseCount, _amount, _description, _IBAN, msg.sender);
+        emit ExpenseCreated(CouncilIdentifier, ProjectIdentifier, expenseCount, _amount, _description, _IBAN, msg.sender);
         expenseCount++;
     }
 
@@ -63,12 +80,12 @@ contract ExpenseTracker {
     // approve expense with given id: only the approver can call this function
     function approveExpense(uint256 _expenseId) external onlyApprover expenseExists(_expenseId) {
         expenses[_expenseId].status = Status.Approved;
-        emit ExpenseApproved(expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+        emit ExpenseApproved(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
     }
     // reject expense with given id: only the approver can call this function
     function rejectExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId){
         expenses[_expenseId].status = Status.Rejected;
-        emit ExpenseRejected(expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+        emit ExpenseRejected(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
     }
 
     // -------- Add/Remove Payees --------
