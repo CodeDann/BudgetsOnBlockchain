@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract ExpenseTracker {
 
     // address of the approver is set to the deployer of the contract
-    address private approverAddress = msg.sender;
+    address public approverAddress = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
     // modifier to check if the caller is the approver
     modifier onlyApprover() {
         require(msg.sender == approverAddress, "Only the approver can call this function!");

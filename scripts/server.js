@@ -154,7 +154,7 @@ app.post('/createExpense', async function (req, res) {
     try {
         result = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban);
         // todo send id back instead of object
-        res.send(`${result}`); 
+        res.send(result); 
         console.log("Successfully created expense");
     } catch ( error ){
         if (error.reason != undefined ){
@@ -255,7 +255,7 @@ app.post('/approveExpense', async function (req, res) {
         expenseId: req.body.id,
     }
 
-    if (data.id == undefined ){
+    if (data.expenseId == undefined ){
         res.send('Expense ID not provided');
         return;
     }
@@ -288,7 +288,7 @@ app.post('/rejectExpense', async function (req, res) {
         expenseId: req.body.id,
     }
 
-    if (data.id == undefined ){
+    if (data.expenseId == undefined ){
         res.send('Expense ID not provided');
         return;
     }
@@ -304,7 +304,99 @@ app.post('/rejectExpense', async function (req, res) {
     return;
 });
 
+app.post('/approveExpense', async function (req, res) {
+    if (req.body.sessionID == undefined ){
+        res.send("Error: Session ID not provided");
+        console.log("Error: Session ID not provided");
+        return;
+    }
+    if (users[req.body.sessionID] == undefined ){
+        res.send("Error: Please login");
+        console.log("Error: Please login");
+        return;
+    }
+    ExpenseTracker = users[req.body.sessionID];
 
+    let id = req.body.id;
+
+    if( id == undefined ){
+        res.status(400).send('No id provided');
+        return;
+    }
+
+    id = await approveExpenseWithId(contract, id);
+
+    res.send(`Expense approved successfully, Expense ID: ${String(id)}`); 
+    return;
+});
+
+
+app.get('/listenForEvents', async function (req, res) {
+    if (req.query.contractAddress == undefined ){
+        res.send("Error: contrac t not provided");
+        console.log("Error:contract  not provided");
+        return;
+    }
+    const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
+    // get the event type from the req
+    type = req.query.type;
+
+    if (type == undefined){
+        console.log("Closed stream as no event was provided");
+        res.status(400).send('No event type provided');
+        return;
+    }
+
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    try {
+        // Assuming ethersContract is defined and accessible here
+        // Assuming listenForEvents is an async generator function that yields events
+
+        switch( type ){
+            case "ExpenseCreated":
+            case "ExpenseRejected":
+            case "ExpenseApproved":
+                for await (let event of listenForStandardEvent(contract, type)) {
+                    // Send event to client
+                    res.write(`data: ${JSON.stringify(event)}\n\n`);
+        
+                    // If the event is "connection-close", close the connection
+                    if (event.type === 'connection-close') {
+                        res.end();
+                        break;
+                    }
+                }
+                break;
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error listening for events');
+    }
+});
+
+
+async function* listenForStandardEvent(ethersContract, event) {
+
+    // listen to any ExpenseCreated events
+    while (true) {
+        // Create a promise that resolves when the event occurs;
+        const eventPromise = new Promise((resolve) => {
+            ethersContract.on(event, (expenseId, amount, description, IBAN, payee_identifier) => {
+                customEvent = { type: event, expenseId: expenseId.toString(), amount: amount.toString(), description: description.toString(), IBAN: IBAN.toString(), payee_identifier: payee_identifier.toString()};
+                resolve(customEvent);
+            });
+
+        });
+
+        // Yield the promise
+        yield eventPromise;
+    }
+}
 
 
 
@@ -353,6 +445,7 @@ async function setup(url, key, contractName, contractAddress){
         const contract = Contract.connect(wallet);
 
         // actually try use the wallet / contract combo
+        // handle errors correctly
         const addr = await contract.getAddress();
 
         if ( contractAddress != addr ){
@@ -365,10 +458,3 @@ async function setup(url, key, contractName, contractAddress){
         throw "Error: Contract Address or Private Key invalid!";
     }
 }
-
-// main()
-//     .then(() => process.exit(0))
-//     .catch((error) => {
-//         console.error(error);
-//         process.exit(1);
-// });

@@ -156,6 +156,25 @@ async function getMyExpenses(expenseTracker, myAddress){
     }
 }
 
+// --- Listen to events ---
+async function listenToEvents(expenseTracker){
+    try {
+        expenseTracker.on("ExpenseCreated", (expenseId, payeeIdentifier, amount, description, iban) => {
+            console.log(`Expense created: ${expenseId} - ${payeeIdentifier} - ${amount} - ${description} - ${iban}`);
+        });
+
+        expenseTracker.on("ExpenseApproved", (expenseId, payeeIdentifier, amount, description, iban) => {
+            console.log(`Expense approved: ${expenseId} - ${payeeIdentifier} - ${amount} - ${description} - ${iban}`);
+        });
+
+        expenseTracker.on("ExpenseRejected", (expenseId, payeeIdentifier, amount, description, iban) => {
+            console.log(`Expense rejected: ${expenseId} - ${payeeIdentifier} - ${amount} - ${description} - ${iban}`);
+        });
+    } catch ( error ){
+        throw error;
+    }
+}
+
 module.exports = {
     rejectExpense,
     approveExpense,
@@ -170,5 +189,6 @@ module.exports = {
     getAllExpenses,
     addPayee,
     removePayee,
-    getMyExpenses
+    getMyExpenses,
+    listenToEvents
 };
