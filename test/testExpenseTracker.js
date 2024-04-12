@@ -30,8 +30,6 @@ describe("ExpenseTracker", function () {
   });
 
   describe("Regulator Checks", function () {
-    it("Approving a")
-
-  }
+  });
 
 });
