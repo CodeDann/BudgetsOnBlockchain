@@ -337,8 +337,6 @@ app.post('/approveExpense', async function (req, res) {
     res.send(`Expense approved successfully, Expense ID: ${String(id)}`); 
     return;
 });
-
-
 app.get('/listenForEvents', async function (req, res) { 
     // Set headers for event stream
     res.setHeader('Content-Type', 'text/event-stream');
@@ -348,21 +346,24 @@ app.get('/listenForEvents', async function (req, res) {
 
     if (req.query.contractAddress == undefined ){
         res.send("Error: contract not provided");
+        res.end();
         console.log("Error:contract not provided");
         return;
     }
 
-    const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
 
     // get the event type from the req
     type = req.query.type;
     if (type == undefined){
         console.log("Closed stream as no event was provided");
-        res.status(400).send('No event type provided');
+        res.send('No event type provided');
+        res.end();
         return;
     }
 
     try {
+        const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
+
         switch( type ){
             case "ExpenseCreated":
             case "ExpenseRejected":
@@ -396,7 +397,8 @@ app.get('/listenForEvents', async function (req, res) {
         
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).send('Error listening for events');
+        res.send('Error listening for events');
+        res.end();
     }
 });
 
@@ -412,22 +414,59 @@ app.get('/downloadEvents', async function (req, res) {
         return;
     }
     console.log("Downloading events")
-    const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
-    var filter = "";
-    // parse eventType out of query and only return that type of event
-    if ( req.query.eventType == "ExpenseCreated" ){
-        filter = contract.filters.ExpenseCreated();
-    } else if ( req.query.eventType == "ExpenseRejected" ){
-        filter = contract.filters.ExpenseRejected();
-    } else if ( req.query.eventType == "ExpenseApproved" ){
-        filter = contract.filters.ExpenseApproved();
-    } else if ( req.query.eventType == "RegulatoryEvent" ){
-        // get regulator contract
-        const regulatorContractAddr = await contract.RegulatorContractAddress();
-        const regulatorContract = await hre.ethers.getContractAt("CouncilProjectRegulation", regulatorContractAddr);
-        filter = regulatorContract.filters.ExpenseFlag();
-        const regulatorEvents = await regulatorContract.queryFilter(filter, 0, 'latest');
-        const data = regulatorEvents.map(event => {
+    try{
+        const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
+        var filter = "";
+        // parse eventType out of query and only return that type of event
+        if ( req.query.eventType == "ExpenseCreated" ){
+            filter = contract.filters.ExpenseCreated();
+        } else if ( req.query.eventType == "ExpenseRejected" ){
+            filter = contract.filters.ExpenseRejected();
+        } else if ( req.query.eventType == "ExpenseApproved" ){
+            filter = contract.filters.ExpenseApproved();
+        } else if ( req.query.eventType == "RegulatoryEvent" ){
+            // get regulator contract
+            const regulatorContractAddr = await contract.RegulatorContractAddress();
+            const regulatorContract = await hre.ethers.getContractAt("CouncilProjectRegulation", regulatorContractAddr);
+            filter = regulatorContract.filters.ExpenseFlag();
+            const regulatorEvents = await regulatorContract.queryFilter(filter, 0, 'latest');
+            const data = regulatorEvents.map(event => {
+                const args = {...event.args};
+            
+                // Create a new object with the headers as keys and the properties of args as values
+                const formattedArgs = {
+                    'CouncilID': args[0],
+                    'ProjectID': args[1],
+                    'ExpenseID': args[2],
+                    'Amount': args[3],
+                    'Description': args[4],
+                    'PayeeID': args[5],
+                    'Reason': args[6],
+                };
+            
+                // Convert BigInt values to strings
+                for (let key in formattedArgs) {
+                    if (typeof formattedArgs[key] === 'bigint') {
+                        formattedArgs[key] = formattedArgs[key].toString();
+                    }
+                }
+            
+                return formattedArgs;
+            });
+
+            res.json(data);
+            return;
+
+            
+        } else {
+            res.send("Error: Invalid eventType");
+            console.log("Error: Invalid eventType");
+            return;
+        }
+        const events = await contract.queryFilter(filter, 0, 'latest');
+
+
+        const data = events.map(event => {
             const args = {...event.args};
         
             // Create a new object with the headers as keys and the properties of args as values
@@ -437,8 +476,8 @@ app.get('/downloadEvents', async function (req, res) {
                 'ExpenseID': args[2],
                 'Amount': args[3],
                 'Description': args[4],
-                'PayeeID': args[5],
-                'Reason': args[6],
+                'IBAN': args[5],
+                'PayeeID': args[6],
             };
         
             // Convert BigInt values to strings
@@ -452,44 +491,10 @@ app.get('/downloadEvents', async function (req, res) {
         });
 
         res.json(data);
-        return;
-
-        
-    } else {
-        res.send("Error: Invalid eventType");
-        console.log("Error: Invalid eventType");
-        return;
+    } catch (error){
+        res.send("Error: Downloading events");
+        console.log("Error: Downloading events");
     }
-    const events = await contract.queryFilter(filter, 0, 'latest');
-
-
-    const data = events.map(event => {
-        const args = {...event.args};
-    
-        // Create a new object with the headers as keys and the properties of args as values
-        const formattedArgs = {
-            'CouncilID': args[0],
-            'ProjectID': args[1],
-            'ExpenseID': args[2],
-            'Amount': args[3],
-            'Description': args[4],
-            'IBAN': args[5],
-            'PayeeID': args[6],
-        };
-    
-        // Convert BigInt values to strings
-        for (let key in formattedArgs) {
-            if (typeof formattedArgs[key] === 'bigint') {
-                formattedArgs[key] = formattedArgs[key].toString();
-            }
-        }
-    
-        return formattedArgs;
-    });
-
-    console.log(data.length);
-
-    res.json(data);
     return;
 });
 
