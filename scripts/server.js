@@ -1,6 +1,8 @@
 // external imports
 const hre = require("hardhat");
 const ethers = require("ethers");
+const { Parser } = require('json2csv');
+
 
 // ExpenseTracker Handler
 const ETHandler = require("./ExpenseTrackerFunctions.js");
@@ -349,6 +351,7 @@ app.get('/listenForEvents', async function (req, res) {
         console.log("Error:contract not provided");
         return;
     }
+
     const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
 
     // get the event type from the req
@@ -397,6 +400,98 @@ app.get('/listenForEvents', async function (req, res) {
     }
 });
 
+app.get('/downloadEvents', async function (req, res) {
+    if (req.query.contractAddress == undefined ){
+        res.send("Error: contract not provided");
+        console.log("Error:contract not provided");
+        return;
+    }
+    if (req.query.eventType == undefined ){
+        res.send("Error: eventType not provided");
+        console.log("Error:eventType not provided");
+        return;
+    }
+    console.log("Downloading events")
+    const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
+    var filter = "";
+    // parse eventType out of query and only return that type of event
+    if ( req.query.eventType == "ExpenseCreated" ){
+        filter = contract.filters.ExpenseCreated();
+    } else if ( req.query.eventType == "ExpenseRejected" ){
+        filter = contract.filters.ExpenseRejected();
+    } else if ( req.query.eventType == "ExpenseApproved" ){
+        filter = contract.filters.ExpenseApproved();
+    } else if ( req.query.eventType == "RegulatoryEvent" ){
+        // get regulator contract
+        const regulatorContractAddr = await contract.RegulatorContractAddress();
+        const regulatorContract = await hre.ethers.getContractAt("CouncilProjectRegulation", regulatorContractAddr);
+        filter = regulatorContract.filters.ExpenseFlag();
+        const regulatorEvents = await regulatorContract.queryFilter(filter, 0, 'latest');
+        const data = regulatorEvents.map(event => {
+            const args = {...event.args};
+        
+            // Create a new object with the headers as keys and the properties of args as values
+            const formattedArgs = {
+                'CouncilID': args[0],
+                'ProjectID': args[1],
+                'ExpenseID': args[2],
+                'Amount': args[3],
+                'Description': args[4],
+                'PayeeID': args[5],
+                'Reason': args[6],
+            };
+        
+            // Convert BigInt values to strings
+            for (let key in formattedArgs) {
+                if (typeof formattedArgs[key] === 'bigint') {
+                    formattedArgs[key] = formattedArgs[key].toString();
+                }
+            }
+        
+            return formattedArgs;
+        });
+
+        res.json(data);
+        return;
+
+        
+    } else {
+        res.send("Error: Invalid eventType");
+        console.log("Error: Invalid eventType");
+        return;
+    }
+    const events = await contract.queryFilter(filter, 0, 'latest');
+
+
+    const data = events.map(event => {
+        const args = {...event.args};
+    
+        // Create a new object with the headers as keys and the properties of args as values
+        const formattedArgs = {
+            'CouncilID': args[0],
+            'ProjectID': args[1],
+            'ExpenseID': args[2],
+            'Amount': args[3],
+            'Description': args[4],
+            'IBAN': args[5],
+            'PayeeID': args[6],
+        };
+    
+        // Convert BigInt values to strings
+        for (let key in formattedArgs) {
+            if (typeof formattedArgs[key] === 'bigint') {
+                formattedArgs[key] = formattedArgs[key].toString();
+            }
+        }
+    
+        return formattedArgs;
+    });
+
+    console.log(data.length);
+
+    res.json(data);
+    return;
+});
 
 async function* listenForStandardEvent(ethersContract, event) {
 
