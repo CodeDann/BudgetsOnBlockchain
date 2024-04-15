@@ -342,18 +342,20 @@ app.get('/listenForEvents', async function (req, res) {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
-    console.log("new listner");
 
-    if (req.query.contractAddress == undefined ){
+    // get query params from req
+
+    // get contract addr
+    let cAddress = req.query.contractAddress;
+    if (cAddress == undefined ){
         res.send("Error: contract not provided");
         res.end();
         console.log("Error:contract not provided");
         return;
     }
 
-
-    // get the event type from the req
-    type = req.query.type;
+    // get event type
+    let type = req.query.type;
     if (type == undefined){
         console.log("Closed stream as no event was provided");
         res.send('No event type provided');
@@ -361,14 +363,20 @@ app.get('/listenForEvents', async function (req, res) {
         return;
     }
 
-    try {
-        const contract = await hre.ethers.getContractAt("ExpenseTracker", req.query.contractAddress);
 
+    try {
+        const Contract = await hre.ethers.getContractAt("ExpenseTracker", cAddress);
+        let id = await Contract.CouncilIdentifier();
+        console.log("new listner. type: ", type);
+        res.write(`data: connected\n\n`);
+        console.log("Connected successfully")
+
+        // now listen for events
         switch( type ){
             case "ExpenseCreated":
             case "ExpenseRejected":
             case "ExpenseApproved":
-                for await (let event of listenForStandardEvent(contract, type)) {
+                for await (let event of listenForStandardEvent(Contract, type)) {
                     // Send event to client
                     res.write(`data: ${JSON.stringify(event)}\n\n`);
         
@@ -380,7 +388,7 @@ app.get('/listenForEvents', async function (req, res) {
                 }
                 break;
             case "RegulatoryEvent":
-                const regulatorContractAddr = await contract.RegulatorContractAddress();
+                const regulatorContractAddr = await Contract.RegulatorContractAddress();
                 const regulatorContract = await hre.ethers.getContractAt("CouncilProjectRegulation", regulatorContractAddr);
                 for await (let event of listenForRegulatoryEvent(regulatorContract)) {
                     // Send event to client
@@ -394,12 +402,13 @@ app.get('/listenForEvents', async function (req, res) {
                 }
                 break;
         }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        res.send('Error listening for events');
-        res.end();
+    } catch ( error ){
+        console.log("Error getting contract");
+        // console.log(error)
+        res.write(`data: error\n\n`);
+        return;
     }
+    
 });
 
 app.get('/downloadEvents', async function (req, res) {
@@ -453,7 +462,7 @@ app.get('/downloadEvents', async function (req, res) {
             
                 return formattedArgs;
             });
-
+            console.log(data.length);
             res.json(data);
             return;
 
