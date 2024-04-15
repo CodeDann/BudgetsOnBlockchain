@@ -532,7 +532,7 @@ async function* listenForRegulatoryEvent(ethersContract) {
         // Create a promise that resolves when the event occurs;
         const eventPromise = new Promise((resolve) => {
             ethersContract.on("ExpenseFlag", (councilID, projectid, expenseId, amount, description, payee_identifier, reason) => {
-                customEvent = { type: "ExpenseFlag", CouncilID: councilID.toString(), ProjectID: projectid.toString(), ExpenseID: expenseId.toString(), Amount: amount.toString(), Description: description.toString(), PayeeID: payee_identifier.toString(), Reason: reason.toString()};
+                customEvent = { type: "ExpenseFlag", CouncilID: councilID.toString(), ProjectID: projectid.toString(), ExpenseID: expenseId.toString(), Amount: amount.toString(), Description: description.toString(), Reason: reason.toString(), PayeeID: payee_identifier.toString()};
                 resolve(customEvent);
             });
 
