@@ -162,16 +162,11 @@ app.post('/createExpense', async function (req, res) {
     try {
         result = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban);
         // todo send id back instead of object
-        res.send(result); 
+        res.send("Expense Created Successfully"); 
         console.log("Successfully created expense");
     } catch ( error ){
-        if (error.reason != undefined ){
-            res.send(error.reason);
-            console.log(`Error creating expense: ${error.reason}`);
-        } else {
-            res.send(error);
-            console.log(`Error creating expense: ${error}`);
-        }
+        res.send("Error creating expense");
+        console.log(`Error creating expense: ${error}`);
     }
 
     return;
@@ -543,42 +538,6 @@ async function* listenForRegulatoryEvent(ethersContract) {
     }
 }
 
-
-
-
-
-
-
-async function main(){
-    ExpenseTracker = await setup(chainURL, myPrivateKey, "ExpenseTracker", contractAddress);
-
-    try {
-        // await ETHandler.createExpense(ExpenseTracker, 1000, "House Building", "IBAN1234567890");
-        
-        await ETHandler.addPayee(ExpenseTracker, otherAddress);
-        // await ETHandler.approveExpense(ExpenseTracker, 4);
-        // console.log(await ETHandler.getExpenseCount(ExpenseTracker));
-        // await ETHandler.createExpense(ExpenseTracker, 2000, "House Building", "IBAN1234567890");
-        // await ETHandler.rejectExpense(ExpenseTracker, 1);
-
-
-
-        // console.log(await ETHandler.getAllExpenses(ExpenseTracker));
-        // const val = await ETHandler.getExpenseCount(ExpenseTracker);
-        // console.log(val);
-    } catch ( error ) {
-        if ( error.reason ) {
-            console.log(`Error: ${error.reason}`);
-        } else {
-            console.log( `Error: ${error}` )
-        }
-    }
-
-    // const val =  await expense_tracker.createExpense(1000, "House Building", "IBAN1234567890");
-       
-    // const val = await expenseTrackerFunctions.getExpenseStatus(expense_tracker, 0);
-    // console.log(val);
-}
 
 async function setup(url, key, contractName, contractAddress){
     try{
