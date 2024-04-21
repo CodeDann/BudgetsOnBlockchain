@@ -14,17 +14,6 @@ var bodyParser = require('body-parser')
 var cors = require('cors');
 var session = require('express-session')
 
-
-
-
-
-// const chainURL = "http://127.0.0.1:8545/";
-// const myPrivateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-// const otherPrivateKey = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
-// const otherAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
-// const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-// const contractName = "ExpenseTracker"
-
 var app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -52,14 +41,15 @@ app.post('/login', async function (req, res) {
 
     try {
         let [contract, address] = await setup(data.url, data.key, "ExpenseTracker", data.address);
-        users[req.sessionID] = contract;
+        const userNonce = await contract.runner.getNonce();
+        users[req.sessionID] = [contract, userNonce];
         let response = {
             "message": "Connection Successful",
             "sessionID": req.sessionID,
             "address": address,
         }
         res.send(response);
-        console.log("Contract setup successful");
+        console.log("Contract setup successful, nonce:", userNonce);
     } catch ( error ){
         let response = {
             message: `${error}`
@@ -82,13 +72,7 @@ app.post('/listExpenses', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
-
-    console.log(await ExpenseTracker.CouncilName());
-    console.log(await ExpenseTracker.CouncilIdentifier());
-    console.log(await ExpenseTracker.approverAddress());
-
-
+    ExpenseTracker = users[req.body.sessionID][0];
 
     try{
         expenseList = await ETHandler.getAllExpenses(ExpenseTracker);
@@ -115,7 +99,7 @@ app.post('/listMyExpenses', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
     let data = {
         address: req.body.address,
@@ -144,7 +128,8 @@ app.post('/createExpense', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
+    myNonce = users[req.body.sessionID][1];
 
 
     let dummyExpense = {
@@ -160,8 +145,10 @@ app.post('/createExpense', async function (req, res) {
     }
 
     try {
-        result = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban);
-        // todo send id back instead of object
+        myNonce = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban, myNonce);
+        
+        // set nonce for user
+        users[req.body.sessionID][1] = myNonce;
         res.send("Expense Created Successfully"); 
         console.log("Successfully created expense");
     } catch ( error ){
@@ -183,7 +170,7 @@ app.post('/addPayee', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
     let data = {
         address: req.body.address,
@@ -217,7 +204,7 @@ app.post('/removePayee', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
 
     let data = {
@@ -252,7 +239,7 @@ app.post('/approveExpense', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
     let data = {
         expenseId: req.body.id,
@@ -285,7 +272,7 @@ app.post('/rejectExpense', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
     let data = {
         expenseId: req.body.id,
@@ -318,7 +305,7 @@ app.post('/approveExpense', async function (req, res) {
         console.log("Error: Please login");
         return;
     }
-    ExpenseTracker = users[req.body.sessionID];
+    ExpenseTracker = users[req.body.sessionID][0];
 
     let id = req.body.id;
 
@@ -332,6 +319,7 @@ app.post('/approveExpense', async function (req, res) {
     res.send(`Expense approved successfully, Expense ID: ${String(id)}`); 
     return;
 });
+
 app.get('/listenForEvents', async function (req, res) { 
     // Set headers for event stream
     res.setHeader('Content-Type', 'text/event-stream');

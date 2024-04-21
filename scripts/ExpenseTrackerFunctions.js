@@ -3,10 +3,10 @@ const ethers = require("ethers");
 
 
 // create expense
-async function createExpense(expenseTracker, amount, description, iban){
+async function createExpense(expenseTracker, amount, description, iban, myNonce){
     try {
-        const val = await expenseTracker.createExpense(amount, description, iban);
-        return val;
+        const val = await expenseTracker.createExpense(amount, description, iban, {nonce: myNonce});
+        return val.nonce+1;
     } catch ( error ){
        throw error;
     }
