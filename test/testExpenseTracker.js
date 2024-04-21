@@ -1,35 +1,59 @@
-const {
-  loadFixture,
-} = require("@nomicfoundation/hardhat-toolbox/network-helpers");
 const { expect } = require("chai");
 
 describe("ExpenseTracker", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshot in every test.
-  async function deploy() {
-    // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
+  const CouncilName = "Leeds City Council";
+  const CouncilIdentifier = 1;
+  const ProjectName = "Project Y";
+  const ProjectIdentifier = 1;
+  const ProjectBudget = 10000;
+  const RegulatorAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-    const ExpenseTracker = await ethers.getContractFactory("ExpenseTracker");
-    const expensetracker = await ExpenseTracker.deploy();
+  beforeEach(async function () {
+    const ET = await ethers.getContractFactory("ExpenseTracker");
+    [user1, user2, user3, user4] = await ethers.getSigners();
 
-    return { expensetracker, owner, otherAccount };
-  }
-
-  // single test to check if owner of the contract is the default account
-  describe("Changing Expenses", function () {
-    // it("Approving a non existent expense should fail with message", async function () {
-    //   const { expensetracker, owner } = await loadFixture(deploy);
-
-    //   expect(await expensetracker.approveExpense(1000)).to.be.revertedWith(
-    //     "Expense does not exist in the system!"
-    //   );
-    // });
-
+    expenseTracker = await ET.deploy(CouncilName, CouncilIdentifier, ProjectName, ProjectIdentifier, ProjectBudget, RegulatorAddress, user1.address);
   });
 
-  describe("Regulator Checks", function () {
+  it("shouldn't allow unknown payees to create an expense", async function () {
+    // revert on unknown payee
+    await expect(expenseTracker.connect(user1).createExpense(100, "Test", "1234")).to.be.revertedWith("Only known payees can create expenses! Please contact the council to be added to the list.")
   });
+  it("should allow known payees to create an expense", async function () {
+    // add payee
+    await expenseTracker.connect(user1).addPayee(user2.address);
+
+    // create expense 
+    await expenseTracker.connect(user2).createExpense(100, "Test", "1234");
+  });
+
+
+  // it("can create 10k expenses", async function () {
+
+  //   // set custom timeout
+  //   this.timeout(3000000);
+
+  //   // add payee
+  //   await expenseTracker.connect(user1).addPayee(user2.address);
+
+  //   // create 100 expenses
+  //   for (let i = 0; i < 10000; i++) {
+  //     await expenseTracker.connect(user2).createExpense(Math.floor(Math.random() * 501).toString(), "Test", "1234");
+  //   }
+  // });
+  // it("can create 1000 expenses", async function () {
+
+  //   // set custom timeout
+  //   this.timeout(300000);
+
+  //   // add payee
+  //   await expenseTracker.connect(user1).addPayee(user2.address);
+
+  //   // create 100 expenses
+  //   for (let i = 0; i < 1000; i++) {
+  //     await expenseTracker.connect(user2).createExpense(100, "Test", "1234");
+  //   }
+  // });
+  
 
 });

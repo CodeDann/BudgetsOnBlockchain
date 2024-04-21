@@ -16,8 +16,8 @@ contract ExpenseTracker {
 
     // these details are set upon creation
     // the approver is set as the person who deploys the contract
-    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget, address _RegulatorContractAddress) {
-        approverAddress = msg.sender;
+    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget, address _RegulatorContractAddress, address _approverAddress) {
+        approverAddress = _approverAddress;
         CouncilName = _CouncilName;
         CouncilIdentifier = _CouncilIdentifier;
         ProjectName = _ProjectName;

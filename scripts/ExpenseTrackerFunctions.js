@@ -13,19 +13,19 @@ async function createExpense(expenseTracker, amount, description, iban, myNonce)
 }
 
 // --- Approve / Reject ---
-async function approveExpense(expenseTracker, expenseId){
+async function approveExpense(expenseTracker, expenseId, myNonce){
     try {
-        const val = await expenseTracker.approveExpense(expenseId);
-        return val;
+        const val = await expenseTracker.approveExpense(expenseId, {nonce: myNonce});
+        return val.nonce+1;
     } catch ( error ){
         throw error;
     }
 }
 
-async function rejectExpense(expenseTracker, expenseId){
+async function rejectExpense(expenseTracker, expenseId, myNonce){
     try {
-        const val = await expenseTracker.rejectExpense(expenseId);
-        return val;
+        const val = await expenseTracker.rejectExpense(expenseId, {nonce: myNonce});
+        return val.nonce+1;
     } catch ( error ){
         throw error;
     }
@@ -33,17 +33,19 @@ async function rejectExpense(expenseTracker, expenseId){
 
 // --- Add / Remove Payees ---
 
-async function addPayee(expenseTracker, payeeIdentifier){
+async function addPayee(expenseTracker, payeeIdentifier, myNonce){
     try {
-        await expenseTracker.addPayee(payeeIdentifier);
+        const result = await expenseTracker.addPayee(payeeIdentifier, {nonce: myNonce});
+        return result.nonce+1;
     } catch ( error ){
         throw error;
     }
 }
 
-async function removePayee(expenseTracker, payeeIdentifier){
+async function removePayee(expenseTracker, payeeIdentifier, myNonce){
     try {
-        await expenseTracker.removePayee(payeeIdentifier);
+        const result = await expenseTracker.removePayee(payeeIdentifier, {nonce: myNonce});
+        return result.nonce+1;
     } catch ( error ){
         throw error;
     }

@@ -146,7 +146,6 @@ app.post('/createExpense', async function (req, res) {
 
     try {
         myNonce = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban, myNonce);
-        
         // set nonce for user
         users[req.body.sessionID][1] = myNonce;
         res.send("Expense Created Successfully"); 
@@ -171,6 +170,7 @@ app.post('/addPayee', async function (req, res) {
         return;
     }
     ExpenseTracker = users[req.body.sessionID][0];
+    myNonce = users[req.body.sessionID][1];
 
     let data = {
         address: req.body.address,
@@ -182,7 +182,9 @@ app.post('/addPayee', async function (req, res) {
     }
 
     try {
-        await ETHandler.addPayee(ExpenseTracker, data.address);
+        newNonce = await ETHandler.addPayee(ExpenseTracker, data.address, myNonce);
+        // set nonce for user
+        users[req.body.sessionID][1] = newNonce;
         res.send("Payee added successfully");
         console.log("Payee added successfully");
     } catch ( error ){
@@ -205,6 +207,7 @@ app.post('/removePayee', async function (req, res) {
         return;
     }
     ExpenseTracker = users[req.body.sessionID][0];
+    myNonce = users[req.body.sessionID][1];
 
 
     let data = {
@@ -217,7 +220,9 @@ app.post('/removePayee', async function (req, res) {
     }
 
     try {
-        await ETHandler.removePayee(ExpenseTracker, data.address);
+        newNonce = await ETHandler.removePayee(ExpenseTracker, data.address, myNonce);
+        // set nonce for user
+        users[req.body.sessionID][1] = newNonce;
         res.send("Payee removed successfully");
         console.log("Payee removed successfully");
     } catch ( error ){
@@ -240,6 +245,7 @@ app.post('/approveExpense', async function (req, res) {
         return;
     }
     ExpenseTracker = users[req.body.sessionID][0];
+    myNonce = users[req.body.sessionID][1];
 
     let data = {
         expenseId: req.body.id,
@@ -251,7 +257,9 @@ app.post('/approveExpense', async function (req, res) {
     }
 
     try {
-        await ETHandler.approveExpense(ExpenseTracker, data.expenseId);
+        newNonce = await ETHandler.approveExpense(ExpenseTracker, data.expenseId, myNonce);
+        // set nonce for user
+        users[req.body.sessionID][1] = newNonce;
         res.send("Expense approved successfully");
         console.log("Expense approved successfully");
     } catch ( error ){
@@ -273,6 +281,7 @@ app.post('/rejectExpense', async function (req, res) {
         return;
     }
     ExpenseTracker = users[req.body.sessionID][0];
+    myNonce = users[req.body.sessionID][1];
 
     let data = {
         expenseId: req.body.id,
@@ -284,39 +293,15 @@ app.post('/rejectExpense', async function (req, res) {
     }
 
     try {
-        await ETHandler.rejectExpense(ExpenseTracker, data.expenseId);
+        newNonce = await ETHandler.rejectExpense(ExpenseTracker, data.expenseId, myNonce);
+        // set nonce for user
+        users[req.body.sessionID][1] = newNonce;
         res.send("Expense rejected successfully");
         console.log("Expense rejected successfully");
     } catch ( error ){
         res.send("Error rejecting expense");
         console.log(`Error rejecting expense: ${error}`);
     }
-    return;
-});
-
-app.post('/approveExpense', async function (req, res) {
-    if (req.body.sessionID == undefined ){
-        res.send("Error: Session ID not provided");
-        console.log("Error: Session ID not provided");
-        return;
-    }
-    if (users[req.body.sessionID] == undefined ){
-        res.send("Error: Please login");
-        console.log("Error: Please login");
-        return;
-    }
-    ExpenseTracker = users[req.body.sessionID][0];
-
-    let id = req.body.id;
-
-    if( id == undefined ){
-        res.status(400).send('No id provided');
-        return;
-    }
-
-    id = await approveExpenseWithId(contract, id);
-
-    res.send(`Expense approved successfully, Expense ID: ${String(id)}`); 
     return;
 });
 
