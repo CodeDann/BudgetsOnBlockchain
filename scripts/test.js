@@ -34,6 +34,11 @@ async function testBackend(){
     // response = await axios.post("http://127.0.0.1:1234/addPayee", addPayeePayload);
     // console.log(response.data);
 
+
+    // setup provider and wallet
+    const provider = new ethers.JsonRpcProvider(chainURL);
+    const wallet = new ethers.Wallet(otherPrivateKey, provider);
+
     // login as other address
     const payload2 = {
         url: chainURL,
@@ -44,11 +49,14 @@ async function testBackend(){
     const loginResponse2 = await axios.post("http://127.0.0.1:1234/login", payload2);
     const mySessionID2 = loginResponse2.data.sessionID;
 
-    // setup test
-    const startTime = Date.now();
-
     // create n expenses
-    for (let i = 0; i < 10; i++) {
+    let transactions = [];
+    let nonces = [];
+    let N = 10000;
+    let blockBeforeTest = await provider.getBlock("latest");
+    for (let i = 0; i < N; i++) {
+        let start_time = new Date();
+        let currBlockTime = await provider.getBlock("latest");
         const expensePayload = {
             sessionID: mySessionID2,
             amount: Math.floor(Math.random() * 501).toString(),
@@ -57,19 +65,87 @@ async function testBackend(){
             // Add other expense data here
         };
 
-        let response = await axios.post("http://127.0.0.1:1234/createExpense", expensePayload);
-        console.log(response.data);
+        let myNonce = await axios.post("http://127.0.0.1:1234/createExpense", expensePayload);
+        transactions.push({ "tx-sent-time": start_time, "tx-sent-time-epoch": start_time.getTime(), "nonce": (myNonce.data.nonce - 1)});
+        nonces.push(myNonce.data.nonce - 1);
         console.log(`Created expense ${i}`);
-        console.log(Date.now() - startTime);
     }
 
-    // End timer and calculate time taken
-    const endTime = Date.now();
-    const timeTaken = endTime - startTime;
+    // wait for all transactions to be added
+    let pendingBlock = await provider.send("eth_getBlockByNumber", [
+        "pending",
+        false,
+      ]);
+    console.log("Number Pending transactions: ", pendingBlock.transactions.length);
+    while(pendingBlock.transactions.length != 0){
+        console.log("Waiting for transactions to be added to a block..");
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        pendingBlock = await provider.send("eth_getBlockByNumber", [
+            "pending",
+            false,
+          ]);
+    }
+    console.log("Number Pending transactions: ", pendingBlock.transactions.length);
 
-    console.log(`Time taken to create 10 expenses: ${timeTaken} ms`);
+    // get all transactions that came from our address with the nonces of the expenses we created
+    // let block = await provider.getBlock(blockBeforeTest.number + 1);
+    let txs = [];
+    // loop untill all nonces have been found
+    let latestblock = await provider.getBlock("latest");
 
+    // loop through untill all transactions have been found
+    let i = 0;
+    while( txs.length < N){
+        let block = await provider.getBlock(blockBeforeTest.number + i);
+        // check if block exists
+        if (block == null){
+            break;
+        }
+        console.log("Checking Block number for transactions: ", block.number);
+        for( let j = 0; j < block.transactions.length; j++){
+            const tx = await provider.getTransaction(block.transactions[j]);
+            if (tx.from == wallet.address){
+                if( nonces.includes(tx.nonce)){
+                    txs.push({"nonce": tx.nonce, "hash": tx.hash, "block-number": tx.blockNumber, "block-time": new Date(block.timestamp * 1000), "block-time-epoch": new Date(block.timestamp * 1000).getTime(), "next-block-time": new Date(((block.timestamp + 12) * 1000)), "next-block-time-epoch": new Date(((block.timestamp + 12) * 1000)).getTime()});
+                }
+            }
+        }
+        console.log("Number of transactions found: ", txs.length);
+        i++;
+    }
+
+
+    console.log("All transactions found");
+
+
+    let combined = transactions.map(t => {
+        let matchingTrx = txs.find(tr => tr.nonce === t.nonce);
+        return {...t, ...matchingTrx};
+    });
+
+    // console.table(combined);
+
+    // reorder table columns
+    let reordered = combined.map(t => {
+        return {
+            "nonce": t["nonce"],
+            "hash": t["hash"],
+            "tx-sent-time": t["tx-sent-time"],
+            "tx-sent-time-epoch": t["tx-sent-time-epoch"],
+            "block-number": t["block-number"],
+            "block-time": t["block-time"],
+            "block-time-epoch": t["block-time-epoch"],
+            "next-block-time": t["next-block-time"],
+            "next-block-time-epoch": t["next-block-time-epoch"],
+        }
+    });
+
+    console.table(reordered);
+
+    const csv = parse(reordered);
+    fs.writeFileSync(`application-${N}-${Date.now()}.csv`, csv);
 }
+
 
 
 async function testOnChain(){
@@ -87,7 +163,7 @@ async function testOnChain(){
     let transactions = [];
     let myTx = await wallet.getNonce();
     const startTxCount = myTx;
-    let N = 100;
+    let N = 10000;
     for (let i = 0; i < N; i++) {
         // time now in unix format
         let start_time = new Date();
@@ -180,9 +256,25 @@ async function check(){
     console.log("Connected to contract", await contract.getAddress());
     // await contract.createExpense(100, "Test", "1234");
     // console.log("Created expense");
-    const expenseCount = (await contract.getExpenseCount()).toNumber();
-    console.log(expenseCount);
-}
-// testBackend();
-testOnChain();
+    
+
+    // get a block
+    const block = await provider.getBlock(9);
+    console.log("Block transactions: ", block.transactions);
+    console.log("Block number: ", block.number);
+
+    // get a transaction
+    for( let i = 0; i < block.transactions.length; i++){
+        const tx = await provider.getTransaction(block.transactions[i]);
+        if (tx.from == wallet.address){
+            console.log("Transaction hash: ", tx.hash);
+            console.log("Transaction nonce: ", tx.nonce);
+        }
+    }
+    // const nonce = await wallet.getNonce();
+    // const tx = await wallet.
+    // console.log("Nonce: ", nonce);
+}   
+testBackend();
+// testOnChain();
 // check();

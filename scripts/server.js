@@ -148,8 +148,9 @@ app.post('/createExpense', async function (req, res) {
         myNonce = await ETHandler.createExpense(ExpenseTracker, dummyExpense.amount, dummyExpense.description, dummyExpense.iban, myNonce);
         // set nonce for user
         users[req.body.sessionID][1] = myNonce;
-        res.send("Expense Created Successfully"); 
-        console.log("Successfully created expense");
+        // res.send("Expense Created Successfully"); 
+        res.send({nonce: myNonce});
+        console.log("Successfully created expense, nonce:", myNonce);
     } catch ( error ){
         res.send("Error creating expense");
         console.log(`Error creating expense: ${error}`);
