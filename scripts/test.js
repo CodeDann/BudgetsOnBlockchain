@@ -249,32 +249,51 @@ async function testOnChain(){
 
 async function check(){
     const provider = new ethers.JsonRpcProvider(chainURL);
-    const wallet = new ethers.Wallet(myPrivateKey, provider);
+    // const wallet = new ethers.Wallet(myPrivateKey, provider);
     const otherWallet = new ethers.Wallet(otherPrivateKey, provider);
     const Contract = await hre.ethers.getContractAt("ExpenseTracker", contractAddress);
     const contract = Contract.connect(otherWallet);
     console.log("Connected to contract", await contract.getAddress());
     // await contract.createExpense(100, "Test", "1234");
     // console.log("Created expense");
+
+    let startAmount = await provider.getBalance(otherWallet.address);
+    let trx = await contract.createExpense(100, "Test", "1234");
+    
+    let transaction = await trx.wait();
+    const gasUsed = transaction.gasUsed;
+    const gasPrice = transaction.gasPrice;
+
+    // const gasUsed = BigInt(transaction.cumulativeGasUsed) * BigInt(transaction.effectiveGasPrice);
+    console.log("Gas used: ", gasUsed.toString());
+    console.log("Gas price: ", gasPrice.toString());
+    console.log("Total cost: ", gasUsed * gasPrice);
+    // console.log("Transaction: ", transaction);
+    // let endAmount = await provider.getBalance(otherWallet.address);
+
+    // console.log("Start: ", startAmount);
+    // console.log("End  : ", endAmount);
+    // console.log("Difference: ", endAmount - startAmount);
     
 
-    // get a block
-    const block = await provider.getBlock(9);
-    console.log("Block transactions: ", block.transactions);
-    console.log("Block number: ", block.number);
+    // // get a block
+    // const block = await provider.getBlock(9);
+    // console.log("Block transactions: ", block.transactions);
+    // console.log("Block number: ", block.number);
 
-    // get a transaction
-    for( let i = 0; i < block.transactions.length; i++){
-        const tx = await provider.getTransaction(block.transactions[i]);
-        if (tx.from == wallet.address){
-            console.log("Transaction hash: ", tx.hash);
-            console.log("Transaction nonce: ", tx.nonce);
-        }
-    }
+    // // get a transaction
+    // for( let i = 0; i < block.transactions.length; i++){
+    //     const tx = await provider.getTransaction(block.transactions[i]);
+    //     // console.log("Transaction hash: ", tx.hash);
+    //     // console.log("Transaction nonce: ", tx.nonce);
+    //     // console.log("Transaction cost?: ", tx.value);
+    //     console.log(tx);
+    //     break;
+    // }
     // const nonce = await wallet.getNonce();
     // const tx = await wallet.
     // console.log("Nonce: ", nonce);
 }   
-testBackend();
+// testBackend();
 // testOnChain();
-// check();
+check();

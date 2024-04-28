@@ -69,7 +69,9 @@ contract ExpenseTracker {
     // -------- Events --------
     // event to log the creation of an expense
     event ExpenseCreated(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    // event to log the approval of an expense
     event ExpenseApproved(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    // event to log the rejection of an expense
     event ExpenseRejected(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
 
     // Create an expense with given parameters
@@ -83,7 +85,7 @@ contract ExpenseTracker {
 
     // -------- Approve/Reject --------
     // approve expense with given id: only the approver can call this function
-    function approveExpense(uint256 _expenseId) external onlyApprover expenseExists(_expenseId) {
+    function approveExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId) {
         expenses[_expenseId].status = Status.Approved;
         emit ExpenseApproved(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
         // call the regulatory module to check the expense
