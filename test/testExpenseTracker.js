@@ -98,18 +98,4 @@ describe("ExpenseTracker", function () {
       await expenseTracker.connect(user1).removePayee(user2.address);
     }
   });
-
-  // it("should release a Regualtory Flag when a problematic expense is approved", async function () {
-  //   // add payee
-  //   await expenseTracker.connect(user1).addPayee(user2.address);
-
-  //   // create expense 
-  //   await expenseTracker.connect(user2).createExpense(5000, "Test", "1234");
-
-  //   // approve expense
-  //   await expenseTracker.connect(user1).approveExpense(1);
-
 });
-
-
-

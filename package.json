@@ -1,16 +1,13 @@
 {
   "name": "hardhat-project",
-  "devDependencies": {
-    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "hardhat": "^2.22.3",
-    "hardhat-gas-reporter": "^2.1.1"
-  },
   "dependencies": {
     "axios": "^1.6.8",
     "csv-writer": "^1.6.0",
     "ethers": "^6.11.1",
     "express-session": "^1.18.0",
-    "json2csv": "^6.0.0-alpha.2"
+    "json2csv": "^6.0.0-alpha.2",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.22.3"
   }
 }

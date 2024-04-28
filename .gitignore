@@ -13,6 +13,7 @@ node_modules
 /coverage
 /coverage.json
 
-/ignition/deployments/*
+# ignition/deployments/*
+ignition/deployments/chain-31337
 
 /test_outputs/*
