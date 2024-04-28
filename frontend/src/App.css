@@ -1,0 +1,327 @@
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+
+
+#root {
+  fill: #242424;
+  padding-bottom: 5rem;
+  text-align: center;
+  background-color: #242424;
+  color: #FFFFFF;
+}
+
+body {
+  background-color: #242424;
+}
+
+html{
+  background-color: #242424;
+}
+
+h1 {
+  padding: 2em 0;
+  font-size: 3.2em;
+  line-height: 3.2;
+}
+
+h2 {  
+  padding: 1em 0;
+  font-size: 1.5em;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+
+.header {
+  text-transform: capitalize;
+}
+
+
+
+/* Expense table */
+
+.expense-table {
+  display: block;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8em;
+  font-family: sans-serif;
+  overflow: auto;
+}
+
+.expense-table table {
+  table-layout: fixed;
+}
+
+
+.expense-table thead tr {
+  background-color: #055344;
+  color: #ffffff;
+  text-align: center;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 5px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+}
+
+.expense-table tbody tr {
+  border-bottom: 1px solid rgba(31,31,31);
+}
+
+.expense-table tbody tr:nth-of-type(even) {
+  background-color: rgba(49,49,49);
+}
+
+/* Header table */
+
+.header-table {
+  display: block;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.2em;
+  font-family: sans-serif;
+  min-width: 400px;
+}
+
+.header-table thead tr {
+  background-color: #055344;
+  color: #ffffff;
+  text-align: center;
+}
+
+.header-table th,
+.header-table td {
+  padding: 12px 15px;
+  width: 33%;
+}
+
+.header-table tbody tr {
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+
+.header-table tbody {
+  background-color: rgba(49,49,49);
+}
+
+
+/* Create expense card */
+
+.custom-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.custom-card input {
+  flex: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.custom-card input:last-child {
+  margin-right: 0;
+}
+
+.custom-card button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #055344;
+  color: #ffffff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-card button:disabled{
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+
+
+.api-response{
+  display: block;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 5px;
+  border-bottom: 1px solid ccc;
+}
+
+.list-expenses-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.table-content {
+  width: 100%;
+}
+
+.list-expenses-card button {
+  display: inline;
+  padding: 10px 20px;
+  border: none;
+  background-color: #055344;
+  color: #ffffff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.my-card{
+  border-bottom: 1px solid rgb(226, 216, 216);
+  border-top: 1px solid rgb(226, 216, 216);
+  border-right: 1px solid rgb(226, 216, 216);
+  border-left: 1px solid rgb(226, 216, 216);
+
+  margin: 20px 5%;
+  padding: 20px;
+
+}
+
+
+
+
+.download-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #055344;
+  color: #ffffff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container button:disabled{
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.header{
+  position: 'fixed';
+  top: 0;
+  height: auto;
+  color:aliceblue;
+  width: '100%';
+  display: 'flex';
+  justify-content: 'space-around';
+  align-items: 'center';
+}
+
+.half {
+  width: 50%;
+  display: flex;
+  margin: auto;
+}
+
+.my-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0, 0;
+}
+
+.my-grid > .my-card-nopad {
+  border-bottom: 1px solid rgb(226, 216, 216);
+  border-top: 1px solid rgb(226, 216, 216);
+  border-right: 1px solid rgb(226, 216, 216);
+  border-left: 1px solid rgb(226, 216, 216);
+
+  width: 50vw;
+  height: 50vh;
+}
+
+.my-grid .expense-table{
+  font-size: smaller;
+}
+
+.regulator-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #032d25;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  min-width: 100%;
+}
+
+
+.regulator-table-body {
+  width: 100%;
+  max-width: fit-content;
+}
+
+
+
+.regulator-table-header button {
+  border: none;
+  background-color: #055344;
+  color: #ffffff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  max-height: 100%;
+  
+}
+
+
+h4 {
+  font-size: 1.5em;
+  line-height: 1.5;
+}
