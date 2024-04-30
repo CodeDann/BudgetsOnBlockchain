@@ -2,9 +2,8 @@
 Budgets on Blockchain is a Fullstack dApp for providing transparency in City Council spending.
 
 It operates in the scenario:
-```
-City Council operating a mock project with ‘Charity X’ a contractor carrying out work for the project. A single regulatory body ‘Regulator Y’ was chosen who would oversee the project.
-```
+> City Council operating a mock project with ‘Charity X’ a contractor carrying out work for the project. A single regulatory body ‘Regulator Y’ was chosen who would oversee the project.
+
 
 
 # Instructions for use
