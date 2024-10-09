@@ -21,9 +21,8 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/charity" element={<CharityComponent />} />
-          <Route path="/council" element={<CouncilComponent />} />
-          <Route path="/regulator" element={<RegulatorComponent />} />
+          <Route path="/gov" element={<CouncilComponent />} />
+          <Route path="/portal" element={<RegulatorComponent />} />
       </Routes>
     </Router>
   );

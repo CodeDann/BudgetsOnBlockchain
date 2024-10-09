@@ -1,16 +1,13 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
 module.exports = buildModule("Alpha", (m) => {
-    const CouncilName = "Leeds City Council";
-    const CouncilIdentifier = 1;
-    const ProjectName = "Project Y";
-    const ProjectIdentifier = 1;
-    const ProjectBudget = 10000;
-    const approverAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; 
+    const GovName = "GovOfTransparency";
+    const GovId = 1;
+    const validAddressses = ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"]
 
-    const CPR = m.contract("CouncilProjectRegulation", []);
+    const CPR = m.contract("GovTransactionRegulation", []);
 
-    const ET = m.contract("ExpenseTracker", [CouncilName, CouncilIdentifier, ProjectName, ProjectIdentifier, ProjectBudget, CPR, approverAddress]);
+    const ET = m.contract("GovTransactions", [GovName, GovId, CPR, validAddressses]);
     
     return { CPR, ET };
 });

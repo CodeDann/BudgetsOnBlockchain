@@ -1,140 +1,94 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "./CouncilProjectRegulation.sol";
+import "./GovTransactionRegulation.sol";
 
-contract ExpenseTracker {
 
-    // Set some public details for this contract
-    address public approverAddress;
-    string public CouncilName;
-    uint256 public CouncilIdentifier;
-    string public ProjectName;
-    uint256 public ProjectIdentifier;
-    uint256 public ProjectBudget;
+contract GovTransactions {
+    // public details for this contract
+    string public GovName;
+    uint256 public GovId;
     address public RegulatorContractAddress;
-    CouncilProjectRegulation regulator;
+    GovTransactionRegulation regulator;
+
+    // list of approved addresses
+    // address[] public validAddressArray;
+    mapping(address => bool) public validAddressArray;
+
 
     // these details are set upon creation
     // the approver is set as the person who deploys the contract
-    constructor(string memory _CouncilName, uint256 _CouncilIdentifier, string memory _ProjectName, uint256 _ProjectIdentifier, uint256 _ProjectBudget, address _RegulatorContractAddress, address _approverAddress) {
-        approverAddress = _approverAddress;
-        CouncilName = _CouncilName;
-        CouncilIdentifier = _CouncilIdentifier;
-        ProjectName = _ProjectName;
-        ProjectIdentifier = _ProjectIdentifier;
-        ProjectBudget = _ProjectBudget;
+    constructor(string memory _GovName, uint256 _GovId, address _RegulatorContractAddress, address[] memory _validAddresses) {
+        GovName = _GovName;
+        GovId = _GovId;
+        // add all valid addresses to the array
+        for( uint256 i = 0; i < _validAddresses.length; i ++){
+            validAddressArray[_validAddresses[i]] = true;
+        }
+        // setup the regulator        
         RegulatorContractAddress = _RegulatorContractAddress;
-        regulator = CouncilProjectRegulation(RegulatorContractAddress);
+        regulator = GovTransactionRegulation(RegulatorContractAddress);
     }
 
-    // modifier to check if the caller is the approver
-    modifier onlyApprover() {
-        require(msg.sender == approverAddress, "Only the approver can call this function!");
-        _;
-    }
-    // modiefier to check if the expense exits
-    modifier expenseExists(uint256 _expenseId) {
-        require(_expenseId <= expenseCount, "Expense does not exist in the system!");
-        _;
-    }
-    // modifier to check if the caller is a known payee
-    modifier onlyKnownPayee() {
-        require(knownPayees[msg.sender], "Only known payees can create expenses! Please contact the council to be added to the list.");
+    // modifier to check if the caller is a known address
+    modifier approvedAddress() {
+        require(validAddressArray[msg.sender], "Only approved addresses can record transactions");
         _;
     }
 
-    enum Status { Pending, Approved, Rejected }
-    // Define an Expense
-    // Amount: the amount of the expense
-    // Description: the description of the work completed
-    // IBAN: the IBAN of the payee to send the funds to
-    // payee_identifier: the address of the payee to identify them
-    // status: the status of the expense (Pending, Approved, Rejected)
-    struct Expense {
+    // modifier for quick trx existance
+    modifier validTrx(uint256 _trxId) {
+        require(_trxId <= trxCount, "Transaction does not exist!");
+        _;
+    }
+
+
+    // Define a transaction
+    // ID: unique identifier
+    // Amount: the value of the transaction
+    // Description: short text description
+    // Department: the address of the department making the transaction
+    // Recipient: Who the money was sent to
+
+    struct Transaction {
         uint256 id;
         uint256 amount;
         string description;
-        string IBAN;
-        address payee_identifier;
-        Status status;
+        address departmentAddress;
+        string recipient;
     }
-    // Mapping of expenses
-    mapping(uint256 => Expense) public expenses;
-    // count of expenses
-    uint256 public expenseCount;
-    // known payees list
-    mapping(address => bool) public knownPayees;
 
+    // Mapping of transactions
+    mapping(uint256 => Transaction) public transactions;
+    // transaction counter
+    uint256 public trxCount;
 
     // -------- Events --------
-    // event to log the creation of an expense
-    event ExpenseCreated(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
-    // event to log the approval of an expense
-    event ExpenseApproved(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
-    // event to log the rejection of an expense
-    event ExpenseRejected(uint256 CouncilIdentifier, uint256 ProjectIdentifier, uint256 expenseCount, uint256 amount, string description, string IBAN, address payee_identifier);
+    // event to log the creation of an trx
+    event TrxLog(uint256 GovId, uint256 trxCount, uint256 amount, string description, address departmentAddress, string recipient);
 
+    // -------- Functions -------
     // Create an expense with given parameters
-    function createExpense(uint256 _amount, string calldata _description, string calldata _IBAN) external onlyKnownPayee(){
-        expenses[expenseCount] = Expense(expenseCount, _amount, _description, _IBAN, msg.sender, Status.Pending);
-        // emit expense created event 
-        emit ExpenseCreated(CouncilIdentifier, ProjectIdentifier, expenseCount, _amount, _description, _IBAN, msg.sender);
-        expenseCount++;
+    function createTrx(uint256 _amount, string calldata _description, string calldata _recipient) external approvedAddress(){
+        transactions[trxCount] = Transaction(trxCount, _amount, _description, msg.sender, _recipient);
+        emit TrxLog(GovId, trxCount, _amount, _description, msg.sender, _recipient);
+        trxCount++;
     }
 
-
-    // -------- Approve/Reject --------
-    // approve expense with given id: only the approver can call this function
-    function approveExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId) {
-        expenses[_expenseId].status = Status.Approved;
-        emit ExpenseApproved(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
-        // call the regulatory module to check the expense
-        regulator.checkExpenseValue(_expenseId, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].payee_identifier, approverAddress, CouncilIdentifier, ProjectIdentifier, ProjectBudget);
+    // -------- Getters ---------
+    function getTrxAmount(uint256 _trxId) external validTrx(_trxId) view returns (uint256) {
+        return transactions[_trxId].amount;
     }
-    // reject expense with given id: only the approver can call this function
-    function rejectExpense(uint256 _expenseId) external onlyApprover() expenseExists(_expenseId){
-        expenses[_expenseId].status = Status.Rejected;
-        emit ExpenseRejected(CouncilIdentifier, ProjectIdentifier, expenseCount, expenses[_expenseId].amount, expenses[_expenseId].description, expenses[_expenseId].IBAN, expenses[_expenseId].payee_identifier);
+    function getTrxDescription(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
+        return transactions[_trxId].description;
     }
-
-    // -------- Add/Remove Payees --------
-     // add a payee to the known payees list
-    function addPayee(address _payee) external onlyApprover {
-        knownPayees[_payee] = true;
+    function getTrxDepartment(uint256 _trxId) external validTrx(_trxId) view returns (address) {
+        return transactions[_trxId].departmentAddress;
     }
-    // remove a payee from the known payees list
-    function removePayee(address _payee) external onlyApprover {
-        knownPayees[_payee] = false;
+    function getTrxRecipient(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
+        return transactions[_trxId].recipient;
     }
 
-    // -------- Getters --------
-    function getExpenseStatus(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
-        if (expenses[_expenseId].status == Status.Pending) {
-            return "Pending";
-        } else if (expenses[_expenseId].status == Status.Approved) {
-            return "Approved";
-        } else {
-            return "Rejected";
-        }
-    }
-
-    function getExpenseAmount(uint256 _expenseId) external expenseExists(_expenseId) view returns (uint256) {
-        return expenses[_expenseId].amount;
-    }
-
-    function getExpenseDescription(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
-        return expenses[_expenseId].description;
-    }
-
-    function getExpenseIBAN(uint256 _expenseId) external expenseExists(_expenseId) view returns (string memory) {
-        return expenses[_expenseId].IBAN;
-    }
-
-    function getExpensePayeeIdentifier(uint256 _expenseId) external expenseExists(_expenseId) view returns (address) {
-        return expenses[_expenseId].payee_identifier;
-    }
-
-    function getExpenseCount() external view returns (uint256) {
-        return expenseCount;
+    function getTrxCount() external view returns (uint256) {
+        return trxCount;
     }
 }
