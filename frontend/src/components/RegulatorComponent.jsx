@@ -35,7 +35,7 @@ function RegulatorComponent() {
         <div>
             <img src={headerImage} className="fixed-headerimag logo" alt="Blockchain background image" />
         </div>
-        <h2>Transparent Council Spending: Regulator Portal</h2>
+        <h2>GovScan: Search for any transaction </h2>
 
         {/* URL and Contract Address to listen to */}
         <div className="my-card">
@@ -48,7 +48,7 @@ function RegulatorComponent() {
         {/* Listen to events Block */}
         <div className="my-card-nopad">
             <div className='regulator-table-header'>
-                    <h4> Events: ExpenseCreated </h4>
+                    <h4> Events: TrxLog </h4>
                     <button disabled={!cAddress} onClick={() => getEventData("TrxLog")}> Download historic data </button>
                 </div>
                 <EventTable contractAddress={cAddress} eventType={"TrxLog"}/>

@@ -32,7 +32,7 @@ async function run(){
     // allTrx = await TrxHandler.getAllTrx(Contract);
     // console.log(allTrx);
 
-    Nonce = TrxHandler.createTrx(Contract, 59, "good Gov Spending2", "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "GoodCorp", Nonce);
+    Nonce = TrxHandler.createTrx(Contract, 50, "Good Spending ", "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "GoodCorp", Nonce);
 
 }
 

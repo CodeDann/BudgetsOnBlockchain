@@ -52,6 +52,7 @@ function EventTable({ contractAddress, eventType }) {
       return (
         <>
           <div className="expense-table">
+
             <TableComponent data={events} />
           </div>
           <BeatLoader color="#055344" loading={true} size={15} />
