@@ -53,8 +53,9 @@ contract GovTransactions {
         uint256 id;
         uint256 amount;
         string description;
-        address departmentAddress;
-        string recipient;
+        address senderAddress;
+        address recipientAddress;
+        string recipientName;
     }
 
     // Mapping of transactions
@@ -64,13 +65,13 @@ contract GovTransactions {
 
     // -------- Events --------
     // event to log the creation of an trx
-    event TrxLog(uint256 GovId, uint256 trxCount, uint256 amount, string description, address departmentAddress, string recipient);
+    event TrxLog(uint256 GovId, uint256 trxCount, uint256 amount, string description, address senderAddress, address recipientAddress, string recipientName);
 
     // -------- Functions -------
     // Create an expense with given parameters
-    function createTrx(uint256 _amount, string calldata _description, string calldata _recipient) external approvedAddress(){
-        transactions[trxCount] = Transaction(trxCount, _amount, _description, msg.sender, _recipient);
-        emit TrxLog(GovId, trxCount, _amount, _description, msg.sender, _recipient);
+    function createTrx(uint256 _amount, string calldata _description, address _recipientAddress, string calldata _recipientName) external approvedAddress(){
+        transactions[trxCount] = Transaction(trxCount, _amount, _description, msg.sender, _recipientAddress, _recipientName);
+        emit TrxLog(GovId, trxCount, _amount, _description, msg.sender, _recipientAddress, _recipientName);
         trxCount++;
     }
 
@@ -81,11 +82,14 @@ contract GovTransactions {
     function getTrxDescription(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
         return transactions[_trxId].description;
     }
-    function getTrxDepartment(uint256 _trxId) external validTrx(_trxId) view returns (address) {
-        return transactions[_trxId].departmentAddress;
+    function getTrxSenderAddress(uint256 _trxId) external validTrx(_trxId) view returns (address) {
+        return transactions[_trxId].senderAddress;
     }
-    function getTrxRecipient(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
-        return transactions[_trxId].recipient;
+    function getTrxRecipientAddress(uint256 _trxId) external validTrx(_trxId) view returns (address) {
+        return transactions[_trxId].recipientAddress;
+    }
+    function getTrxRecipientName(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
+        return transactions[_trxId].recipientName;
     }
 
     function getTrxCount() external view returns (uint256) {

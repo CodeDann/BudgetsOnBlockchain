@@ -7,7 +7,7 @@ module.exports = buildModule("Alpha", (m) => {
 
     const CPR = m.contract("GovTransactionRegulation", []);
 
-    const ET = m.contract("GovTransactions", [GovName, GovId, CPR, validAddressses]);
+    const GT = m.contract("GovTransactions", [GovName, GovId, CPR, validAddressses]);
     
-    return { CPR, ET };
+    return { CPR, GT};
 });

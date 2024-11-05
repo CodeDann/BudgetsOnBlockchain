@@ -45,40 +45,13 @@ function RegulatorComponent() {
                 </div>
             </div>
 
-        <div className="my-grid">
-            {/* Listen to events Block */}
-            <div className="my-card-nopad">
-                <div className='regulator-table-header'>
+        {/* Listen to events Block */}
+        <div className="my-card-nopad">
+            <div className='regulator-table-header'>
                     <h4> Events: ExpenseCreated </h4>
-                    <button disabled={!cAddress} onClick={() => getEventData("ExpenseCreated")}> Download historic data </button>
+                    <button disabled={!cAddress} onClick={() => getEventData("TrxLog")}> Download historic data </button>
                 </div>
-                <EventTable contractAddress={cAddress} eventType={"ExpenseCreated"}/>
-            </div>
-
-            <div className="my-card-nopad">
-                <div className='regulator-table-header'>
-                    <h4> Events: ExpenseRejected </h4>
-                    <button disabled={!cAddress} onClick={() => getEventData("ExpenseRejected")}> Download historic data </button>
-                </div>
-                <EventTable contractAddress={cAddress} eventType={"ExpenseRejected"} />
-            </div>
-
-            <div className="my-card-nopad">
-                <div className='regulator-table-header'>
-                    <h4> Events: ExpenseApproved </h4>
-                    <button disabled={!cAddress} onClick={() => getEventData("ExpenseApproved")}> Download historic data </button>
-                </div>
-                <EventTable contractAddress={cAddress} eventType={"ExpenseApproved"} />
-            </div>
-
-            <div className="my-card-nopad">
-                <div className='regulator-table-header'>
-                    <h4> Events: RegulatoryEvents </h4>
-                    <button disabled={!cAddress} onClick={() => getEventData("RegulatoryEvent")}> Download historic data </button>
-                </div>
-                <EventTable contractAddress={cAddress} eventType={"RegulatoryEvent"} />
-            </div>
-
+                <EventTable contractAddress={cAddress} eventType={"TrxLog"}/>
         </div>
 
     </>
