@@ -42,6 +42,7 @@ contract GovTransactions {
     }
 
 
+
     // Define a transaction
     // ID: unique identifier
     // Amount: the value of the transaction

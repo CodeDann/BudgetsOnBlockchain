@@ -7,9 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 // import custom components
-import CharityComponent from './components/CharityComponent';
-import CouncilComponent from './components/CouncilComponent';
-import RegulatorComponent from './components/RegulatorComponent';
+import ChainExplorerComponent from './components/ChainExplorer';
 
 // import boostrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,8 +19,7 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/gov" element={<CouncilComponent />} />
-          <Route path="/portal" element={<RegulatorComponent />} />
+          <Route path="/portal" element={<ChainExplorerComponent />} />
       </Routes>
     </Router>
   );

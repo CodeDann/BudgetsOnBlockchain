@@ -11,7 +11,7 @@ start-node:
 	@cd backend && echo --- Starting installing dependencies --- && npm install && echo --- Starting local node --- && npx hardhat node
 
 start-backend: 
-	@cd backend && echo --- Starting backend server --- && npx hardhat run src/thinserver.js --network localhost
+	@cd backend && echo --- Starting backend server --- && npx hardhat run src/server.js --network localhost
 
 start-frontend:
 	@cd frontend && echo --- Starting installing dependencies --- && npm install && echo --- Starting frontend --- && npm run dev
