@@ -1,9 +1,7 @@
 # BudgetsOnBlockchain
-Budgets on Blockchain is a Fullstack dApp for providing transparency in City Council spending.
+Budgets on Blockchain is a Fullstack dApp for providing transparency in Government Spending
 
-It operates in the scenario:
-> City Council operating a mock project with ‘Charity X’ a contractor carrying out work for the project. A single regulatory body ‘Regulator Y’ was chosen who would oversee the project.
-
+It is an open source project in development aiming to demonstrate how all governmental spending could be recorded onchain. Used in combination with a Frontend Chain Explorer it would allow everyone to have immediate access to governemnt spending data - improving transparency, accessability, and trust.
 
 
 # Instructions for use
@@ -47,14 +45,8 @@ It operates in the scenario:
 
 # Screenshots of running Web App
 
-## Charity Portal Create Expense
- ![Charity Portal Create Expense](/documentation/Charity-CreatedExpense.png)
-
-## Council Portal Approve Expense
- ![Council Portal Approve Expense](/documentation/Council-ApproveExpense.png)
-
-## Regulator Portal See live expenses
- ![Regulator Portal See live expenses](/documentation/Regulator-SeeApprovedandREgulatory.png)
+## Chain Explorer - See live transactions
+ ![Regulator Portal See live expenses](/documentation/ChainExplorer.png)
 
 
 # Architecture Diagram
