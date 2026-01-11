@@ -1,0 +1,36 @@
+
+.mainBody {
+  position: relative;
+  min-height: 100vh; /* Adjust height to account for the header */
+  min-width: 100vw;
+  background: linear-gradient(to bottom, #ffffff 50%, #31669f 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 56px; /* Ensure content starts below the header */
+}
+
+
+
+// .tophalf{
+//     min-width: 100vw;
+//     min-height: 50vh;
+//     position: absolute;
+//     top: 56px;
+//     overflow: hidden;
+
+//     background-color: var(--mantine-color-body);
+// }
+
+// .bottomhalf{
+//   min-height: 50vh;
+//   min-width: 100vw;
+//   position: absolute;
+//   bottom: 0;
+
+//     background-image: url('../assets/search-background.jpg');
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     overflow: hidden;
+// }
