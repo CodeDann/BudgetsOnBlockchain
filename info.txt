@@ -1,0 +1,4 @@
+- Clean up miroservice folder
+- Scraping microservice not functioning correctly
+- dockerise frontend / backend / microservice 
+- backend not hooked up to frontend ( need to refactor all ethers stuff out of frontend )

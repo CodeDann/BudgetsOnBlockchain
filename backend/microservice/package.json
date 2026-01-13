@@ -1,0 +1,26 @@
+{
+  "name": "blockchain-indexer",
+  "version": "1.0.0",
+  "description": "Microservice to index blockchain transactions and store in PostgreSQL",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "setup-db": "node scripts/setup-db.js",
+    "test-events": "node scripts/test-events.js",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f postgres",
+    "docker:restart": "docker compose restart postgres",
+    "setup": "npm run docker:up && sleep 3 && npm run setup-db"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
