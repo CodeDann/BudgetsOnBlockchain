@@ -7,7 +7,7 @@ import { useMantineTheme } from '@mantine/core';
 
 
 const links = [
-  { link: '/about', label: 'About' },
+  { link: '/', label: 'About' },
   { link: '/explorer', label: 'Transaction Explorer' },
   { link: '/portal', label: 'Portal' }
 ];

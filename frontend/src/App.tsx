@@ -12,7 +12,7 @@ export default function App() {
     <MantineProvider>
       <Router>
         <Routes>
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/" element={<AboutPage />} />
           <Route path="/explorer" element={<ChainExplorer />} />
           <Route path="/portal" element={<Portal />} />
         </Routes>
