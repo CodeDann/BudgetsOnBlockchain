@@ -1,0 +1,49 @@
+html, body {
+  overscroll-behavior: none;
+}
+.searchBox {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  min-height: 100vh;
+
+}
+
+.tophalf {
+  min-height: 50vh;
+  min-width: 100vw;
+  position: absolute;
+  top: 56px;
+  background-image: url('../assets/search-background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  /* 🔹 scales with window but keeps aspect ratio */
+  background-size: cover;
+  overflow: hidden;
+  overscroll-behavior-y: none; /* disables vertical scroll bouncing */
+
+}
+
+.bottomhalf{
+  min-height: 50vh;
+  min-width: 100vw;
+  position: absolute;
+  bottom: 0;
+  // background-image: url('../assets/search-background.jpg');
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.newTrxTable {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--mantine-color-body);
+}

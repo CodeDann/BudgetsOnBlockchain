@@ -1,0 +1,10 @@
+
+.mainBody {
+  position: relative;
+  height: 100vh; /* Adjust height to account for the header */
+  background: linear-gradient(to bottom, #ffffff 50%, #3167a0 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 56px; /* Ensure content starts below the header */
+}
