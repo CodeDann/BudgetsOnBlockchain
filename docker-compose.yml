@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ttrx-postgres
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  indexer:
+    build: ./indexer
+    container_name: ttrx-indexer
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  # frontend:
+  #   build: ./frontend
+  #   container_name: transactions-frontend
+  #   env_file: .env
+  #   ports:
+  #     - "${FRONTEND_ACCESS_PORT}:3000"
+    # depends_on:
+    #   - api
+
+volumes:
+  pgdata:

@@ -1,7 +1,5 @@
 -- PostgreSQL schema for storing blockchain transactions
 -- Run this to set up the database
--- First create the database manually: CREATE DATABASE budgets_blockchain;
--- Then run: psql -U postgres -d budgets_blockchain -f database/schema.sql
 
 -- Transactions table matching the contract's Transaction struct
 CREATE TABLE IF NOT EXISTS transactions (

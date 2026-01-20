@@ -19,7 +19,6 @@ html, body {
   background-image: url('../assets/search-background.jpg');
   background-position: center;
   background-repeat: no-repeat;
-  /* 🔹 scales with window but keeps aspect ratio */
   background-size: cover;
   overflow: hidden;
   overscroll-behavior-y: none; /* disables vertical scroll bouncing */

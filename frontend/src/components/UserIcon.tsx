@@ -1,8 +1,7 @@
 import { IconWallet } from '@tabler/icons-react';
-import { Avatar, Group, Text, Paper } from '@mantine/core';
+import { Group, Text, Paper } from '@mantine/core';
 import { useMetaMask } from '../hooks/useMetaMask';
 import classes from '../scss/UserIcon.module.scss';
-import icon from '../assets/eth-icon.png';
 import logo from '../assets/metamask-logo.svg';
 
 interface UserIconProps {
@@ -17,13 +16,13 @@ export function UserIcon({ metaMaskState }: UserIconProps) {
   }
 
   // Generate a simple avatar color based on wallet address
-  const getAvatarColor = (address: string) => {
-    const colors = ['#FF5C16', '#3167a0', '#16a01f', '#e34df7', '#3867ea'];
-    const index = parseInt(address.slice(2, 3), 16) % colors.length;
-    return colors[index];
-  };
+  // const getAvatarColor = (address: string) => {
+  //   const colors = ['#FF5C16', '#3167a0', '#16a01f', '#e34df7', '#3867ea'];
+  //   const index = parseInt(address.slice(2, 3), 16) % colors.length;
+  //   return colors[index];
+  // };
 
-  const avatarInitials = account.slice(2, 4).toUpperCase();
+  // const avatarInitials = account.slice(2, 4).toUpperCase();
 
   return (
     <Paper withBorder radius="md" p="md" shadow="sm" className={classes.userIcon}>
