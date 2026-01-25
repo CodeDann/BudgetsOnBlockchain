@@ -1,104 +1,63 @@
-// external imports
-const hre = require("hardhat");
-const ethers = require("ethers");
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import { ethers } from 'ethers'; // Import ethers
 
-// Express server
-var express = require('express');
-// express-middleware
-var bodyParser = require('body-parser')
-var cors = require('cors');
-var session = require('express-session')
+dotenv.config();
 
+const app = express();
+const PORT = process.env.BACKEND_INTERNAL_PORT || 5060;
 
-var app = express();
-app.use(cors());
-app.use(bodyParser.json());
-app.use(session({
-    secret: "budget-on-chain",
-    resave: false,
-    saveUninitialized: true
-}));
-let users = {};
-var server = app.listen(1234, async function () {
+app.use(cors({ origin: '*' }));
+
+// --- Blockchain Setup ---
+// Using host.docker.internal to reach the Hardhat node on your Mac
+const provider = new ethers.WebSocketProvider(process.env.RPC_URL || "http://host.docker.internal:8545");
+
+// Default Hardhat Account #0 Private Key
+const privateKey = process.env.PRIVATE_KEY || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const wallet = new ethers.Wallet(privateKey, provider);
+
+// Contract Address from your deployment
+const contractAddress = process.env.VITE_CONTRACT_ADDRESS; 
+const contractABI = [
+  "function createTrx(uint256 _amount, string calldata _description, string calldata _recipientName) external"
+];
+
+const contract = new ethers.Contract(contractAddress, contractABI, wallet);
+
+// === Endpoints ===
+
+// NEW: Trigger a real on-chain transaction
+app.get('/trigger', async (req, res) => {
     try {
-        console.log("Express App running at http://127.0.0.1:1234/");
-    }
-    catch ( Error ){
-        console.error("Error starting express server: ", Error);
+        console.log("Sending real transaction to Hardhat...");
+        
+        // Hardcoded dummy data
+        const amount = ethers.parseUnits("100", 18); // 100 tokens/wei
+        const description = "Test Trx from Backend " + Math.floor(Math.random() * 100);
+        const recipient = "Internal Tester";
+
+        // Call the contract
+        const tx = await contract.createTrx(amount, description, recipient);
+        console.log("Tx Sent! Hash:", tx.hash);
+
+        // Wait for it to be mined
+        const receipt = await tx.wait();
+        
+        res.json({
+            message: "Transaction successful!",
+            txHash: receipt.hash,
+            block: receipt.blockNumber
+        });
+    } catch (error) {
+        console.error("Blockchain Error:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
+app.get('/ping', (req, res) => res.send('pong\n'));
 
-
-async function* listenForTrx(ethersContract, event) {
-
-    // listen to any Trx events
-    while (true) {
-        // Create a promise that resolves when the event occurs;
-        const eventPromise = new Promise((resolve) => {
-            ethersContract.on(event, (GovId, TrxId, Amount, Description, SenderAddress, RecipientAddress, RecipientName) => {
-                const customEvent = { type: event, GovId: GovId.toString(), TrxId: TrxId.toString(), Amount: Amount.toString(), Description: Description.toString(), SenderAddress: SenderAddress.toString(), RecipientAddress: RecipientAddress.toString(), RecipientName: RecipientName.toString()};
-                resolve(customEvent);
-            });
-
-        });
-
-        // Yield the promise
-        yield eventPromise;
-    }
-}
-
-
-app.get('/listenForEvents', async function (req, res) { 
-    // Set headers for event stream
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-
-    // get query params from req
-
-    // get contract addr
-    let cAddress = req.query.contractAddress;
-    if (cAddress == undefined ){
-        res.send("Error: contract not provided");
-        res.end();
-        console.log("Error:contract not provided");
-        return;
-    }
-
-    // get event type
-    let type = req.query.type;
-    if (type == undefined){
-        console.log("Closed stream as no event was provided");
-        res.send('No event type provided');
-        res.end();
-        return;
-    }
-
-
-    try {
-        const Contract = await hre.ethers.getContractAt("GovTransactions", cAddress);
-        console.log("new listner. type: ", type);
-        res.write(`data: connected\n\n`);
-        console.log("Connected successfully")
-
-        // now listen for events
-        for await (let event of listenForTrx(Contract, type)) {
-            // Send event to client
-            res.write(`data: ${JSON.stringify(event)}\n\n`);
-
-            // If the event is "connection-close", close the connection
-            if (event.type === 'connection-close') {
-                res.end();
-                break;
-            }
-        }
-
-    } catch ( error ){
-        console.log("Error getting contract");
-        // console.log(error)
-        res.write(`data: error\n\n`);
-        return;
-    }
-    
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Backend running on http://localhost:${PORT}`);
 });

@@ -17,4 +17,4 @@ WORKDIR /app/src
 EXPOSE 5000
 
 # Start the microservice
-CMD ["node", "auto-add.js"]
+CMD ["node", "server.js"]

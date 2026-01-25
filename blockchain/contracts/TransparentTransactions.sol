@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "./GovTransactionRegulation.sol";
+import "./TransactionRegulation.sol";
 
 
-contract GovTransactions {
+contract TransparentTransactions {
     // public details for this contract
-    string public GovName;
-    uint256 public GovId;
-    address public RegulatorContractAddress;
-    GovTransactionRegulation regulator;
+    string public name;
+    uint256 public id;
+    address public RegulationContractAddress;
+    TransactionRegulation regulation;
 
     // list of approved addresses
     // address[] public validAddressArray;
@@ -17,16 +17,16 @@ contract GovTransactions {
 
     // these details are set upon creation
     // the approver is set as the person who deploys the contract
-    constructor(string memory _GovName, uint256 _GovId, address _RegulatorContractAddress, address[] memory _validAddresses) {
-        GovName = _GovName;
-        GovId = _GovId;
+    constructor(string memory _name, uint256 _id, address _RegulationContractAddress, address[] memory _validAddresses) {
+        name = _name;
+        id = _id;
         // add all valid addresses to the array
         for( uint256 i = 0; i < _validAddresses.length; i ++){
             validAddressArray[_validAddresses[i]] = true;
         }
         // setup the regulator        
-        RegulatorContractAddress = _RegulatorContractAddress;
-        regulator = GovTransactionRegulation(RegulatorContractAddress);
+        RegulationContractAddress = _RegulationContractAddress;
+        regulation = TransactionRegulation(RegulationContractAddress);
     }
 
     // modifier to check if the caller is a known address
@@ -54,9 +54,8 @@ contract GovTransactions {
         uint256 id;
         uint256 amount;
         string description;
-        address senderAddress;
-        address recipientAddress;
         string recipientName;
+        address proccessedBy;
     }
 
     // Mapping of transactions
@@ -66,13 +65,13 @@ contract GovTransactions {
 
     // -------- Events --------
     // event to log the creation of an trx
-    event TrxLog(uint256 GovId, uint256 trxCount, uint256 amount, string description, address senderAddress, address recipientAddress, string recipientName);
+    event TrxLog(uint256 id, uint256 trxCount, uint256 amount, string description, string recipientName, address proccessedBy);
 
     // -------- Functions -------
     // Create an expense with given parameters
-    function createTrx(uint256 _amount, string calldata _description, address _recipientAddress, string calldata _recipientName) external approvedAddress(){
-        transactions[trxCount] = Transaction(trxCount, _amount, _description, msg.sender, _recipientAddress, _recipientName);
-        emit TrxLog(GovId, trxCount, _amount, _description, msg.sender, _recipientAddress, _recipientName);
+    function createTrx(uint256 _amount, string calldata _description, string calldata _recipientName) external approvedAddress(){
+        transactions[trxCount] = Transaction(trxCount, _amount, _description, _recipientName, msg.sender);
+        emit TrxLog(id, trxCount, _amount, _description, _recipientName, msg.sender);
         trxCount++;
     }
 
@@ -83,14 +82,11 @@ contract GovTransactions {
     function getTrxDescription(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
         return transactions[_trxId].description;
     }
-    function getTrxSenderAddress(uint256 _trxId) external validTrx(_trxId) view returns (address) {
-        return transactions[_trxId].senderAddress;
-    }
-    function getTrxRecipientAddress(uint256 _trxId) external validTrx(_trxId) view returns (address) {
-        return transactions[_trxId].recipientAddress;
-    }
     function getTrxRecipientName(uint256 _trxId) external validTrx(_trxId) view returns (string memory) {
         return transactions[_trxId].recipientName;
+    }
+    function getTrxProcessorAddress(uint256 _trxId) external validTrx(_trxId) view returns (address) {
+        return transactions[_trxId].proccessedBy;
     }
 
     function getTrxCount() external view returns (uint256) {

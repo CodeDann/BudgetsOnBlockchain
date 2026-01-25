@@ -1,12 +1,6 @@
-- Clean up miroservice folder
-- Scraping microservice not functioning correctly
-- dockerise frontend / backend / microservice 
-- backend not hooked up to frontend ( need to refactor all ethers stuff out of frontend )
-
-
-
-- frontend: Dockerised but not connected to backend
-- backend: unchanged from v1 needs a full overhaul
-- indexer: dockerised, connects to postgresql db, works with auto-add ( adds dummy data every 5s ) needs hooking up to read from chain
+- frontend: record-outgoing-card needs to be fixed to properly call the contract. then the table needs to be filled with data from the postgresql db
+- backend: empty express service atm: need to move all ethers logic from frontend into it  
+- indexer: dockerised, connects to postgresql db, listens to contract event and pushed to db ( UNTESTED )
+- blockchain: new contracts done, deploys correctly, but still has some old backend code under /src
 - database: postgresql db working with auto setup script, all secrets held in .env
 - ZZOld: has all the code from v1 that has been revamped so is not obsolute but is mid-rework

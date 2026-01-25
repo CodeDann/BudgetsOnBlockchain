@@ -16,15 +16,25 @@ services:
       - .env
     depends_on:
       - postgres
+    environment:
+      - NODE_OPTIONS=--dns-result-order=ipv4first
+  
+  backend:
+    build: ./backend
+    container_name: ttrx-backend
+    env_file: 
+      - .env
+    ports:
+      - "${BACKEND_ACCESS_PORT}:${BACKEND_INTERNAL_PORT}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # frontend:
   #   build: ./frontend
-  #   container_name: transactions-frontend
+  #   container_name: ttrx-frontend
   #   env_file: .env
   #   ports:
   #     - "${FRONTEND_ACCESS_PORT}:3000"
-    # depends_on:
-    #   - api
 
 volumes:
   pgdata:
