@@ -29,12 +29,20 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: ttrx-frontend
-  #   env_file: .env
-  #   ports:
-  #     - "${FRONTEND_ACCESS_PORT}:3000"
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        - VITE_CONTRACT_ADDRESS=${VITE_CONTRACT_ADDRESS}
+    container_name: ttrx-frontend
+    env_file: .env
+    ports:
+      - "${FRONTEND_ACCESS_PORT}:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # volumes:
+    #   - ./frontend:/app
+    #   - /app/node_modules
 
 volumes:
   pgdata:

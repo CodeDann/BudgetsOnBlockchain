@@ -34,13 +34,20 @@ export function useContract() {
       // 2. Initialize Provider and Signer
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      
+      console.log("Using account:", await signer.getAddress());
       // 3. Create Contract Instance
+      if (!CONTRACT_ADDRESS) {
+        throw new Error("Contract address not defined in environment variables");
+      }
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+      console.log("Contract instance created with ABI:", CONTRACT_ABI);
+      console.log("Contract functions available:", contract);
 
       // 4. Convert amount to Wei
       // Using parseEther assuming the amount input is in ETH
       const parsedAmount = ethers.parseEther(amount);
+      console.log("Parsed Amount:", parsedAmount.toString());
+
 
       // 5. Execute Contract Call (matching the 3 arguments in .sol)
       const tx = await contract.createTrx(
@@ -73,3 +80,4 @@ export function useContract() {
     error
   };
 }
+

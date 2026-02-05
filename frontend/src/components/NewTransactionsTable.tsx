@@ -1,186 +1,104 @@
-import { useState } from 'react';
-import cx from 'clsx';
-import { ScrollArea, Table } from '@mantine/core';
-import classes from '../scss/NewTransactionsTable.module.scss';
-
-const data = [
-  {
-    name: 'Athena Weissnat',
-    company: 'Little - Rippin',
-    email: 'Elouise.Prohaska@yahoo.com',
-  },
-  {
-    name: 'Deangelo Runolfsson',
-    company: 'Greenfelder - Krajcik',
-    email: 'Kadin_Trantow87@yahoo.com',
-  },
-  {
-    name: 'Danny Carter',
-    company: 'Kohler and Sons',
-    email: 'Marina3@hotmail.com',
-  },
-  {
-    name: 'Trace Tremblay PhD',
-    company: 'Crona, Aufderhar and Senger',
-    email: 'Antonina.Pouros@yahoo.com',
-  },
-  {
-    name: 'Derek Dibbert',
-    company: 'Gottlieb LLC',
-    email: 'Abagail29@hotmail.com',
-  },
-  {
-    name: 'Viola Bernhard',
-    company: 'Funk, Rohan and Kreiger',
-    email: 'Jamie23@hotmail.com',
-  },
-  {
-    name: 'Austin Jacobi',
-    company: 'Botsford - Corwin',
-    email: 'Genesis42@yahoo.com',
-  },
-  {
-    name: 'Hershel Mosciski',
-    company: 'Okuneva, Farrell and Kilback',
-    email: 'Idella.Stehr28@yahoo.com',
-  },
-  {
-    name: 'Mylene Ebert',
-    company: 'Kirlin and Sons',
-    email: 'Hildegard17@hotmail.com',
-  },
-  {
-    name: 'Lou Trantow',
-    company: 'Parisian - Lemke',
-    email: 'Hillard.Barrows1@hotmail.com',
-  },
-  {
-    name: 'Dariana Weimann',
-    company: 'Schowalter - Donnelly',
-    email: 'Colleen80@gmail.com',
-  },
-  {
-    name: 'Dr. Christy Herman',
-    company: 'VonRueden - Labadie',
-    email: 'Lilyan98@gmail.com',
-  },
-  {
-    name: 'Katelin Schuster',
-    company: 'Jacobson - Smitham',
-    email: 'Erich_Brekke76@gmail.com',
-  },
-  {
-    name: 'Melyna Macejkovic',
-    company: 'Schuster LLC',
-    email: 'Kylee4@yahoo.com',
-  },
-  {
-    name: 'Pinkie Rice',
-    company: 'Wolf, Trantow and Zulauf',
-    email: 'Fiona.Kutch@hotmail.com',
-  },
-  {
-    name: 'Brain Kreiger',
-    company: 'Lueilwitz Group',
-    email: 'Rico98@hotmail.com',
-  },
-  {
-    name: 'Myrtice McGlynn',
-    company: 'Feest, Beahan and Johnston',
-    email: 'Julius_Tremblay29@hotmail.com',
-  },
-  {
-    name: 'Chester Carter PhD',
-    company: 'Gaylord - Labadie',
-    email: 'Jensen_McKenzie@hotmail.com',
-  },
-  {
-    name: 'Mrs. Ericka Bahringer',
-    company: 'Conn and Sons',
-    email: 'Lisandro56@hotmail.com',
-  },
-  {
-    name: 'Korbin Buckridge Sr.',
-    company: 'Mraz, Rolfson and Predovic',
-    email: 'Leatha9@yahoo.com',
-  },
-  {
-    name: 'Dr. Daisy Becker',
-    company: 'Carter - Mueller',
-    email: 'Keaton_Sanford27@gmail.com',
-  },
-  {
-    name: 'Derrick Buckridge Sr.',
-    company: "O'Reilly LLC",
-    email: 'Kay83@yahoo.com',
-  },
-  {
-    name: 'Ernie Hickle',
-    company: "Terry, O'Reilly and Farrell",
-    email: 'Americo.Leffler89@gmail.com',
-  },
-  {
-    name: 'Jewell Littel',
-    company: "O'Connell Group",
-    email: 'Hester.Hettinger9@hotmail.com',
-  },
-  {
-    name: 'Cyrus Howell',
-    company: 'Windler, Yost and Fadel',
-    email: 'Rick0@gmail.com',
-  },
-  {
-    name: 'Dr. Orie Jast',
-    company: 'Hilll - Pacocha',
-    email: 'Anna56@hotmail.com',
-  },
-  {
-    name: 'Luisa Murphy',
-    company: 'Turner and Sons',
-    email: 'Christine32@yahoo.com',
-  },
-  {
-    name: 'Lea Witting',
-    company: 'Hodkiewicz Inc',
-    email: 'Ford_Kovacek4@yahoo.com',
-  },
-  {
-    name: 'Kelli Runolfsson',
-    company: "Feest - O'Hara",
-    email: 'Dimitri87@yahoo.com',
-  },
-  {
-    name: 'Brook Gaylord',
-    company: 'Conn, Huel and Nader',
-    email: 'Immanuel77@gmail.com',
-  },
-];
+import { useEffect, useState } from 'react';
+import { Table, ScrollArea, Text, Badge, Loader, Center, Group, Paper } from '@mantine/core';
+import axios from 'axios';
 
 export function NewTransactionsTable() {
-  const [scrolled, setScrolled] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const rows = data.map((row) => (
-    <Table.Tr key={row.name}>
-      <Table.Td>{row.name}</Table.Td>
-      <Table.Td>{row.email}</Table.Td>
-      <Table.Td>{row.company}</Table.Td>
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get('http://localhost:8060/fetch_transactions');
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+    const interval = setInterval(fetchTransactions, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) return <Center p="xl"><Loader color="blue" /></Center>;
+
+  const rows = data.map((item: any) => (
+    <Table.Tr key={item.id}>
+      <Table.Td>
+        <Text size="sm" fw={700} variant="gradient" gradient={{ from: 'blue', to: 'cyan', deg: 90 }}>
+          #{item.contract_tx_id}
+        </Text>
+      </Table.Td>
+      
+      <Table.Td>
+        <Group gap="xs">
+          <Text fw={700} size="sm" c="teal.8">
+            {item.amount}
+          </Text>
+          <Text size="xs" c="dimmed" fw={500}>ETH</Text>
+        </Group>
+      </Table.Td>
+
+      <Table.Td>
+        <Text size="sm" fw={500}>{item.recipient_name}</Text>
+      </Table.Td>
+
+      <Table.Td>
+        <Text size="sm" c="dimmed" lineClamp={1}>
+          {item.description}
+        </Text>
+      </Table.Td>
+
+      <Table.Td>
+        <Badge 
+          variant="filled" 
+          color="gray" 
+          radius="xs" 
+          styles={{ label: { textTransform: 'none', fontFamily: 'monospace' } }}
+        >
+          {item.trx_hash.slice(0, 6)}...{item.trx_hash.slice(-4)}
+        </Badge>
+      </Table.Td>
+
+      <Table.Td>
+        <Text size="xs" c="dimmed">
+          {new Date(item.block_created_time).toLocaleDateString()}
+        </Text>
+        <Text size="xs" c="dimmed">
+          {new Date(item.block_created_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </Text>
+      </Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <>
-    <ScrollArea h={300} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-      <Table miw={700} style={{"border-radius": "12px"}}>
-        <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
-          <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Company</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </ScrollArea>
-    </>
+    <Paper withBorder shadow="md" radius="md" p="md" mt="xl">
+      <ScrollArea h={500}>
+        <Table verticalSpacing="md" horizontalSpacing="lg" striped highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>ID</Text></Table.Th>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>AMOUNT</Text></Table.Th>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>RECIPIENT</Text></Table.Th>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>DESCRIPTION</Text></Table.Th>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>TX HASH</Text></Table.Th>
+              <Table.Th><Text size="xs" c="dimmed" fw={700}>TIMESTAMP</Text></Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {rows.length > 0 ? rows : (
+              <Table.Tr>
+                <Table.Td colSpan={6}>
+                  <Text py="xl" c="dimmed">No transactions found.</Text>
+                </Table.Td>
+              </Table.Tr>
+            )}
+          </Table.Tbody>
+        </Table>
+      </ScrollArea>
+    </Paper>
   );
 }
