@@ -40,9 +40,10 @@ services:
       - "${FRONTEND_ACCESS_PORT}:3000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    # volumes:
-    #   - ./frontend:/app
-    #   - /app/node_modules
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0
 
 volumes:
   pgdata:
