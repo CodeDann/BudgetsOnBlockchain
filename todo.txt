@@ -1,11 +1,15 @@
-- frontend: record-outgoing-card needs to be fixed to properly call the contract. then the table needs to be filled with data from the postgresql db
-- backend: empty express service atm: need to move all ethers logic from frontend into it  
+- frontend: 
+    - record-outgoing-card needs to be fixed to properly call the contract. 
+    - data explorer working perfectly well pulling data from the backend ( wierd visual glitch needs sorting )
+- backend: 
+    - fetches data from backend correctly
+    - had no blockchain logic. ( intentional that should all be handled in the browser )
 - indexer: dockerised, connects to postgresql db, listens to contract event and pushes to db 
 - blockchain: new contracts done, deploys correctly, but still has some old backend code under /src
 - database: postgresql db working with auto setup script, all secrets held in .env
 - ZZOld: has all the code from v1 that has been revamped so is not obsolute but is mid-rework
 
-
+TODO:
 blockchain cost optimising:
     - rewrite contract to only emit an event to avoid most of the ether cost for running a contract. 
         - i never use the mapping i just log the trx as an event and the indexer saves them to a psgsql db
@@ -15,11 +19,14 @@ blockchain cost optimising:
 A. Record Trx
     React → MetaMask → Blockchain
     ( note no backend this is pure web3 for secure and transparent transactions )
+    - record-outgoing-card needs to be fixed to properly call the contract. it keeps giving a calling wallet not contract error
 
 B. Indexing 
     Blockchain → Indexer → PostgreSQL
     Simply copy on-chain data into a searchable db 
+    - working
 
 C. Show / Query Trx
     React → Backend API → PostgreSQL
     backend apis allow fast and secure connection to db to allow for searching / queriying
+    - working
